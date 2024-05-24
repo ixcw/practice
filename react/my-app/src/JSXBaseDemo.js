@@ -6,13 +6,25 @@ class JSXBaseDemo extends React.Component {
     this.state = {
       name: 'james',
       imgUrl: 'xxxxx',
-      flag: true
+      flag: true,
+      num: 0
     }
   }
 
+addNum = () => {
+  this.setState((prevState, props) => { return {num: prevState.num + 1} })
+  this.setState((prevState, props) => { return {num: prevState.num + 1} })
+  this.setState((prevState, props) => { return {num: prevState.num + 1} })
+  console.log(this.state.num)
+}
+  
   render() {
-    const pElem = <p>{this.state.name}</p>
-    const exprElem = <p>{this.state.flag ? 'yes' : 'no' }</p>
+    const exprElem = <div>
+      <p>{this.state.flag ? 'yes' : 'no' } + {this.state.num}</p>
+      <button onClick={this.addNum}>click</button>
+    </div>
     return exprElem
   }
 }
+
+export default JSXBaseDemo
