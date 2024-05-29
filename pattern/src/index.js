@@ -1,2 +1,2 @@
-const fs = require('fs')
-console.log(__dirname)
+let a = 100
+alert(a)
