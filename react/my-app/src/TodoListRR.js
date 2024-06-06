@@ -1,13 +1,6 @@
 import React, { Component } from "react"
-import store from "./store"
-import {
-  getInputChangeAction,
-  getAddTodoItemAction,
-  getDeleteTodoItemAction
-} from './store/actionCreator'
-import TodoListUI from './TodoListUI'
 
-class TodoList extends Component {
+class TodoListRR extends Component {
 
   constructor(props) {
     super(props)
@@ -47,4 +40,4 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList
+export default TodoListRR

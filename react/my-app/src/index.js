@@ -3,8 +3,16 @@ import React from 'react';
 // import ReactDOM from 'react-dom/client';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TodoList from './TodoList';
+import TodoListRR from './TodoListRR';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './store';
+
+const App = (
+  <Provider store={store}>
+    <TodoListRR />
+  </Provider>
+)
 
 // 18
 // const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,9 +25,9 @@ import reportWebVitals from './reportWebVitals';
 // 16
 const root = document.getElementById('root');
 ReactDOM.render(
-  <React.StrictMode>
-    <TodoList />
-  </React.StrictMode>,
+  <React>
+    <App />
+  </React>,
   root
 );
 
