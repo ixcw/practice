@@ -1,0 +1,114 @@
+/**
+ * 打印预览
+ * @author:shihaigui
+ * date:2023年04月26日
+ * */
+ @media print {
+  @page {
+      size: A4 portrait; //A4 纵向
+  }
+  .printPage {
+      margin: 1cm 2.6cm 0cm; //3.7cm 2.6cm 3.5cm 国家标准公文页边距 GB/T 9704-2012
+      // margin-top: 0.4cm;
+      // margin-bottom: 0;
+  }
+}
+.Basicinformation {
+  width: 100%;
+  height: 370px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 20px;
+}
+.Generalinformation {
+  width: 100%;
+  height: 800px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+}
+.teacher {
+  width: 100%;
+  height: 690px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+}
+.schoolhonor {
+  width: 100%;
+  height: 1150px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 50px;
+}
+.honor {
+  width: 100%;
+  height: 300px;
+  border: 1px dashed gray;
+  padding: "20px";
+}
+.honortop {
+  width: 100%;
+  height: 250px;
+  border: 1px dashed gray;
+  padding: "20px";
+}
+.situation {
+  width: 100%;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+.Primaryschool {
+  width: 100%;
+  height: 250px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+.Primaryschoolone {
+  width: 100%;
+  height: 150px;
+  border: 1px dashed gray;
+  margin-top: 20px;
+}
+.Juniorhighschool {
+  width: 100%;
+  height: 300px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+.Juniorhighschoolone {
+  width: 100%;
+  height: 200px;
+  border: 1px dashed gray;
+  margin-top: 20px;
+}
+.Seniorhighschool {
+  width: 100%;
+  height: 320px;
+  border: 1px dashed gray;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+.Seniorhighschoolone {
+  width: 100%;
+  height: 250px;
+  border: 1px dashed gray;
+  margin-top: 20px;
+}
+
+.Preview{
+//伪元素
+  &::before {
+    content: "";
+    width: 6px;
+    height: 22px;
+    background: #12a3f5;
+    position: absolute;
+    border-radius: 2px;
+    margin-left: 10px;
+    
+}
+margin-top:20px;
+
+}

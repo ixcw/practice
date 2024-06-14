@@ -1,0 +1,78 @@
+/**
+ * 上传微课弹窗样式
+ * @author:张江
+ * @date:2020年08月21日
+ * @version:v1.0.0
+ * */
+
+// 上传微课弹窗
+:global {
+  .upload-micro-modal {
+    padding: 40px 20px;
+    color: #333;
+
+    .title {
+      font-size: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333;
+    }
+
+    .basic-info {
+      .upload-box {
+        display: flex;
+        align-items: center;
+        padding-top: 10px;
+
+        .upload-info {
+          height: 120px;
+          width: 240px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #F1F1F1;
+          cursor: pointer;
+
+          >span {
+            margin-left: 20px;
+          }
+
+          .file-title {
+            max-height: 66px;
+
+            margin-right: 20px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            word-break: break-word; //处理长单词问题
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            /* autoprefixer: ignore next */
+            -webkit-box-orient: vertical;
+          }
+        }
+
+        >span {
+          margin-left: 30px;
+          font-size: 14px;
+          color: #666;
+        }
+      }
+    }
+
+    .button-oper-box {
+      display: flex;
+      justify-content: space-between;
+
+      .join-class-oper {
+        margin-top: 36px;
+        width: 49%;
+      }
+
+      .join-class-oper:first-child {
+        margin-right: 2%;
+        background: #999999;
+        color: #fff;
+      }
+    }
+
+  }
+}

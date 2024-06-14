@@ -1,0 +1,404 @@
+//隐藏行为验证码底部广告
+:global {
+  .yp-riddler-mark {
+    display: none !important;
+  }
+}
+
+.headerMenue {
+  :global {
+    .ant-layout-header {
+      background-color: #fff;
+      // background-color: rgb(102, 102, 102);
+      // border-color: rgb(68, 68, 68);
+      border-bottom: solid 1px #f3f3f3;
+      // position: fixed;  //头部固定
+      padding: 0px;
+      width: 100%;
+      z-index: 3;
+
+      >div {
+        padding: 0px 120px;
+      }
+
+      >div:first-child {
+        background-color: #f5f5f5;
+        height: 48px;
+
+      }
+
+      >div:last-child {
+        background-color: #fff;
+        height: 68px
+      }
+
+      .logo {
+        width: 50px;
+        height: 60px;
+        background: url(https://resformalqb.gg66.cn/logo.png) left no-repeat;
+        background-size: 90% 70%;
+        float: left;
+      }
+
+      .ant-dropdown-trigger {
+        .user-name {
+          color: #666;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    li {
+      list-style: none;
+    }
+
+
+    .ant-menu,
+    .ant-menu-light,
+    .ant-menu-root,
+    .ant-menu-inline {
+      height: 100%;
+      background: #fff;
+
+    }
+
+
+    //解决高度塌陷和外边距重叠（清除浮动）
+    .clearFix:after,
+    .clearFix:before {
+      content: "";
+      display: table;
+      clear: both;
+      zoom: 1;
+    }
+
+    .ant-layout-footer {
+      padding: 12px;
+      background: #F1F1F1;
+    }
+  }
+
+  .footer-bottom {
+    // margin-top: 20px;
+    overflow: hidden;
+    position: relative;
+
+    background: #F1F1F1;
+
+    p {
+      margin-top: 20px;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #333333;
+
+      a {
+        color: #333333;
+      }
+
+      a:hover {
+        color: #63A1EA;
+      }
+    }
+
+    img {
+      height: 24px;
+      width: 66px;
+      margin-right: 10px;
+      // float: right;
+    }
+  }
+}
+
+:global {
+  .gougou-content {
+    background-color: #fff;
+    // padding: 15px;
+    padding-bottom: 2px;
+    padding: 10px 120px;
+  }
+
+  .ant-modal-title {
+    font-weight: bold;
+  }
+
+  // 20210325解决antd添加的值
+  .ant-radio-wrapper {
+    white-space: nowrap;
+  }
+
+  // .page-wrapper-main {
+  //   padding: 10px !important;
+  //   padding-bottom: 10px !important;
+  // }
+
+  .bottom-tag-point {
+    position: relative;
+  }
+
+  .bottom-tag-point:before {
+    display: inline-block;
+    width: 16px;
+    content: ".";
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    // bottom: -10px;
+  }
+
+  span.mord.underline {
+    font: caption;
+    font-size: 14px;
+  }
+
+  .answerAnalysisImgBox,
+  .materialImgBox {
+    // 不能选中内容的样式
+    -moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  // 答案解析里面的图片设置
+
+  .answerAnalysisImgBox,
+  .materialImgBox {
+    img {
+      max-width: 100%;
+      padding: 10px;
+    }
+
+    pre {
+      background: #fafafa;
+      padding: 8px;
+      font-family: Source Code Pro, DejaVu Sans Mono, Ubuntu Mono, Anonymous Pro, Droid Sans Mono, Menlo, Monaco, Consolas, Inconsolata, Courier, monospace, PingFang SC, Microsoft YaHei, sans-serif;
+      line-height: 22px;
+      margin-bottom: 0px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+  // 渲染公式 去掉margin 20200924
+  .yingqi-block-math {
+    .katex-display {
+      display: inline-block !important;
+      margin: 0px !important;
+
+      .katex {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: pre-wrap;
+      }
+
+      .katex .amsrm,
+      .katex .mathbb,
+      .katex .textbb {
+        font-size: 20px;
+      }
+
+      // 公式下滑线处理 20200930
+      // 去掉公式渲染的线 
+      .katex .underline .underline-line {
+        border-bottom: none;
+      }
+
+      // 手动加上下滑线
+      .katex .underline {
+        padding-bottom: 1px;
+        border-bottom: 0.10em solid rgba(0, 0, 0, 0.65);
+      }
+
+      // 公式下滑线处理 20200930
+
+      // 公式分数线处理 20201126
+      .katex .mfrac .frac-line {
+        // border-bottom-width: 1.2px !important;
+        border-bottom-width: 0.06em !important;
+      }
+
+      // 公式分数线处理 20201126
+    }
+  }
+
+  // 渲染公式 去掉margin 20200924
+
+  .materialImgBox {
+    p {
+      // text-indent: 2em; //2021-03-08 注释掉 会影响加重符号点的显示问题
+      margin-bottom: 6px !important;
+      font-family: 'Courier New', Courier, monospace;
+    }
+  }
+
+  // @media print {
+  //   @page {
+  //     size: auto;
+  //     /* auto is the initial value */
+  //     margin: 6mm 0mm;
+  //     /* this affects the margin in the printer settings */
+  //   }
+
+  //   * {
+  //     -webkit-print-color-adjust: exact;
+  //     print-color-adjust: exact;
+  //   }
+
+  //   textarea {
+  //     resize: none !important;
+  //   }
+
+  //   .no-print {
+  //     display: none;
+  //   }
+
+  //   // .page-header {
+  //   //   height: 70px;
+  //   //   z-index: 100000;
+  //   //   overflow: visible;
+  //   // }
+
+  //   .page-wrapper {
+  //     overflow: visible;
+  //     background: #fff !important;
+  //   }
+
+  //   .ant-layout {
+  //     background: #fff !important;
+  //   }
+
+  //   .ant-layout-content {
+  //     margin-top: 0px !important;
+  //   }
+
+  //   // .page-wrapper-main {
+  //   //   padding: 0px !important;
+  //   // }
+
+  //   .gougou-content,
+  //   .page-wrapper-main {
+  //     padding: 0px !important;
+  //   }
+
+  //   .page-wrapper-main::-webkit-scrollbar {
+  //     display: none;
+  //   }
+
+  //   .pre-question-list-box {
+  //     border: none !important;
+  //     // margin-right: 0px !important;
+  //     padding-right: 0px !important;
+  //     margin: auto 48px !important;
+  //   }
+
+  //   @fontSizeInfo: 20px;
+
+  //   // 题目内容
+  //   p {
+  //     font-size: @fontSizeInfo;
+  //   }
+
+  //   // 题型标题
+  //   .question-type,
+  //   .question-option-item,
+  //   .answer-box>span,
+  //   .question-serialNumber,
+  //   .answerAnalysisImgBox {
+  //     //选择题选项以及小题
+  //     font-size: @fontSizeInfo;
+  //   }
+
+  //   .answerAnalysisImgBox {
+  //     >div:first-child {
+  //       >div:first-child {
+  //         width: 60px !important;
+  //       }
+  //     }
+  //   }
+
+  //   // 试卷标题
+
+  //   .paper-title {
+  //     font-size: 32px !important;
+  //     // font-size: 28px !important;
+  //   }
+
+  //   .answer-area::-webkit-input-placeholder {
+  //     /* placeholder字体大小 */
+  //     font-size: @fontSizeInfo;
+  //   }
+
+  //   // 水印
+  //   .mask_div {
+  //     font-size: @fontSizeInfo  !important;
+  //   }
+
+  //   // 公式里面的打印字体大小修改
+  //   .yingqi-block-math {
+  //     .katex-display {
+  //       .katex .underline {
+  //         font-size: @fontSizeInfo  !important;
+  //       }
+  //     }
+  //   }
+
+  //   //作答区域
+  //   .answer-area,
+  //   .pre-question-item {
+  //     min-height: 80px !important;
+  //   }
+
+  //   .bottom-tag-point:before {
+  //     display: inline-block;
+  //     width: 24px;
+  //     content: ".";
+  //     font-size: 32px;
+  //     font-weight: bold;
+  //     text-align: center;
+  //     position: absolute;
+  //   }
+
+  // }
+
+  .group-download-tip {
+    color: #1890ff;
+    font-weight: 600;
+  }
+
+  @media screen and (min-width: 1080px) {
+    .right-header-button {
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 1080px) {
+    .right-header-button {
+      display: none;
+    }
+  }
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 12px;
+  background-color: white;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  //-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  background-color: white;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  //-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: rgb(186, 186, 186);
+}

@@ -1,0 +1,58 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2020/6/24
+*@Modified By:
+*/
+#actionTeacher {
+}
+
+#teacherInfoDrawerFather {
+  .titleTag {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .titleSpan {
+      line-height: 32px;
+    }
+
+    .btnF {
+      padding: 0 8px;
+    }
+  }
+
+  .propertys {
+    display: flex;
+    flex-wrap: wrap;
+    .propertyList {
+      display: flex;
+      align-items: center;
+      margin: 0 25px 30px 10px;
+      .property {
+        display: flex;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px #cccccc;
+        box-sizing: border-box;
+
+        .class {
+          padding: 8px 14px;
+        }
+
+        .sbj {
+          padding: 8px 14px;
+          border-left: 1px solid #cccccc;
+        }
+      }
+      .delete {
+        font-size: 20px;
+        margin-left: 5px;
+        &:hover{
+          color: red;
+        }
+      }
+
+    }
+  }
+}

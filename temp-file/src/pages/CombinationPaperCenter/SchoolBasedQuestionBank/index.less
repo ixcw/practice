@@ -1,0 +1,142 @@
+/**
+ * 校本题库样式
+ * @author:张江
+ * @date:2021年04月30日
+ * @version:v1.0.0
+ * */
+@mainColor: #1890ff;
+
+.school-content {
+  // height: calc(~'100vh - 85px') !important;
+  // background: white;
+  // border-radius: 8px;
+  // padding: 15px;
+  margin-top: 10px;
+  min-width: 1080px;
+
+  .topSelectBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .tabBar {
+      display: flex;
+      align-items: center;
+
+      :global {
+        .ant-radio-group {
+          margin-right: 12px;
+        }
+      }
+
+      >span {
+        width: 88px;
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .main,
+  .emptyContent {
+    min-height: calc(~'100vh - 316px');
+    display: flex;
+    padding-top: 15px;
+    flex-direction: column;
+
+    .questionBankList {
+      min-height: 58vh;
+
+      .questionBankItem {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        cursor: pointer;
+
+        .imageLogo {
+          width: 80px;
+          display: flex;
+          align-items: center;
+        }
+
+        .contentBox {
+          width: 64%;
+
+          .title {
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .otherContentBox {
+            >span {
+              margin-right: 20px;
+              color: #666;
+
+              label {
+                font-weight: 600;
+                color: #1890ff;
+              }
+            }
+
+            .orgName {
+              display: inline-block;
+              position: relative;
+              top: 6px;
+              width: 120px;
+              text-overflow: ellipsis;
+              // /*让截断的文字显示为点点。还有一个值是clip意截断不显示点点*/
+              white-space: nowrap;
+              // /*让文字不换行*/
+              overflow: hidden;
+              // /*超出要隐藏*/
+            }
+          }
+        }
+
+        .operBox {
+          width: 36%;
+          display: flex;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+
+          :global {
+            .ant-btn {
+              margin-top: 12px;
+            }
+          }
+        }
+      }
+
+      .questionBankItem:nth-child(odd) {
+        //奇数行
+        background-color: #fff;
+      }
+
+      .questionBankItem:nth-child(even) {
+        //偶数行
+        background: #fafafa;
+      }
+
+      .questionBankItem:hover {
+        .contentBox {
+          .title {
+            color: #1890ff;
+          }
+        }
+      }
+    }
+
+    .paginationBar {
+      height: 60px;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .emptyContent {
+    align-items: center;
+    justify-content: center;
+  }
+}

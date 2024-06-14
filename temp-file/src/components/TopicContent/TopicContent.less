@@ -1,0 +1,46 @@
+.borderColor(@color: white) {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border: 1px solid @color;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.topicContentWrap {
+  // 不能选中内容的样式
+  -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  //div{
+  //  display: inline-block;
+  //}
+  img {
+    max-width: 96%;
+    padding: 10px;
+  }
+
+  p {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap
+  }
+
+  .right {
+    .borderColor(#63a1ea)
+  }
+
+  .error {
+    .borderColor(red)
+  }
+
+  .vertical-content-center {
+    display: flex;
+    align-items: center;
+  }
+}

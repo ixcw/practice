@@ -1,0 +1,301 @@
+/**
+ * 手动组题样式
+ * @author:张江
+ * @date:2020年08月31日
+ * @version:v1.0.0
+ * */
+@boxShadowColor: rgba(120, 120, 120, 0.1);
+@mainColor: #1890ff;
+
+//定义设置筛选面板中每个筛选项的padding的混合
+.filterItem() {
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+.wrap {
+  // height: calc(~"100vh - 85px") !important;
+  border-radius: 8px;
+  background: white;
+  // overflow: hidden;
+
+  .Breadcrumb {
+    padding: 10px 5px 15px 15px;
+    height: 40px;
+    box-shadow: -8px 0 60px 26px @boxShadowColor;
+
+    .CombinationCenter {
+      color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .content {
+    // height: calc(~"100vh - 140px");
+    // padding-right: 10px;
+    overflow: hidden;
+    display: flex;
+    // margin-top: 20px;
+
+    .knowledges {
+      padding-bottom: 15px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      min-width: 250px;
+      margin: 0 10px 10px 15px;
+      border-radius: 8px;
+      background: rgba(144, 144, 144, .1);
+
+      .title {
+        font-size: 20px;
+        text-align: center;
+        line-height: 60px;
+        padding: 0 25px;
+        height: 60px;
+        margin-bottom: 15px;
+      }
+
+      .treeContent {
+        flex: 1;
+        padding: 0 30px 0 25px;
+        overflow: auto;
+      }
+    }
+
+    .main {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      padding-top: 0px;
+      padding-right: 0px;
+      overflow: hidden;
+
+      .topfilter {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        width: 100%;
+        background-color: #fff;
+
+        >div {
+          display: flex;
+          justify-content: flex-start;
+          align-content: center;
+          // min-width: 25%;
+          margin-right: 16px;
+          margin-top: 10px;
+
+          label {
+            margin-top: 6px;
+            font-weight: bolder;
+            width: 48px;
+          }
+        }
+      }
+
+      .filterPanel {
+        z-index: 9;
+        padding: 20px;
+        position: absolute;
+        width: 100%;
+
+        &:hover {
+          background: rgba(10, 10, 10, .8);
+          opacity: 1;
+
+          >ul {
+            display: block;
+          }
+        }
+
+        .frostedGlassBG {
+          position: absolute;
+          background: rgba(255, 255, 255, .3);
+          //background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578901383&di=f48e69976547d22554b4543b8f92b610&imgtype=jpg&er=1&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F599b8a9964f5c.jpg") no-repeat;
+          //background-size: cover;
+          //filter: blur(8px);
+          height: 100%;
+          width: 100%;
+          transform: translate(-20px, -20px);
+        }
+
+        ul {
+          display: none;
+          width: 100%;
+          float: left;
+          top: 0;
+          padding-left: 20px;
+          transition: .3s;
+          opacity: 1;
+          z-index: 9;
+
+          >li {
+            display: flex;
+            align-items: flex-start;
+            z-index: 9;
+
+            .iconWrap {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 9;
+
+              .icon {
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+              }
+
+              >span {
+                display: flex;
+                font-size: 16px;
+                min-width: 60px;
+                font-weight: bold;
+                color: white;
+                .filterItem ();
+                padding-left: 5px;
+              }
+            }
+
+
+            ul {
+              display: flex;
+              flex-wrap: wrap;
+
+
+              li {
+                .filterItem ();
+                cursor: pointer;
+                transition: .5s;
+                border-radius: 3px;
+                color: white;
+
+                &:hover {
+                  //background: rgba(0, 150, 136, .8);
+                  background: rgba(25, 175, 255, .3);
+                  color: white;
+                }
+              }
+
+              li.selected {
+                background: @mainColor;
+                color: white;
+              }
+            }
+          }
+
+        }
+      }
+
+      .topicListPanel {
+        // margin-top: 40px;
+        margin-top: 16px;
+        // min-height: 68vh;
+        height: 78vh;
+        overflow-y: auto;
+        // flex: 1;
+
+        >ul {
+          padding: 0 15px;
+          // padding-right: 0px;
+
+          .topicItem {
+            margin-bottom: 25px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #cdcdcd;
+            padding: 10px;
+            transition: .3s;
+
+            &:hover {
+              box-shadow: 0 5px 10px 3px #cdcdcd;
+            }
+
+            //题目上半部分样式
+            .topicBody {
+              .topicContent {}
+
+              //题目选项
+              .topicOptions {}
+            }
+
+            .topicFooter {
+              display: flex;
+              align-items: center;
+              height: 50px;
+              justify-content: space-between;
+
+              >ul {
+                padding-left: 15px;
+                font-size: 16px;
+
+                li {
+                  padding: 5px 10px;
+
+                  i {
+                    margin-right: 5px;
+                  }
+                }
+              }
+
+              .info {
+                display: flex;
+
+                li {
+                  span {
+                    font-weight: bold;
+                  }
+                }
+              }
+
+              .interactive {
+                display: flex;
+                cursor: pointer;
+
+                li {
+                  // border: 1px solid rgba(0, 0, 0, 0);
+                  // border-radius: 5px;
+
+                  &:hover {
+                    color: #29CB97;
+                  }
+
+                  color: @mainColor;
+                }
+
+                //代表题目已添加的样式
+                li.added {
+                  // background: #cecece;
+                  color: #29CB97;
+
+                  // &:hover {
+                  //   border: 1px solid #cecece;
+                  //   color: #666;
+                  // }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .pagiNationBar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        //margin: 0 20px;
+        box-shadow: 0 -32px 32px 1px @boxShadowColor;
+        z-index: 1;
+      }
+    }
+
+    :global {
+      .ant-spin-container {
+        height: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.centertop {
+  min-height: calc(~"100vh - 213px") !important;
+  background: white;
+  padding: 0 120px;
+  // margin: 10px;
+  border-radius: 8px;
+  display: flex;
+
+  flex-direction: column;
+
+  .General {
+    &::before {
+      content: '';
+      width: 5px;
+      height: 20px;
+      background: #2f78ff;
+      position: absolute;
+      border-radius: 2px;
+    }
+    margin-left: 20px;
+  }
+  .dashedhr {
+    border: none;
+    border-top: 1px solid #ccc;
+    opacity: 0.5
+  }
+  
+}
+
+

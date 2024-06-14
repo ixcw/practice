@@ -1,0 +1,95 @@
+/**
+ * 视频播放器
+ * @author:熊伟
+ * @date:2020年9月1日
+ * @version:v1.0.0
+ * */
+//视频宽和列表宽
+ @videoWidth:70%;
+ @listWidth: 30%;
+.videoPlayerLayout {
+  width          : 100%;
+  padding        : 0 120px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+
+  .videoPlayerLayout-content {
+    margin        : 20px 0;
+    padding       : 20px;
+    width         : 100%;
+    min-width     : 1000px;
+    box-shadow    : 0px 3px 13px 0px rgba(0, 0, 0, 0.16);
+    display       : flex;
+    flex-direction: column;
+
+    .videoPlayerLayout-heade {
+      height          : 140px;
+      width           : 100%;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .videoPlayerLayout-main {
+      // min-height: 500px;
+      margin-top        : 20px;
+      width             : 100%;
+      // min-width: 1300px;
+      // overflow-x: hidden;
+      display           : flex;
+      justify-content   : space-between;
+      // justify-content: center;
+
+      .videoPlayerLayout-videoPlayer {
+        // flex-grow:0;
+        width           : @videoWidth;
+        // height: 540px;
+        background-color: rgb(14, 13, 13);
+
+        .videoPlayerLayout-videoNoPlayer {
+          width           : 100%;
+          background-color: #000;
+          display         : flex;
+          align-items     : center;
+          justify-content : center;
+        }
+      }
+
+      .videoPlayerLayout-link {
+        // flex-grow:1 ;
+        width              : @listWidth;
+        padding            : 0 10px;
+        // background-color: rgba(192, 72, 72, 0.1);
+      }
+
+      // @media screen and (max-width: 1650px) {
+      //   .videoPlayerLayout-link{
+      //     display: none;
+      //   }
+      // }
+    }
+
+    .videoPlayerLayout-p {
+      width          : @videoWidth;
+      // max-width: 1100px !important;
+      font-size      : 16px;
+      font-weight    : 400;
+      color          : #333333;
+      display        : flex;
+      justify-content: space-between;
+
+      .videoPlayerLayout-p-span1 {
+        width        : @videoWidth;
+        max-width    : 960px !important;
+        text-overflow: ellipsis;
+        overflow     : hidden;
+        white-space  : nowrap;
+      }
+    }
+
+    .videoPlayerLayout-topic {
+      width     : 100%;
+      font-size : 12px;
+      margin-top: 10px;
+    }
+  }
+}

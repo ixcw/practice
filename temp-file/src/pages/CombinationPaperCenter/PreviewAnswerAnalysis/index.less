@@ -1,0 +1,57 @@
+/**
+ * 我的题组-导出答案解析预览-样式
+ * @author:张江
+ * @date:2021年02月25日
+ * @version:v1.0.0
+ * */
+
+.AnswerAnalysis-content {
+
+
+    .q-list {
+        padding: 0px 30px;
+
+        :global {
+            .pre-question-item {
+                min-height: 60px;
+            }
+        }
+
+    }
+
+
+    @borderColor: #f0f0f0;
+    @borderStyle: 0px solid @borderColor;
+
+    :global {
+        .question-content-option {
+            display: flex;
+            padding-bottom: 12px;
+
+            .answerAnalysisImgBox {
+                width: 100%;
+            }
+        }
+
+        .question-type {
+            font-weight: bold;
+            padding-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .pre-question-list-box {
+            margin: 10px 0px;
+            border: 1px solid @borderColor;
+            // border-bottom: @borderStyle;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 80.3vh;
+
+            p {
+                margin-bottom: 0px !important;
+            }
+
+        }
+    }
+
+}

@@ -1,0 +1,94 @@
+/**
+ * 家长数据
+ * @author:shihaigui
+ * date:2023年4月27日
+ * */
+
+.parentdata {
+  min-height: calc(~"100vh - 213px") !important;
+  background: white;
+  padding: 0 120px;
+  // margin: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+        display: flex;
+
+        p {
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+        }
+
+        p+p {
+            color: red;
+        }
+    }
+    .createStaff {
+      margin: 20px 0;
+  
+      Button {
+        font-size: 14px;
+        height: 50px;
+      }
+  
+      &>div>div+div {
+        display: flex;
+  
+        button {
+          height: 30px;
+          align-self: center;
+        }
+      }
+  
+  
+    }
+
+}
+
+  // :global {
+  //   .DropdownPopup {
+  //     .ant-dropdown-menu-item {
+  //       height: 40px;
+  //       width: 140px;
+  //     }
+
+  //     .ant-dropdown-menu-item-icon {
+  //       font-size: 16px;
+  //     }
+
+  //     .ant-dropdown-menu-submenu {
+  //       .ant-dropdown-menu-submenu-title {
+  //         line-height: 40px;
+  //       }
+  //     }
+  //   }
+
+  //   .ant-dropdown-menu-submenu-popup ul {
+  //     padding: 15px;
+  //   }
+
+  //   .ant-checkbox-group-item {
+  //     display: flex;
+  //     height: 35px;
+  //     line-height: 35px;
+  //   }
+
+  //   .listLeft {
+  //     .ant-radio-button-wrapper {
+  //       margin: 10px 0;
+  //       height: 60px;
+  //       width: 100%;
+  //       text-align: center;
+  //       line-height: 60px;
+  //       border-radius: 3px;
+  //     }
+  //   }
+  // }
+}

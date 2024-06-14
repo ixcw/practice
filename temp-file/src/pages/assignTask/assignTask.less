@@ -1,0 +1,113 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2020/8/20
+*@Modified By:
+*/
+
+
+@blueColor: #50A1F0;
+@blockMargin: 10px;
+@tableBackground: #f0f2f5;
+@tableLineColor: black;
+@tableBorder: 1px solid #c7c6c6;
+.re-btn {
+  border: none;
+  color: white;
+  background: @blueColor
+}
+
+#assignTask {
+  padding:20px 140px;
+  min-height: calc(~"100vh - 243px");
+  .taskFilter{
+    .title{
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .funcBlock {
+    width: 100%;
+    display: flex;
+
+    .table {
+      flex: 1;
+
+      .assignTaskTable {
+        :global {
+          .ant-table-thead {
+            tr > th {
+              background: @tableBackground;
+              border-bottom: @tableBorder;
+              color: #9FA3A7;
+            }
+          }
+
+          .ant-table-tbody {
+            background-color: @tableBackground;
+
+            tr > td {
+              border-bottom: @tableBorder;
+            }
+          }
+        }
+
+        .action {
+          display: flex;
+
+          .checkReport {
+            display: flex;
+            align-items: center;
+            margin-right: @blockMargin;
+          }
+
+          .inform {
+            :global {
+              .ant-btn {
+                .re-btn;
+              }
+            }
+
+            & > :first-child {
+              margin-right: @blockMargin;
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+
+
+    .jobAction {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 10px;
+
+      button {
+        &:first-child {
+          margin-bottom: 10px;
+        }
+
+        background: #1578D9;
+        display: flex;
+        height: auto;
+        padding: 10px 5px;
+
+        span {
+          display: flex;
+          -webkit-writing-mode: vertical-rl;
+          writing-mode: vertical-rl;
+          @-moz-document  url-prefix() {
+            &{
+              width: 100%;
+            }
+          }
+        }
+
+        .re-btn;
+      }
+    }
+  }
+}

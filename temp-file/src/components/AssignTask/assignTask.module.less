@@ -1,0 +1,571 @@
+/**
+*@Author:xiongwei
+*@Description:
+*@Date:Created in  2020/10/9
+*@Modified By:
+*/
+@keyframes mymove {
+  25% {
+    transform: translateX(5px);
+  }
+
+  50%,
+  100% {
+    transform: translateX(0);
+  }
+
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+
+.title {
+  width           : 100%;
+  height          : 100px;
+  background-image: url(https://reseval.gg66.cn/class-report-bg.png);
+  background-size : 100% 100%;
+}
+
+
+.assignHeaderTitle {
+  margin   : 10px 0;
+  font-size: 20px;
+  display  : flex;
+
+  >p {
+    margin: 20px 40px 20px 0;
+
+    .icon {
+      font-size   : 30px;
+      color       : #858282;
+      display     : inline-block;
+      margin-right: 10px;
+    }
+  }
+}
+
+.assignHeaderTitleBottom {
+  display         : flex;
+  justify-content : space-around;
+  align-items     : center;
+  background-color: #fff;
+  padding         : 30px 0;
+
+  .item:nth-of-type(2) {
+    border-left : 1px solid #afb1b3;
+    border-right: 1px solid #afb1b3;
+  }
+
+  .item {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    width          : 30%;
+    font-size      : 20px;
+
+    .Avatar {
+      width           : 64px;
+      height          : 64px;
+      border-radius   : 50%;
+      background-color: #4FA2ED;
+      margin-right    : 20px;
+    }
+
+    >div {
+      display           : flex;
+      flex-direction    : column;
+      // align-items    : center;
+      justify-content   : center;
+
+      >p {
+        margin: 0;
+
+        .span {
+          color    : #858282;
+          font-size: 8px;
+        }
+      }
+    }
+
+  }
+}
+
+.assignHeader {
+  display           : flex;
+  flex-direction    : row;
+  margin-top        : 20px;
+  justify-content   : space-between;
+  // flex-wrap      : wrap;
+  font-size         : 20px;
+  height            : 400px;
+
+  .assignHeaderL1 {
+    position        : relative;
+    width           : 40%;
+    height          : 100%;
+    background-color: #fff;
+
+    .chartName {
+      text-indent: 1em;
+
+      .mark {
+        display         : inline-block;
+        height          : 15px;
+        width           : 6px;
+        background-color: #5ea0e5;
+        border-radius   : 50px;
+        margin-right    : 7px;
+      }
+    }
+
+    .chart {
+      width   : 100%;
+      height  : 100%;
+      position: absolute;
+      top     : 0;
+      left    : 0;
+
+      .Spins {
+        position: absolute;
+        top     : 50%;
+        left    : 50%;
+      }
+    }
+  }
+
+  .assignHeaderL2 {
+    position        : relative;
+    width           : 29%;
+    height          : 100%;
+    background-color: #fff;
+
+    .chartName {
+      text-indent: 1em;
+
+      .mark {
+        display         : inline-block;
+        height          : 15px;
+        width           : 6px;
+        background-color: #5ea0e5;
+        border-radius   : 50px;
+        margin-right    : 7px;
+      }
+    }
+
+    .chart {
+      height  : 100%;
+      width   : 100%;
+      position: absolute;
+      top     : 0;
+      left    : 0;
+
+      .Spins {
+        position: absolute;
+        top     : 50%;
+        left    : 50%;
+      }
+    }
+  }
+
+  .assignHeaderL3 {
+    position        : relative;
+    width           : 29%;
+    height          : 100%;
+    background-color: #fff;
+
+    .chartName {
+      text-indent: 1em;
+
+      .mark {
+        display         : inline-block;
+        height          : 15px;
+        width           : 6px;
+        background-color: #5ea0e5;
+        border-radius   : 50px;
+        margin-right    : 7px;
+      }
+    }
+
+    .chart {
+      height  : 100%;
+      width   : 100%;
+      position: absolute;
+      top     : 0;
+      left    : 0;
+
+      .Spins {
+        position: absolute;
+        top     : 50%;
+        left    : 50%;
+      }
+    }
+  }
+}
+
+.assignFooter {
+  margin-top      : 20px;
+  background-color: #fff;
+
+  .goalDistributeBox {
+    height  : 600px;
+    position: relative;
+
+    .chartName {
+      position: absolute;
+      top     : 0;
+      right   : 10px;
+
+    }
+
+    .chart {
+      height         : 100%;
+      width          : 100%;
+      position       : absolute;
+      top            : 0;
+      left           : 0;
+      display        : flex;
+      justify-content: space-between;
+
+      .chart-M {
+        width         : 60%;
+        margin-top    : 30px;
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        font-size     : 20px;
+        color         : #b3b3b3;
+
+        .chart-mian {
+          width : 100%;
+          height: 500px;
+        }
+
+        .Spin {
+          width : 500px;
+          height: 400px;
+        }
+      }
+
+      .chart-T {
+        margin-top    : 30px;
+        width         : 40%;
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        font-size     : 20px;
+        color         : #b3b3b3;
+        width         : 500px;
+
+        // height        : 400px;
+        :global {
+          .ant-table-tbody>tr>td {
+            padding: 8px 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.Questiontypescore {
+  position        : relative;
+  width           : 100%;
+  height          : 100%;
+  background-color: #fff;
+
+  .chart {
+    // margin        : 20px;
+    // display        : flex;
+    // justify-content: center;
+    // align-items    : center;
+    // flex-wrap      : wrap-reverse;
+    display        : flex;
+    flex-wrap      : wrap;
+    justify-content: space-around;
+    padding        : 0 180px;
+    margin         : 80px 0 50px 0;
+
+    :global {
+      .gradeBox {
+        &>div:first-child {
+          color      : #858585;
+          font-size  : 25px;
+          padding-top: 20px;
+        }
+
+        &>div:last-child {
+          color      : #87b89c;
+          font-size  : 45px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+
+
+  .testScoresAnalyseCharts {
+    .chartName {
+      text-indent: 1em;
+      margin-top : 20px;
+      height     : 30px;
+
+      .mark {
+        display         : inline-block;
+        height          : 16px;
+        width           : 4px;
+        background-color: #4DA2F5;
+        margin-right    : 10px;
+      }
+    }
+
+    background-color: #FFF;
+    height          : 500px;
+    width           : 100%;
+
+    .QuestionTypeScore {
+      height: 450px;
+      width : 100%;
+    }
+  }
+}
+
+.objectiveItem {
+  margin-top      : 20px;
+  background-color: #fff;
+
+  .chartName {
+    margin-top : 20px;
+    font-size  : 20px;
+    text-indent: 1em;
+
+    .mark {
+      display         : inline-block;
+      height          : 16px;
+      width           : 4px;
+      background-color: #4DA2F5;
+      margin-right    : 10px;
+    }
+
+    // span {
+    //   font-size       : 20px;
+    //   border-bottom: #0c0c0c solid 4px;
+    // }
+    // .span{
+    //   color: #b3b3b3;
+    //   cursor: pointer;
+    // }
+    // .span:hover{
+    //   color: #272626;
+    // }
+  }
+
+  .chart {
+    margin    : 20px 0 20px 0;
+    overflow-y: hidden;
+  }
+
+  .chart-down {
+    width              : 100%;
+    height             : 40px;
+    background-color   : #fff;
+    line-height        : 40px;
+    text-align         : center;
+    // border-bottom   : 1px solid #dfdfdf;
+  }
+}
+
+.subjective {
+  margin-top      : 20px;
+  background-color: #fff;
+
+  .subjectiveItem {
+    .chartName {
+      margin-top     : 20px;
+      text-indent    : 1em;
+      display        : flex;
+      justify-content: space-between;
+      align-items    : flex-end;
+
+      .hint {
+        display     : none;
+        font-size   : 10px;
+        margin-right: 20px;
+      }
+
+      .mark {
+        display         : inline-block;
+        height          : 16px;
+        width           : 4px;
+        background-color: #4DA2F5;
+        margin-right    : 10px;
+        color           : #e61919;
+
+      }
+
+      span {
+        font-size       : 20px;
+        // border-bottom: #1f7ff7 solid 4px;
+      }
+    }
+
+    .chart {
+      margin       : 0 0 20px 0;
+      // border    : 1px solid #dfdfdf;
+      overflow-y   : hidden;
+    }
+
+    .chart-down {
+      width           : 100%;
+      height          : 40px;
+      background-color: #fff;
+      line-height     : 40px;
+      text-align      : center;
+      border-bottom   : 1px solid #dfdfdf;
+    }
+  }
+}
+
+.Anchorfixed {
+  position        : fixed;
+  right           : 0;
+  bottom          : 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding         : 20px 10px 20px 30px;
+  border-radius   : 30px 0 0 30px;
+  z-index         : 22;
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+
+  .DoubleRightOutlined {
+    font-size: 20px;
+    cursor   : pointer;
+    animation: mymove 1s linear infinite;
+  }
+
+  :global {
+    .ant-anchor-wrapper {
+      background-color: rgba(0, 0, 0, 0);
+    }
+  }
+}
+
+.printfixed {
+  position      : fixed;
+  right         : 40px;
+  bottom        : 30%;
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+  color         : rgba(0, 0, 0, 0.4);
+  font-weight   : bold;
+  font-size     : 15px;
+  cursor        : pointer;
+  z-index       : 22;
+
+  .print {
+    width           : 64px;
+    height          : 64px;
+    border-radius   : 50%;
+    color           : #fff;
+    font-size       : 50px;
+    line-height     : 64px;
+    text-align      : center;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.Empty {
+  display        : flex;
+  flex           : 1;
+  justify-content: center;
+  align-items    : center;
+}
+
+
+
+.tablestyle {
+  width        : 400px;
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
+:global {
+  @media print {
+    @page {
+      size  : auto;
+      /* auto is the initial value */
+      margin: 6mm 0mm !important;
+      /* this affects the margin in the printer settings */
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    .classReport-print-shrink {
+      background-color: #fff !important;
+    }
+    #ClassReportmyChartmain4 {
+      display: none;
+    }
+
+    #ClassReportmyChartmain1 {
+      display: none;
+    }
+
+    #ClassReportmyChartmain2 {
+      display: none;
+    }
+
+    #ClassReportmyChartmain3 {
+      display: none;
+    }
+
+    #ClassReportmyChartmain5 {
+      display: none;
+    }
+
+    #classReportLinkSection2 {
+      height: 800px !important;
+    }
+
+    #ClassReportmyChartmainAbilityLevel2 {
+      display: none;
+    }
+
+    .ClassReportimg {
+      display: block !important;
+    }
+
+    .classReport-sprin-section1 {
+      height: 300px !important;
+    }
+
+    .ClassReportgoalDistribute {
+      width: 100% !important;
+    }
+
+    .ClassReportAbilityLevel {
+      width: 100% !important;
+    }
+
+    .classReport-sprin-open {
+      max-height: 10000px !important;
+    }
+
+    .classReport-sprin-hint-print {
+      display: block !important;
+    }
+
+    .classReport-sprin-tablestyle {
+      white-space     : normal !important;
+      overflow        : auto !important;
+      text-align      : center;
+      // text-overflow: ;
+    }
+  }
+}

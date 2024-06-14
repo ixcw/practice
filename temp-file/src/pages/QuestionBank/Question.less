@@ -1,0 +1,67 @@
+/**
+ * 题库管理题目预览页面样式
+ * @author:张江
+ * @date:2019年11月22日
+ * @version:v1.0.0
+ * */
+
+.flex-warp() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+@borderColor: #f0f0f0;
+@borderStyle: 0px solid @borderColor;
+
+// 题目列表页
+.Q-content {
+    // padding: 10px 120px;
+    margin-top: 5px;
+
+    // 题目列表盒子
+    .question-list-box,
+    .question-list-empty {
+        margin-top: 20px;
+        border: 2px solid @borderColor;
+        border-bottom: @borderStyle;
+        padding: 10px;
+        // overflow-y: scroll;
+        // height: calc(~'100vh - 305px');
+        min-height: 480px;
+        // max-height: 680px;
+    }
+
+    .question-list-empty {
+        min-height: calc(~'100vh - 310px');
+        border-bottom: 2px solid @borderColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination {
+        height: 52px;
+        padding-top: 10px;
+        border: 2px solid @borderColor;
+        border-top: @borderStyle;
+        // border-bottom: @borderStyle;
+        text-align: center;
+    }
+
+    .confirm-spc {
+        width: 100%;
+        background-color: #5cb85c;
+        // opacity: 0.3;
+        height: 48px;
+        line-height: 48px;
+        text-align: center;
+        border: 2px solid @borderColor;
+        border-top: @borderStyle;
+
+        button {
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+    }
+}

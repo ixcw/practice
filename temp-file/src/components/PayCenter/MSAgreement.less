@@ -1,0 +1,101 @@
+/**
+ * 会员服务协议组件样式
+ * @author:张江
+ * date:2021年01月11日
+ * */
+@primary-color: #1890ff;
+
+.agreement {
+  color: #010101;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-weight: bold;
+  }
+
+  p {
+    margin-left: 15px;
+    margin-bottom: 5px;
+    color: #001f3f;
+    line-height: 25px;
+
+    >span {
+      font-weight: bold;
+      color: red
+    }
+  }
+
+
+  :global {
+    .ant-modal-header {
+      margin: 0 20px;
+      border-bottom: 1px solid @primary-color;
+      padding-bottom: 0;
+      background: url(https://reseval.gg66.cn/logo-gg-t.png) no-repeat center 20px;
+      background-size: 248px;
+      padding-top: 90px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .ant-modal-title {
+      text-align: center;
+      font-size: 16px;
+      color: @primary-color;
+      display: inline-block;
+      background: #FFFFFF;
+      position: relative;
+      bottom: -10px;
+      padding: 0 20px;
+      border-radius: 30px;
+      z-index: 9;
+    }
+
+    .ant-modal-content {
+      border: 2px solid @primary-color;
+      border-radius: 0;
+    }
+
+    .ant-modal-body {
+      padding: 10px 40px 25px;
+      max-height: 466px;
+      overflow-y: scroll;
+    }
+
+    .ant-modal-body::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    .ant-modal-body::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    .ant-modal-body::-webkit-scrollbar-track-piece {
+      background: transparent;
+    }
+
+    .ant-modal-body::-webkit-scrollbar-thumb {
+      background: #d9d9d9;
+      border-radius: 5px;
+    }
+
+    .ant-modal-body {
+      max-height: 700px;
+      overflow-y: scroll;
+    }
+
+    .ant-modal-close {
+      right: 22px;
+      margin: 0;
+    }
+  }
+
+  button {
+    display: block;
+    margin: 40px auto 10px;
+  }
+}

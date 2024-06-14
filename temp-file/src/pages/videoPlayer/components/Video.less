@@ -1,0 +1,137 @@
+/**
+ * 视频播放器
+ * @author:熊伟
+ * @date:2020年9月1日
+ * @version:v1.0.0
+ * */
+ @keyframes mymove
+    {
+    from {color: rgba(255, 255, 255, 0.7);}
+    to {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+}
+.video {
+    width : 100%;
+    height: 100%;
+    position: relative;
+    .back{
+        width : 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        // margin-top: 25px;
+        z-index: 9999;
+        color:#fff;
+        font-size: 22px;
+        padding: 5px 20px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        // background-color: rgba(0, 0, 0, 0.1);
+    }
+    .back:hover{
+        // color: #fff;
+        // background-color: rgba(0, 0, 0, 0.4);
+        animation:mymove 2s infinite;
+    }
+    .videoPlayer {
+        width: 100%;
+        // max-height: 650px !important;
+    }
+
+    .videoNoPlayer {
+        width           : 100%;
+        // background-color: #000;
+        background-size: 100% 100%;
+        display: flex;
+        display         : flex;
+        align-items     : center;
+        justify-content : center;
+        position: relative;
+        // max-height: 650px;
+        
+        .mask{
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        // .videoNoPlayer-box{
+        //     width: 350px;
+        //     height: 200px;
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: space-between;
+        //     border-radius: 20px;
+        //     background-color: #fff;
+        // }
+        // .box-top{
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: center;
+        //     align-items: center;
+        //     p{
+        //         font-size: 16px;
+        //         padding: 0;
+        //         margin: 0;
+        //     }
+        //     .p-1{
+        //         margin: 20px;
+        //         font-size: 20px;
+        //         font-weight: bold;
+        //     }
+        // }
+        // .box-bottom{
+        //     display: flex;
+        //     justify-content: space-between;
+        //     .box-button1{
+        //         flex-grow:1;
+        //         height: 50px;
+        //         cursor: pointer;
+        //         font-size: 20px;
+        //         border: 1px solid #D0D0D0;
+        //         border-bottom: none !important;
+        //         border-left: none !important;
+        //         line-height: 49px;
+        //         text-align: center;
+        //         color: #1F89FD;
+        //     }
+        //     .box-button2{
+        //         flex-grow:1;
+        //         height: 50px;
+        //         cursor: pointer;
+        //         font-size: 20px;
+        //         border: 1px solid #D0D0D0;
+        //         border-bottom: none !important;
+        //         border-right: none !important;
+        //         line-height: 49px;
+        //         text-align: center;
+        //         color: #1F89FD;
+        //     }
+        // }
+    }
+}
+
+:global {
+    .video-react-controls-enabled {
+        position: relative !important;
+
+        .video-react-big-play-button {
+            position: absolute !important;
+            top     : 50% !important;
+            left    : 50% !important;
+            margin  : -20px 0 0 -40px;
+        }
+    }
+    .video-react-fluid{
+        padding-top:56.25% !important;
+    }
+
+    .video-js .vjs-big-play-button{
+         top : 50% !important;
+         left : 50% !important;
+         margin : -20px 0 0 -40px;
+    }
+}

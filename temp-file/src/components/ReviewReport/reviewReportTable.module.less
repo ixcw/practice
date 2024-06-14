@@ -1,0 +1,74 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2019/12/23
+*@Modified By:
+*/
+#reviewReportTable {
+  display: flex;
+  width: 100%;
+  background: white;
+  padding: 10px;
+  height: 100%;
+
+  .reviewReportBox {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    //头部区域样式
+    .reviewReportHeader {
+      padding: 0 16px 0 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: bold;
+
+      .rightHeader {
+        width: 400px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .leftHeader {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        & > div:not(:last-child) {
+          margin-right: 15px;
+        }
+
+        color: #b4b3b3;
+        font-size: 15px;
+
+        .check {
+          color: #1f7ff7;
+        }
+      }
+    }
+
+    //表格内容区域
+    .reviewReportCenter {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-top: 10px;
+      height: 0;
+      .report-list {
+        overflow-y: auto;
+      }
+
+      .pagination {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        ul {
+          margin: 0 auto;
+        }
+      }
+
+    }
+  }
+}
+

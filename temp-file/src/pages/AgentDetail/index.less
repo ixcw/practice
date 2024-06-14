@@ -1,0 +1,46 @@
+/**
+ *@Author:xiongwei
+ *@Description:代理明细
+ *@Date:Created in  2021/7/8
+ *@Modified By:
+ */
+.wrap {
+    min-height    : calc(~"100vh - 213px") !important;
+    background    : white;
+    padding       : 0 120px;
+    // margin: 10px;
+    border-radius : 8px;
+    display       : flex;
+    flex-direction: column;
+
+    .header {
+        width           : 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search{
+        display: flex;
+        margin: 20px 0;
+        align-items: center;
+        .search-title-2{
+            display: inline-block;
+            margin-left: 20px;
+        }
+    }
+    .select{
+        width: 400px;
+        display: flex;
+        margin: 20px 0;
+        .item{
+           flex-grow:1;
+           border: 1px solid #268BFF;
+           text-align: center;
+           height: 30px;
+           font-size: 16px;
+           line-height: 30px;
+           color:  #268BFF;
+           cursor: pointer;
+        }
+    }
+}

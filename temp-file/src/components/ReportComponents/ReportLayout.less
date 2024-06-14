@@ -1,0 +1,20 @@
+.ReportLayout{
+    width: 100%;
+    .Report-content{
+        padding: 0 120px;
+        width: 100%;
+    }
+}
+:global {
+@media print {
+    @page {
+        size  : auto;
+        /* auto is the initial value */
+        margin: 6mm 0mm !important;
+        /* this affects the margin in the printer settings */
+      }
+    .Report-sprin-Box {
+        padding: 0 50px !important;
+      }
+}
+}

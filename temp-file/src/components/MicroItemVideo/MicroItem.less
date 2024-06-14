@@ -1,0 +1,206 @@
+  /**
+ * 微课列表组件
+ * @author:张江
+ * @date:2020年08月20日
+ * @version:v1.0.0
+ * */
+  .micro-item {
+    width        : 32%;
+    max-height   : 348px;
+    min-height   : 210px;
+    margin-bottom: 30px;
+    margin-right : 2%;
+
+    cursor        : pointer;
+    display       : flex;
+    flex-direction: column;
+    padding-bottom: 6px;
+
+    &:hover {
+      transform : translateY(-3px);
+      box-shadow: 0 5px 10px 3px rgba(100, 162, 234, .5);
+    }
+
+    .image-box {
+      height: 68%;
+
+      width              : 100%;
+      position           : relative;
+      // background-color: #F0F2F5;
+      // border          : 1px solid #F7F8F9;
+      // background-size: 100% 100%;
+
+      border-bottom: none;
+
+      img {
+        height       : 100%;
+        width        : 100%;
+        border-radius: 10px;
+      }
+
+    }
+
+          // 时间
+          .time,
+          .launched {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            padding: 0 20px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px 0 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+          }
+
+    .micro-course-info {
+      max-height      : 310;
+      padding         : 0 5px;
+      flex-grow       : 1;
+      display         : flex;
+      flex-direction  : column;
+      justify-content : space-between;
+      background-color: #F7F8F9;
+
+      h1 {
+        display           : flex;
+        flex-wrap: wrap;
+        // flex-grow:1;
+        height            : 50px;
+        width             : 100%;
+        margin            : 0;
+        font-size         : 16px;
+        font-weight       : bold;
+        overflow          : hidden;
+        // justify-content: center;
+        // align-items: center;
+
+        .launched{
+          display: inline-block;
+          background-color: #1890ff;
+          color: #fff;
+          position: relative;
+          top: 4px;
+          padding: 0 6px;
+          height: 20px;
+          margin-left: 2px;
+          font-size: 12px;
+        }
+      }
+
+      .micro-course-info-keywords {
+        display: flex;
+        height : 20px;
+
+        >div {
+          padding      : 0 10px;
+          margin-right : 10px;
+          border       : 1px solid #8FB6FC;
+          border-radius: 5px;
+          font-size    : 10px;
+          color        : #8FB6FC;
+          text-align   : center;
+          overflow     : hidden;
+        }
+      }
+
+      .micro-course-info-details {
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        padding        : 5px 0 10px 0;
+        overflow       : hidden;
+
+        // flex-wrap: nowrap;
+        .name {
+          display  : flex;
+          color    : #7B758B;
+          flex-grow: 1;
+
+          // width: 100px;
+          // overflow: hidden;
+          >div {
+            padding         : 0 5px;
+            // height: 15px;
+            font-size       : 10px;
+            line-height     : 22px;
+            border-radius   : 5px;
+            margin-right    : 10px;
+            background-color: #1683FB;
+            align-items     : center;
+            color           : #fff;
+            text-align      : center;
+            overflow        : hidden;
+            text-overflow   : ellipsis;
+            white-space     : nowrap;
+          }
+
+          >span {
+            display      : inline-block;
+            flex-grow    : 1;
+            overflow     : hidden;
+            text-overflow: ellipsis;
+            white-space  : nowrap;
+          }
+        }
+
+        p {
+          margin       : 0;
+          color        : #7B758B;
+          max-width        : 72px;
+          overflow     : hidden;
+          text-overflow: ellipsis;
+          white-space  : nowrap;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1580px) {
+    .item-3 {
+      width: 32%;
+    }
+
+    .item-3.micro-item:nth-child(3n) {
+      margin-right: 0px;
+    }
+
+    .item-2 {
+      width: 49%;
+    }
+
+    .item-2.micro-item:nth-child(2n) {
+      margin-right: 0px;
+    }
+
+  }
+
+  @media screen and (min-width: 1580px) {
+    .item-3 {
+      width: 23.5%;
+    }
+
+    .item-3.micro-item:nth-child(4n) {
+      margin-right: 0px;
+    }
+
+    .item-2 {
+      width: 32%;
+    }
+
+    .item-2.micro-item:nth-child(3n) {
+      margin-right: 0px;
+    }
+  }
+
+  .item-4 {
+    width     : 23.5%;
+    min-height: 280px;
+  }
+
+  .item-4.micro-item:nth-child(4n) {
+    margin-right: 0px;
+  }

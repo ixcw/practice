@@ -1,0 +1,80 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2019/12/23
+*@Modified By:
+*/
+#reviewReport {
+  width: 100%;
+  padding: 15px 120px;
+  display: flex;
+  min-height: calc(~'100vh - 245px');
+
+  .reviewReportLeft {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    margin: 0 10px 0 0;
+    position: relative;
+    padding-bottom: 8px;
+
+    .listName {
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+      color: #1f7ff7;
+    }
+
+    .search {
+      padding: 10px;
+    }
+
+    .userLists {
+      display: flex;
+      flex-direction: column;
+      padding: 0 3px 0 3px;
+      flex: 1;
+      height: 0;
+      overflow: scroll;
+      color: #6c6e71;
+      //设置选中的背景色
+      .bcg {
+        border-left: 2px solid #54a0ff;
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      .userList {
+        padding: 15px 60px;
+        cursor: pointer;
+        display: flex;
+        pointer-events: visiblestroke;
+        font-size: 20px;
+        //transition: all 0.3s linear;
+
+        &:hover {
+          color: #1f7ff7;
+          transition-delay: 0.2s;
+          transition: all 0.2s linear;
+        }
+
+
+        .userListL {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          line-height: 15px;
+          margin-right: 8px;
+        }
+
+        .userListR {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+
+  .reviewReportRight {
+    width: 100%;
+  }
+}
+

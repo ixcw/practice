@@ -1,0 +1,153 @@
+/**
+ * 视频播放链接列表
+ * @author:熊伟
+ * @date:2020年9月1日
+ * @version:v1.0.0
+ * */
+.playLinkList::-webkit-scrollbar {
+    display: none;
+}
+
+.playLinkList {
+    position       : relative;
+    width          : 100%;
+    height         : 100%;
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    justify-content: start;
+    overflow-y     : scroll;
+    overflow-x     : hidden;
+
+    .playLinkList-item {
+        width          : 100%;
+        // height: 200px;
+        // flex-wrap:wrap;
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        margin-bottom  : 5px;
+
+        .playLinkList-item-img {
+            position          : relative;
+            width             : 50%;
+            // min-width      : 150px !important;
+            height            : 120px;
+            cursor            : pointer;
+            background-size   : 100% 100%;
+            border-radius     : 5px;
+            display           : flex;
+            flex-direction    : column;
+            justify-content   : flex-end;
+
+            .playList-content-item-bottom {
+                position        : absolute;
+                right           : 0;
+                bottom          : 0;
+                text-align      : center;
+                margin          : 0px;
+                border-radius   : 5px 0 5px 0;
+                font-size       : 12px;
+                width           : 60px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color           : #fff;
+            }
+        }
+
+        .playLinkList-item-info {
+            flex-grow      : 1;
+            height         : 100%;
+            display        : flex;
+            flex-direction : column;
+            justify-content: space-between;
+
+            .h1 {
+                width             : 200px;
+                height            : 50px;
+                margin            : 0 0 0 10px;
+                padding           : 0;
+                font-size         : 16px;
+                font-weight       : bold;
+                overflow          : hidden;
+                text-overflow     : ellipsis;
+                display           : -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+
+            }
+
+            .playLinkList-item-label {
+                width      : 100%;
+                height     : 50px;
+                overflow   : hidden;
+                display    : flex;
+                align-items: center;
+                flex-wrap  : wrap;
+                margin     : 0 5px 0 0;
+
+                >div {
+
+                    // border       : 1px solid #869AFB;
+                    border-radius   : 5px;
+                    padding         : 0 10px;
+                    font-size       : 10px;
+                    color           : #fff;
+                    background-color: #1683FB;
+                    text-align      : center;
+                    margin          : 0 0 5px 10px;
+                    line-height     : 22px;
+                }
+            }
+
+            p {
+                margin       : 0 0 0 10px;
+                padding      : 0;
+                font-size    : 10px;
+                font-weight  : bold;
+                color        : #808894;
+                text-overflow: ellipsis;
+                white-space  : nowrap;
+            }
+
+            .playLinkList-item-name {
+                display        : flex;
+                justify-content: space-between;
+                align-items    : center;
+
+                .left {
+                    display    : flex;
+                    align-items: center;
+                    overflow   : hidden;
+
+                    .HeadPortrait {
+                        margin-left     : 10px;
+                        width           : 20px;
+                        height          : 20px;
+                        border-radius   : 50%;
+                        background-color: blue;
+                        background-size : 100% 100%;
+
+                    }
+
+                    p {
+                        margin   : 0px 10px;
+                        color    : #807C75;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 1300px) {
+            .playLinkList-item-img {
+                width: 100%;
+            }
+
+            .playLinkList-item-info {
+                display: none;
+            }
+        }
+    }
+
+
+}

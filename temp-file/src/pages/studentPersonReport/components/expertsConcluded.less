@@ -1,0 +1,49 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2020/10/13
+*@Modified By:
+*/
+.expertsConcluded {
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 18px 20px;
+  font-size: 15px;
+  color: #9b9b9b;
+
+  .titleName {
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .textBox{
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-break: break-word; //处理长单词问题
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    /* autoprefixer: ignore next */
+    -webkit-box-orient: vertical;
+  }
+  .foldOff{
+    display: block!important;
+  }
+  @media print {
+    .textBox{
+      display: block!important;
+    }
+    .fold{
+      display: none!important;
+    }
+  }
+  .fold{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor:pointer;
+  }
+}

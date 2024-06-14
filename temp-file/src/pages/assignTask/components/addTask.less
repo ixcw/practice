@@ -1,0 +1,271 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2020/8/21
+*@Modified By:
+*/
+@optionMarginBottom: 25px;
+@gridMargin        : 8px;
+
+.componentAddTaskModal {
+  min-width: 500px;
+  max-width: 80vw;
+
+  .taskOption {
+    padding       : 0 50px;
+    display       : flex;
+    flex-direction: column;
+
+    .rowBox {
+      margin-bottom: @optionMarginBottom;
+    }
+
+    .topicSource {
+      margin-bottom: @optionMarginBottom;
+    }
+
+    .selected-group {
+      background-color: #f3f1f1;
+      border-radius   : 5px;
+      display         : flex;
+      align-items     : center;
+      padding         : 8px;
+      min-width       : 358px;
+      height          : 40px;
+      padding-left    : 20px;
+      margin-bottom   : 20px;
+    }
+
+    .topicSet {
+      margin-bottom: @optionMarginBottom;
+      padding      : 10px;
+
+      .topic {
+        margin-bottom: 5px;
+
+        :global {
+          .ant-radio-group {
+            display              : grid;
+            grid-template-columns: 50% 50%;
+            grid-row-gap         : 20px;
+            grid-column-gap      : 20px;
+
+            .ant-radio-wrapper {
+              background-color: #f3f1f1;
+              border-radius   : 5px;
+              display         : flex;
+              align-items     : center;
+              padding         : 8px;
+              width           : 358px;
+              height          : 40px;
+
+              &>span:last-child {
+                overflow     : hidden;
+                text-overflow: ellipsis;
+                white-space  : nowrap;
+              }
+            }
+
+            .ant-radio-wrapper-checked {
+              border: solid 1px #32a0ff;
+            }
+          }
+
+          .ant-radio-wrapper {
+            overflow     : hidden;
+            text-overflow: ellipsis;
+            white-space  : nowrap;
+          }
+        }
+      }
+
+      .topicPagination {
+        display        : flex;
+        justify-content: center;
+      }
+    }
+
+    .orient {
+      .orientColl {
+        :global {
+          .ant-collapse-header {
+            color: #50A1F0;
+          }
+
+          .ant-collapse-extra {
+            display: initial;
+
+            a {
+              margin-right: 8px;
+            }
+          }
+        }
+
+        .panelBox {
+          display         : flex;
+          flex-direction  : column;
+          justify-content : center;
+          background-color: #e8e8e8;
+
+
+          // flex-wrap: wrap;
+          // justify-content: flex-start;
+          // background-color: #e8e8e8;
+          // padding-bottom: 10px;
+
+          //grid-template-columns: repeat(8, 93px);
+          //grid-gap: @gridMargin @gridMargin;
+          //justify-content: center;
+
+          .group {
+            // width          : 100%;
+            display         : flex;
+            justify-content : space-between;
+            align-items     : center;
+            background-color: white;
+            box-sizing      : border-box !important;
+            margin          : 10px;
+
+            // padding: ;
+            .groupName {
+              width      : 50px;
+              text-align : center;
+              line-height: 50px;
+            }
+
+            .groupitem {
+              display        : flex;
+              flex-grow      : 1;
+              flex-wrap      : wrap;
+              justify-content: flex-start;
+
+              padding-bottom: 10px;
+
+              .student {
+                width           : 93px;
+                height          : 38px;
+                background-color: white;
+                cursor          : pointer;
+                border          : 1px solid #e8e8e8;
+                box-sizing      : border-box !important;
+                text-align      : center;
+                border-radius   : 3px;
+                padding         : 8px 3px;
+                margin          : 10px 10px 0 10px;
+                overflow        : hidden;
+                text-overflow   : ellipsis;
+                white-space     : nowrap;
+              }
+
+              .studentChecked {
+                border: 2px solid #50A1F0;
+              }
+            }
+
+            .choose {
+              width      : 100px;
+              text-align : center;
+              line-height: 50px;
+              cursor     : pointer;
+            }
+
+            .nochoose {
+              width      : 100px;
+              text-align : center;
+              color      : #50A1F0;
+              line-height: 50px;
+              cursor     : pointer;
+            }
+          }
+
+          .group1 {
+            width          : 100%;
+            display: flex;
+            flex-wrap      : wrap;
+            justify-content: flex-start;
+
+            padding-bottom: 10px;
+
+            .student {
+              width           : 93px;
+              height          : 38px;
+              cursor          : pointer;
+              background-color: white;
+              box-sizing      : border-box !important;
+              text-align      : center;
+              border-radius   : 3px;
+              padding         : 8px 3px;
+              margin          : 10px 10px 0 10px;
+              overflow        : hidden;
+              text-overflow   : ellipsis;
+              white-space     : nowrap;
+            }
+
+            .studentChecked {
+              border: 2px solid #50A1F0;
+            }
+          }
+
+        }
+      }
+
+      .studentCheckedBox {
+        display       : flex;
+        flex-direction: column;
+        background    : #e8e8e8;
+        padding-left  : 15px;
+
+        .selectCorrectStudent {
+          flex           : 1;
+          display        : flex;
+          align-items    : center;
+          justify-content: start;
+          background     : #e8e8e8;
+          padding        : 8px;
+
+          &>div:nth-child(-n+2) {
+            margin-right: 15px;
+          }
+
+          :global {
+            .ant-select-selector {
+              height  : 32px;
+              overflow: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.calendar {
+  :global {
+    .ant-radio-group {
+      display: none;
+    }
+
+    .events {
+      list-style: none;
+      margin    : 0;
+      padding   : 0;
+    }
+
+    .events .ant-badge-status {
+      overflow     : hidden;
+      white-space  : nowrap;
+      width        : 100%;
+      text-overflow: ellipsis;
+      font-size    : 12px;
+    }
+
+    .notes-month {
+      text-align: center;
+      font-size : 28px;
+    }
+
+    .notes-month section {
+      font-size: 28px;
+    }
+  }
+}

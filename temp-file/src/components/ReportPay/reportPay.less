@@ -1,0 +1,91 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2021/1/26
+*@Modified By:
+*/
+#reportPay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 580px;
+  .payStyles(@padding:80px 90px) {
+    background-color: white;
+    padding: @padding;
+    border-radius: 5px;
+    width: 600px;
+  }
+
+  .payBoxPlan {
+    .back{
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 10px 0 0;
+    }
+    background-color: white;
+    border-radius: 5px;
+    .thirdPartyBoard {
+      .payStyles(0 90px 80px 90px);
+      flex-direction: column;
+      margin-top: 10px;
+      display: flex;
+      align-items:center;
+      .weCharQR{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      :global{
+        #weixinPayQrcodeReport{
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      .BoardBox {
+        margin-bottom: 15px;
+        width: 80%;
+        display: flex;
+        justify-content: space-around;
+
+        & > :nth-child(1).boardFont {
+          padding: 3px;
+          border: 1px solid red;
+        }
+      }
+    }
+  }
+
+  .payBox {
+    .payStyles();
+
+    & > div:nth-child(1) {
+      color: #b48e3d;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    & > div:nth-child(2) {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    & > div:nth-child(3) {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+
+      :global {
+        .ant-btn {
+          border: none;
+          color: white;
+          padding: 0 30px;
+          background-color: #dcac60;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}

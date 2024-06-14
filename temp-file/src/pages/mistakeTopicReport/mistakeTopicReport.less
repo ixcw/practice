@@ -1,0 +1,42 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  2021/3/8
+*@Modified By:
+*/
+@import "../../pages/studentPersonReport/studentPersonReport.less";
+.headerTitle {
+  display        : flex;
+        justify-content: start !important;
+  // padding: 0 20px !important;
+  // font-size: 25px;
+  &>div {
+    display       : flex;
+    font-size     : 25px;
+    letter-spacing: 2px;
+    margin-right  : 20px;
+    color         : #4f5152;
+    align-items   : center;
+  
+    &:last-child {
+      margin-left: 45px;
+    }
+  }
+}
+
+#mistakeTopicReport {
+  .affixPrintBox();
+  .contentBox();
+  @media print {
+    .affixPrint {
+      display: none !important;
+    }
+
+    .content {
+      padding: 0 20px !important;
+      // font-size: 25px;
+      
+    }
+  }
+
+}

@@ -1,0 +1,34 @@
+/**
+*@Author:xiongwei
+*@Description:
+*@Date:Created in  2021/3/3
+*@Modified By:
+*/
+.TotalScoreDistribution {
+    width : 100%;
+    height: 100%;
+    .title{
+      display: flex;
+      justify-content: flex-end;
+      font-size: 16px;
+      >div{
+        margin: 0 20px;
+      }
+    }
+    img {
+      width  : 100%;
+      height : 100%;
+      display: none;
+    }
+  }
+  :global {
+    @media print {
+        .ClassReportimg{
+            display: block !important;
+        }
+        #ClassReportmyChartmainTotalScoreDistribution2{
+            display: none !important;
+        }
+        
+    }
+}

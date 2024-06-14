@@ -1,0 +1,95 @@
+    /**
+* 题目列表页面 设置参数表单组件样式
+* @author:张江
+* @date:2019年11月21日
+* @version:v1.0.0
+* */
+
+    .flex-warp() {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    // 参数设置区域
+    .set-arameter {
+        .flex-warp;
+        padding-top: 16px;
+        min-height: 60px;
+
+        :global {
+            .ant-form.ant-form-inline {
+                .flex-warp;
+
+                .ant-form-item-with-help {
+                    margin-bottom: 6px !important;
+                }
+
+                .ant-row.ant-form-item {
+                    display: flex;
+                    margin-top: 6px;
+
+                    .ant-col.ant-form-item-label {
+                        label {
+                            position: relative;
+                            font-weight: bold;
+                            // top: -4px;
+                        }
+                    }
+
+                    .ant-form-item-children {
+                        display: flex;
+
+                        >i.dynamic-delete-button {
+                            margin-top: 8px;
+                        }
+                    }
+                }
+            }
+
+            .ant-form-item-label,
+            .ant-form-item {
+                color: #40a9ff;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+
+                >label {
+                    color: #40a9ff;
+                }
+            }
+
+            .set-form-item {
+                display: flex;
+                align-items: center;
+                position: relative;
+
+                .dynamic-delete-button {
+                    position: absolute;
+                    margin-right: 24px;
+                    right: -8px;
+                    top: 15px;
+                    // display: flex;
+                    // align-items: center;
+                    // padding-top: 4px;
+                }
+            }
+
+            // .ant-form-inline .ant-form-item {
+            //    flex: auto;
+            // }
+        }
+
+        .add-knowledge {
+            color: #40a9ff;
+            background-color: #fff;
+            border-color: #40a9ff;
+            width: 28px;
+            height: 28px;
+            padding: 0px;
+            border-radius: 50%;
+            margin-top: 2px;
+            margin-left: -10px;
+            margin-right: 10px;
+        }
+    }

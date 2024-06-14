@@ -1,0 +1,38 @@
+/**
+*@Author:ChaiLong
+*@Description:
+*@Date:Created in  12/11/2020
+*@Modified By:
+*/
+:global {
+  .taskAllotModal {
+    .titleLine {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      & > span:nth-child(1) {
+        transition: transform 0.5s;
+        font-size: 22px;
+      }
+
+      .foldFlagOpen {
+        transform: rotate(90deg);
+      }
+
+      & > span:nth-child(2) {
+        font-size: 16px;
+      }
+    }
+
+    .knowledgeRow {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s;
+    }
+
+    .foldFlagOpenRow {
+      max-height: 3000px;
+    }
+  }
+}

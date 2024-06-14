@@ -1,0 +1,93 @@
+  /**
+* 学习任务组件
+* @author:张江
+* @date:2020年08月20日
+* @version:v1.0.0
+* */
+
+  // 学习任务
+  .learning-task {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+
+
+    // 学习任务列表
+    .task-list {
+      display: flex;
+      flex-wrap: wrap;
+
+      .task-item {
+        width: 31%;
+        height: 188px;
+        padding: 18px;
+        margin-right: 3.5%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        color: #fff;
+        position: relative;
+        cursor: pointer;
+
+        // background-image: url($url);
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+
+        // 科目状态
+        .subject-status {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 20px;
+
+          >h3 {
+            color: #fff;
+            font-size: 24px;
+          }
+
+          >span {
+            font-size: 18px;
+          }
+        }
+
+        // 任务信息
+        .task-info {
+          >div {
+            font-size: 14px;
+          }
+
+          >div:first-child {
+            padding-bottom: 12px;
+          }
+        }
+
+        .subject-tag {
+          padding: 0px;
+          position: absolute;
+          z-index: 0;
+          right: 0px;
+          bottom: -8px;
+          white-space: nowrap;
+          width: 124px;
+          overflow: hidden;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 86px;
+          color: rgba(255, 255, 255, 0.3);
+          ;
+        }
+      }
+
+      .task-item:nth-child(1n) {
+        background: linear-gradient(to left, #8AF7FE, #66A6FF);
+      }
+
+      .task-item:nth-child(3n-1) {
+        background: linear-gradient(to left, #C2CBFB, #A3A1FD);
+      }
+
+      .task-item:nth-child(3n) {
+        background: linear-gradient(to left, #73C2FF, #D7A4FF);
+        margin-right: 0px;
+      }
+    }
+  }

@@ -1,0 +1,155 @@
+/**
+ * 我的题组-答题卡导出预览-样式
+ * @author:张江
+ * @date:2020年08月29日
+ * @version:v1.0.0
+ * */
+
+.PES-content {
+    // .header-info-box {
+    //     .info-box {
+    //         display: flex;
+    //         flex-wrap: wrap;
+    //         justify-content: flex-end;
+    //         width: 100%;
+    //     }
+    // }
+
+    // .tip-info {
+    //     font-size: 12px;
+    //     color: #ffe58f;
+    //     margin-left: 10px;
+
+    // }
+
+    // .paper-header-box {
+    //     width: 100%;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     flex-flow: column;
+    // }
+
+    // .question-type {
+    //     font-weight: bold;
+    //     padding-bottom: 20px;
+    // }
+
+    .q-list {
+        padding-right: 20px;
+
+        .pre-question-item {
+            min-height: 60px;
+
+            display: flex;
+            justify-content: flex-start;
+            padding-left: 20px;
+
+            >span {
+                display: inline-block;
+                width: 36px;
+                text-align: center;
+            }
+        }
+
+    }
+
+
+    // 选择题并排
+    .subjective-flex {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .subjective {
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 20px;
+        width: 100%;
+
+        :global {
+            .question-content-option {
+                display: flex;
+                justify-content: flex-start;
+                // padding-left: 20px;
+                width: 100%;
+
+                >span {
+                    display: inline-block;
+                    width: 36px;
+                    text-align: center;
+                }
+            }
+
+            .question-material-box {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+
+                .question-content-option {
+                    width: 33.3%;
+                    padding-right: 14px;
+                }
+            }
+
+
+
+        }
+
+        // .dry-system {
+        //     width: 80%;
+        //     padding-right: 20px;
+        // }
+
+        .answer-system {
+            width: 100%;
+        }
+    }
+
+    @borderColor: #f0f0f0;
+    @borderStyle: 0px solid @borderColor;
+
+    :global {
+        .pre-question-list-box {
+            margin: 10px 0px;
+            border: 1px solid @borderColor;
+            // border-bottom: @borderStyle;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 80.3vh;
+
+
+            .answer-area {
+                display: block;
+                width: 100%;
+                min-height: 60px;
+                margin-bottom: 20px;
+                border: 1px dashed #999;
+                background-color: #fff !important;
+            }
+
+            .answer-area::-webkit-input-placeholder,
+            .score-area::-webkit-input-placeholder {
+                color: #f0f0f0;
+                white-space: normal;
+                text-align: justify;
+                -moz-text-align-last: center;
+                /* Firefox 12+ */
+                text-align-last: center;
+                line-height: 42px;
+            }
+
+            .score-area {
+                width: 25%;
+                margin-left: 8px;
+            }
+
+            .answer-time {
+                margin-bottom: 0px !important;
+            }
+        }
+    }
+
+}
