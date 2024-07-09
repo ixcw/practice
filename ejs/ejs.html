@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EJS in Browser</title>
+  <script src="./ejs.min.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+
+  <script type="text/template" id="template">
+    <h1><%= message %></h1>
+  </script>
+
+  <script>
+    // 模拟数据
+    const data = {
+      message: 'Hello, EJS in the Browser!'
+    };
+
+    // 获取模板内容
+    const template = document.getElementById('template').innerHTML;
+
+    // 使用EJS渲染模板
+    const renderedHtml = ejs.render(template, data);
+
+    // 将渲染后的内容插入到页面中
+    document.getElementById('content').innerHTML = renderedHtml;
+  </script>
+</body>
+</html>
