@@ -1,0 +1,11 @@
+'Bearer eyJraWQiOiJmMzIyZWFjNC0xODA0LTQ5NzQtYWM1MS0zOTgyOTcxMWYyYzgiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxNTg4NTA4MjkxMiIsImF1ZCI6ImJ1cmVhdV9zY2hvb2xfd2ViX2NsaWVudCIsIm5iZiI6MTczNTg2NzI4NSwic2Nob29sX2lkIjoiNzciLCJ1c2VyX2lkIjoiNjc4MzEiLCJzY29wZSI6WyJzeXN0ZW1fZW50cnkiLCJvcGVuaWQiLCJwcm9maWxlIiwiY2xpZW50X3dlYiJdLCJpc3MiOiJodHRwczovL2dnNjYuY24iLCJleHAiOjE3MzU4ODg4ODUsImlhdCI6MTczNTg2NzI4NSwiYXV0aG9yaXRpZXMiOlsiU0NIT09MX0FETUlOIiwiV09SS0VSIiwiU0NIT09MX01FU1NBR0VfTUFOQUdFTUVOVF9fQVVESVQiLCJDTEFTU19IRUFEIiwiVEVBQ0hFUiJdfQ.DQlcZgA7CA_QgUto_KvgqpcF1wMUAzRvfBsZVng4nj3Ina7hFOKfqmmluWBU-dgD8naUvBsVnozfiWLzw9xMwkvWPVsu12by7riBAVbj8-Q9TQOowv4uHXYZ7lT5LArEBJZ3cDbyZf9OntF2vXsa8NUYDSDWA7xTmkXpG8coRLHsVGLDYnscd5oS8RHbXuF_VQAR6KsASvOGWCyl4jdVpxMmfJ4Y8n7fN0hcHEUB_Ydv8sSVGrIpkW0XccK_JLPBW1dG8B5zWlT0TX5TI9YWovOiuZCqx1HoTIxMlJeq8ZSYs1rG9dl3UoNnG1Qe-4XZkOo5KT_S4VTgrHZgTX6BCg'
+
+const questionList = {
+  "questionList": [
+    {
+      "id": 7511938,
+      "content": "梳理选文中“我”的情感变化过程，每空用两个字概括。\n__________---__________---__________",
+      "answer": "愤怒→悔恨→悲痛"
+    }
+  ]
+}
