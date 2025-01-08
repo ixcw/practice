@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "data": [
+    { "id": 48, "name": "选择题", "subjectId": 17, "rule": 1 },
+    { "id": 49, "name": "填空题", "subjectId": 17, "rule": 3 },
+    { "id": 50, "name": "连线题", "subjectId": 17, "rule": 4 },
+    { "id": 51, "name": "判断题", "subjectId": 17, "rule": 2 },
+    { "id": 52, "name": "解答题", "subjectId": 17, "rule": 4 },
+    { "id": 310, "name": "多选题", "subjectId": 17, "rule": 9 }
+  ],
+  "message": "successful",
+  "errCode": 0,
+  "errDetail": null
+}

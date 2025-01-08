@@ -1,0 +1,133 @@
+{
+  "success": true,
+  "data": {
+    "id": 96,
+    "teacherId": 395165,
+    "name": "地理模板I",
+    "subjectId": 17,
+    "subjectName": "地理",
+    "paperType": "3",
+    "schoolId": 155,
+    "stuName": 1,
+    "stuClass": 1,
+    "stuNum": 1,
+    "stuNameId": 1,
+    "stuClassId": 2,
+    "stuNumId": 3,
+    "font": "仿宋",
+    "wordSize": "16号",
+    "composeType": "竖排",
+    "alignment": "居中",
+    "sealLine": "虚线显示",
+    "updateTime": 1736326779000,
+    "templateDetails": [
+      {
+        "id": 49,
+        "paperTempId": 96,
+        "categoryId": 48,
+        "categoryName": "选择题",
+        "reviewType": "1",
+        "arrayType": "1",
+        "isArea": "0",
+        "height": "110.0",
+        "scoreSet": "2",
+        "smallItem": 0,
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 50,
+        "paperTempId": 96,
+        "categoryId": 49,
+        "categoryName": "填空题",
+        "reviewType": "3",
+        "arrayType": "1",
+        "isArea": "0",
+        "height": "110.0",
+        "scoreSet": "2",
+        "smallItem": 1,
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 51,
+        "paperTempId": 96,
+        "categoryId": 50,
+        "categoryName": "连线题",
+        "reviewType": "3",
+        "arrayType": "1",
+        "isArea": "0",
+        "height": "0.0",
+        "scoreSet": "2",
+        "smallItem": 0,
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 52,
+        "paperTempId": 96,
+        "categoryId": 51,
+        "categoryName": "判断题",
+        "reviewType": "1",
+        "arrayType": "1",
+        "isArea": "0",
+        "height": "110.0",
+        "scoreSet": "2",
+        "smallItem": 0,
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 53,
+        "paperTempId": 96,
+        "categoryId": 52,
+        "categoryName": "解答题",
+        "reviewType": "2",
+        "arrayType": "4",
+        "isArea": "1",
+        "height": "110.0",
+        "scoreSet": "2",
+        "smallItem": 0,
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 54,
+        "paperTempId": 96,
+        "categoryId": 310,
+        "categoryName": "多选题",
+        "reviewType": "1",
+        "arrayType": "1",
+        "isArea": "0",
+        "height": "110.0",
+        "scoreSet": "2",
+        "smallItem": 0,
+        "updateTime": 1736326779000
+      }
+    ],
+    "templatePageSets": [
+      {
+        "id": 67,
+        "paperTempId": 96,
+        "seqNo": 1,
+        "pageSetId": "1",
+        "pageSetName": "跨页时，答题区域自动分页至下一页",
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 68,
+        "paperTempId": 96,
+        "seqNo": 2,
+        "pageSetId": "2",
+        "pageSetName": "跨页时，答题区域自动分割在两页",
+        "updateTime": 1736326779000
+      },
+      {
+        "id": 69,
+        "paperTempId": 96,
+        "seqNo": 3,
+        "pageSetId": "3",
+        "pageSetName": "跨页时，题目、批阅区域、答题区域自¨åé¡µè³ä¸ä¸é¡µ",
+        "updateTime": 1736326779000
+      }
+    ]
+  },
+  "message": "successful",
+  "errCode": 0,
+  "errDetail": null
+}
