@@ -11,13 +11,11 @@
 	"subjectId": 17,
 	"questionList": [{
 		"id": 7464105,
-		"content": "写出图中字母所代表的地理事物的名称。\nA以____%为主的耕地；B以____%为主的耕地。\n",
+		"content": "",
 		"parentId": null,
-		"dataId": 439924,
-		"dataContent": "读“中国主要土地利用类型分布图”，完成下列各题。\n[myImgCur]\n",
 		"materialQuestionList": [{
 			"id": 7464105,
-			"content": "写出图中字母所代表的地理事物的名称。\nA以____%为主的耕地；B以____%为主的耕地。\n",
+			"content": "",
 			"parentId": null,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -25,7 +23,7 @@
 		}, {
 			"id": 7464106,
 			"questionId": null,
-			"content": "图中 A、B所代表的土地利用类型主要分布在我国东部季风区，东部季风区从\n干湿状况看，大部分属于____%区和____%区；从地形类型看，主要有____%、____%和低山丘陵。\n",
+			"content": "",
 			"parentId": null,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -33,7 +31,7 @@
 		}, {
 			"id": 7464107,
 			"questionId": null,
-			"content": "我国北部、西部内陆地区，土地利用类型以____%为主；林地主要分布在我国的____%、____%和南方(或东南)的山地丘陵区。\n",
+			"content": "",
 			"parentId": null,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -41,7 +39,7 @@
 		}, {
 			"id": 7464108,
 			"questionId": null,
-			"content": "【综合思维】我国土地在开发利用过程中存在着诸多问题。下列漫画反映出\n土地资源受到了保护的是 ( )\n[myImgCur]\n",
+			"content": "",
 			"parentId": null,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -49,7 +47,7 @@
 		}, {
 			"id": 7464109,
 			"questionId": null,
-			"content": "【人地协调观】由于过度开垦、过度放牧、不合理利用水资源，内蒙古牧区出现了土地沙化、沙尘暴频发等生态环境恶化现象。要想重现“风吹草低见牛羊”的景象应该采取哪些措施?\n",
+			"content": "",
 			"parentId": null,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -57,7 +55,7 @@
 		}, {
 			"id": 7464110,
 			"questionId": null,
-			"content": "写出图中字母所代表的地理事物的名称。\nA以____",
+			"content": "",
 			"parentId": 7464105,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -65,7 +63,7 @@
 		}, {
 			"id": 7464111,
 			"questionId": null,
-			"content": "为主的耕地；B以____",
+			"content": "",
 			"parentId": 7464105,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -73,7 +71,7 @@
 		}, {
 			"id": 7464112,
 			"questionId": null,
-			"content": "图中 A、B所代表的土地利用类型主要分布在我国东部季风区，东部季风区从\n干湿状况看，大部分属于____",
+			"content": "",
 			"parentId": 7464106,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -81,7 +79,7 @@
 		}, {
 			"id": 7464116,
 			"questionId": null,
-			"content": "我国北部、西部内陆地区，土地利用类型以____",
+			"content": "",
 			"parentId": 7464107,
       "materialQuestionList": null,
 			"rule": 3,
@@ -89,7 +87,7 @@
 		}, {
 			"id": 7464117,
 			"questionId": null,
-			"content": "为主；林地主要分布在我国的____",
+			"content": "",
 			"parentId": 7464107,
 			"materialQuestionList": null,
 			"rule": 3,
@@ -97,7 +95,7 @@
 		}, {
 			"id": 7464118,
 			"questionId": null,
-			"content": "、____",
+			"content": "",
 			"parentId": 7464107,
 			"materialQuestionList": null,
 			"rule": 3,
