@@ -8,6 +8,11 @@ function organizeQuestionListByParentId(questionList) {
     if (questionList[i].parentId) {
       const parent = questionMap.get(questionList[i].parentId)
       if (parent) {
+        const content = parent.content
+        const lastIndex = content.lastIndexOf('____')
+        if (lastIndex !== -1) {
+          questionList[i].lastContent = content.slice(lastIndex + 4)
+        }
         parent.childrenList.unshift(questionList[i])
         questionList.splice(i, 1)
       }
@@ -42,5 +47,31 @@ function organizeCategoryQuestionList(categoryQuestionList) {
   return categoryQuestionList
 }
 
+function organizeQuestionListByChildrenList(questionList) {
+  questionList.forEach(question => {
+    if (Array.isArray(question.childrenList) && question.childrenList.length > 0) {
+      questionList.push(...question.childrenList)
+    }
+    if (Array.isArray(question.materialQuestionList) && question.materialQuestionList.length > 0) {
+      organizeQuestionListByChildrenList(question.materialQuestionList)
+    }
+  })
+}
+
+function restoreCategoryListByTemplate(categoryQuestionList, templateList) {
+  const categoryMap = categoryQuestionList.reduce((acc, category) => (acc[category.name] = category, acc), {})
+  templateList.forEach(template => {
+    if (template.smallItem === 1) {
+      const category = categoryMap[template.categoryName]
+      if (category) {
+        organizeQuestionListByChildrenList(category.questionList)
+      }
+    }
+  })
+  return categoryQuestionList
+}
+
 const organizedList = organizeCategoryQuestionList(categoryQuestionList)
-console.log(organizedList)
+const restoredList = restoreCategoryListByTemplate(organizedList, templateList)
+console.log('organizedList: ', organizedList)
+console.log('restoredList: ', restoredList)
