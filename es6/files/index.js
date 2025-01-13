@@ -528,12 +528,13 @@ export default class PaperBoard extends Component {
   organizeQuestionListByParentId = (questionList) => {
     const questionMap = new Map()
     questionList.forEach(question => {
-      question.childrenList = []
+      if (!question.childrenList) question.childrenList = []
       questionMap.set(question.id, question)
     })
     for (let i = questionList.length -1; i >= 0; i--) {
       if (questionList[i].parentId) {
         const parent = questionMap.get(questionList[i].parentId)
+        if (existArr(parent.childrenList)) continue
         if (parent) {
           const content = parent.content
           const lastIndex = content.lastIndexOf('____')
