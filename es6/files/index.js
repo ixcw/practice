@@ -36,7 +36,15 @@ import TopicContent from "@/components/TopicContent/TopicContent";
 import RenderMaterialAndQuestion from "@/components/RenderMaterialAndQuestion/index";//渲染题目材料以及题目或者题目
 import ParametersArea from '@/components/QuestionBank/ParametersArea';//
 import BackBtns from "@/components/BackBtns/BackBtns";
-import { ManualCombination, PaperBoard as namespace, HomeIndex, Auth, QuestionBank } from '@/utils/namespace'
+import {
+  ManualCombination,
+  PaperBoard as namespace,
+  HomeIndex,
+  Auth,
+  QuestionBank,
+  MyQuestionTemplate,
+  SchoolQuestionTemplate
+} from '@/utils/namespace'
 import {
   getPageQuery,
   dealQuestionfieldIdOrName,
@@ -155,7 +163,8 @@ export default class PaperBoard extends Component {
       permissionVisible: '3',//20210427新加 设置权限可见
       questionTemplateValue: '', // 试题模板值，前2位表示模板归属，01 学校模板 02 我的模板，后10位为唯一字符串，需要截取
       questionTemplateTreeData: [], // 试题模板树形数据
-      paperNameValue: '' // 试卷名称
+      paperNameValue: '', // 试卷名称
+      templateList: [] // 模板列表
     }
   }
 
@@ -189,11 +198,7 @@ export default class PaperBoard extends Component {
     const paperTemplateIdArr = paperTemplateIdStr.split('')
     const paperTemplateIdType = Number(paperTemplateIdArr[0] + paperTemplateIdArr[1])
     const paperTemplateId = Number(paperTemplateIdArr[2] + paperTemplateIdArr[3])
-    if (paperTemplateIdType == 1) {
-      // 学校模板
-    } else if (paperTemplateIdType == 2) {
-      // 我的模板
-    }
+    this.getTemplateDetail(paperTemplateIdType, paperTemplateId)
     this.setState({ questionTemplateValue: value })
   }
 
@@ -408,13 +413,18 @@ export default class PaperBoard extends Component {
    * 处理获取到的数据，将需要统计的数据统计出来，并给每个题添加序号,并且返回新的可以用于修改状态的state
    * @param topics
    */
-  handleTopicsAndReturnNewStateObj = (topics = [], template = {}) => {
+  handleTopicsAndReturnNewStateObj = (topics = []) => {
     let count = 0;
     let qcount = 0
     let score = 0
     let topicTypeTotalScores = []
-
     let records = []//用于封装数据的，设置分数的弹框的所有题目记录
+
+    topics = this.organizeCategoryQuestionList(topics)
+    // 根据模板规则，分割小题或回收小题
+    if (existArr(this.state.templateList)) {
+      topics = this.restoreCategoryQuestionListByTemplate(topics, this.state.templateList)
+    }
 
     topics.forEach((topicType, topicTypeIndex) => {
       let topicTypeTotalScore = 0//定义变量统计当前体型的分数
@@ -476,13 +486,138 @@ export default class PaperBoard extends Component {
       })
       topicTypeTotalScores.push(topicTypeTotalScore)//将统计好的当前题型的总分添加到存放的数组中
     })
-    if (Object.keys(template).length > 0) {
-      // 匹配rule，根据模板规则，分割小题或回收小题
-    }
-    console.log(JSON.stringify(topics));
-    
-    debugger
     return { setScoreData: records, topicsCount: qcount, totalScore: score, topicTypeTotalScores, topics }
+  }
+
+  /**
+   * 获取模板详情
+   * @param {*} type 类型，1 学校 2 教师
+   * @param {*} templateId 模板id
+   */
+  getTemplateDetail = (type, templateId) => {
+    const { dispatch } = this.props
+    if (type === 1) {
+      // 获取学校模板详情
+      dispatch({
+        type: `${SchoolQuestionTemplate}/getSchoolTemplateDetail`,
+        payload: { id: templateId },
+        callback: res => {
+          this.setState({ templateList: res.data.templateDetails }, () => {
+            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics))
+          })
+        }
+      })
+    } else if (type === 2) {
+      // 获取我的模板详情
+      dispatch({
+        type: `${MyQuestionTemplate}/getMyTemplateDetail`,
+        payload: { id: templateId },
+        callback: res => {
+          this.setState({ templateList: res.data.templateDetails }, () => {
+            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics))
+          })
+        }
+      })
+    }
+  }
+
+  /**
+   * 通过 parentId 组织题目列表
+   * @param {*} questionList 题目列表
+   */
+  organizeQuestionListByParentId = (questionList) => {
+    const questionMap = new Map()
+    questionList.forEach(question => {
+      question.childrenList = []
+      questionMap.set(question.id, question)
+    })
+    for (let i = questionList.length -1; i >= 0; i--) {
+      if (questionList[i].parentId) {
+        const parent = questionMap.get(questionList[i].parentId)
+        if (parent) {
+          const content = parent.content
+          const lastIndex = content.lastIndexOf('____')
+          if (lastIndex !== -1) {
+            questionList[i].lastContent = content.slice(lastIndex + 4)
+          }
+          parent.childrenList.unshift(questionList[i])
+          questionList.splice(i, 1)
+        }
+      }
+    }
+  }
+  
+  /**
+   * 组织材料题目列表
+   * @param {*} materialQuestionList 材料题目列表
+   */
+  organizeMaterialQuestionList = (materialQuestionList) => {
+    if (existArr(materialQuestionList)) {
+      this.organizeQuestionListByParentId(materialQuestionList)
+      materialQuestionList.forEach(materialQuestion => {
+        if (existArr(materialQuestion.materialQuestionList)) {
+          this.organizeMaterialQuestionList(materialQuestion.materialQuestionList)
+        }
+      })
+    }
+  }
+  
+  /**
+   * 组织分类题目列表
+   * @param {*} categoryQuestionList 分类题目列表
+   * @returns 分类题目列表
+   */
+  organizeCategoryQuestionList = (categoryQuestionList) => {
+    categoryQuestionList.forEach(categoryQuestion => {
+      const questionList = categoryQuestion.questionList
+      if (existArr(questionList)) {
+        this.organizeQuestionListByParentId(questionList)
+        questionList.forEach(question => {
+          const materialQuestionList = question.materialQuestionList
+          if (existArr(materialQuestionList)) {
+            this.organizeMaterialQuestionList(materialQuestionList)
+          }
+        })
+      }
+    })
+    return categoryQuestionList
+  }
+  
+  /**
+   * 通过题目子列表组织题目列表
+   * @param {*} questionList 题目列表
+   */
+  organizeQuestionListByChildrenList = (questionList) => {
+    questionList.forEach(question => {
+      const childrenList = question.childrenList
+      const materialQuestionList = question.materialQuestionList
+      if (existArr(childrenList)) {
+        questionList.push(...childrenList)
+      }
+      if (existArr(materialQuestionList)) {
+        this.organizeQuestionListByChildrenList(materialQuestionList)
+      }
+    })
+  }
+  
+  /**
+   * 通过模板列表恢复分类题目列表
+   * @param {*} categoryQuestionList 分类题目列表
+   * @param {*} templateList 模板列表
+   * @returns 分类题目列表
+   */
+  restoreCategoryQuestionListByTemplate = (categoryQuestionList, templateList) => {
+    const categoryMap = categoryQuestionList.reduce((acc, category) => (acc[category.name] = category, acc), {})
+    templateList.forEach(template => {
+      if (template.smallItem === 1) {
+        // 分割小题小项
+        const category = categoryMap[template.categoryName]
+        if (category) {
+          this.organizeQuestionListByChildrenList(category.questionList)
+        }
+      }
+    })
+    return categoryQuestionList
   }
 
   /**
