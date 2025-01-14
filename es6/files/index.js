@@ -1,4 +1,3 @@
-// front/src/pages/combination/paperboard/index
 /**
 * 试题板
 * @author:张江
@@ -413,18 +412,21 @@ export default class PaperBoard extends Component {
    * 处理获取到的数据，将需要统计的数据统计出来，并给每个题添加序号,并且返回新的可以用于修改状态的state
    * @param topics
    */
-  handleTopicsAndReturnNewStateObj = (topics = []) => {
+  handleTopicsAndReturnNewStateObj = (topics = [], templateList = []) => {
     let count = 0;
     let qcount = 0
     let score = 0
     let topicTypeTotalScores = []
     let records = []//用于封装数据的，设置分数的弹框的所有题目记录
 
-    topics = this.organizeCategoryQuestionList(topics)
     // 根据模板规则，分割小题或回收小题
-    if (existArr(this.state.templateList)) {
+    if (existArr(templateList)) {
       topics = this.restoreCategoryQuestionListByTemplate(topics, this.state.templateList)
+    } else {
+      topics = this.organizeCategoryQuestionList(topics)
     }
+    
+    console.log('topics: ', topics);
 
     topics.forEach((topicType, topicTypeIndex) => {
       let topicTypeTotalScore = 0//定义变量统计当前体型的分数
@@ -452,6 +454,7 @@ export default class PaperBoard extends Component {
               id: item.id,
               tempId: item.tempId,
               serialNumber: item.serialNumber,
+              sequenceCode: item.sequenceCode,
               knowNames: item.knowName,
               score: item.score,
               difficulty: item.difficulty,
@@ -466,6 +469,7 @@ export default class PaperBoard extends Component {
             id: topic.id,
             tempId: topic.tempId,
             serialNumber: topic.serialNumber,
+            sequenceCode: topic.sequenceCode,
             knowNames: topic.knowName,
             score: topic.score,
             difficulty: topic.difficulty,
@@ -503,7 +507,7 @@ export default class PaperBoard extends Component {
         payload: { id: templateId },
         callback: res => {
           this.setState({ templateList: res.data.templateDetails }, () => {
-            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics))
+            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics, this.state.templateList))
           })
         }
       })
@@ -514,7 +518,7 @@ export default class PaperBoard extends Component {
         payload: { id: templateId },
         callback: res => {
           this.setState({ templateList: res.data.templateDetails }, () => {
-            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics))
+            this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics, this.state.templateList))
           })
         }
       })
@@ -527,8 +531,9 @@ export default class PaperBoard extends Component {
    */
   organizeQuestionListByParentId = (questionList) => {
     const questionMap = new Map()
-    questionList.forEach(question => {
+    questionList.forEach((question, index) => {
       question.childrenList = []
+      question.sequenceCode = `${index + 1}`
       questionMap.set(question.id, question)
     })
     for (let i = questionList.length -1; i >= 0; i--) {
@@ -541,6 +546,9 @@ export default class PaperBoard extends Component {
             questionList[i].lastContent = content.slice(lastIndex + 4)
           }
           parent.childrenList.unshift(questionList[i])
+          parent.childrenList.forEach((q, i) => {
+            q.sequenceCode = `${parent.sequenceCode}-${i + 1}`
+          })
           questionList.splice(i, 1)
         }
       }
@@ -588,16 +596,38 @@ export default class PaperBoard extends Component {
    * @param {*} questionList 题目列表
    */
   organizeQuestionListByChildrenList = (questionList) => {
+    if (!existArr(questionList)) return
+    const isOnlyParentNode = questionList.every(question => !question.parentId)
     questionList.forEach(question => {
       const childrenList = question.childrenList
       const materialQuestionList = question.materialQuestionList
-      if (existArr(childrenList)) {
+      if (existArr(childrenList) && isOnlyParentNode) {
         questionList.push(...childrenList)
       }
       if (existArr(materialQuestionList)) {
         this.organizeQuestionListByChildrenList(materialQuestionList)
       }
     })
+  }
+
+   /**
+   * 取消通过题目子列表组织题目列表
+   * @param {*} questionList 题目列表
+   */
+  cancelOrganizeQuestionListByChildrenList = (questionList) => {
+    if (!existArr(questionList)) return
+    for (let i = questionList.length - 1; i >= 0; i--) {
+      const question = questionList[i]
+      const parentId = question.parentId
+      const materialQuestionList = question.materialQuestionList
+      if (parentId) {
+        questionList.splice(i, 1)
+      } else {
+        if (existArr(materialQuestionList)) {
+          this.cancelOrganizeQuestionListByChildrenList(materialQuestionList)
+        }
+      }
+    }
   }
   
   /**
@@ -614,6 +644,12 @@ export default class PaperBoard extends Component {
         const category = categoryMap[template.categoryName]
         if (category) {
           this.organizeQuestionListByChildrenList(category.questionList)
+        }
+      } else {
+        // 取消分割小题小项
+        const category = categoryMap[template.categoryName]
+        if (category) {
+          this.cancelOrganizeQuestionListByChildrenList(category.questionList)
         }
       }
     })
@@ -1531,18 +1567,27 @@ export default class PaperBoard extends Component {
     const setScoreColumn = [
       {
         title: '题号',
-        dataIndex: 'serialNumber',
-        key: 'serialNumber',
+        // dataIndex: 'serialNumber',
+        // key: 'serialNumber',
+        dataIndex: 'sequenceCode',
+        key: 'sequenceCode',
+        width: 100,
+        align: 'center'
       },
       {
         title: '知识点',
         dataIndex: 'knowNames',
         key: 'knowNames',
+        ellipsis: true,
+        width: 300,
+        align: 'center'
       },
       {
         title: '难度',
         dataIndex: 'difficulty',
         key: 'difficulty',
+        width: 100,
+        align: 'center'
       },
       {
         title: '分值',
@@ -1554,7 +1599,7 @@ export default class PaperBoard extends Component {
           let stateKeyName = `topicTypeInput-${record.topicTypeIndex}`
           return (
             record.isTopicTypeTitle
-              ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
                 每题<InputNumber min={0} max={99} step={1} style={{ margin: '0 10px', width: 100 }}
                   value={this.state[stateKeyName]}
                   placeholder='分数'
@@ -1579,18 +1624,27 @@ export default class PaperBoard extends Component {
     const setSingleScoreColumn = [
       {
         title: '题号',
-        dataIndex: 'serialNumber',
-        key: 'serialNumber',
+        // dataIndex: 'serialNumber',
+        // key: 'serialNumber',
+        dataIndex: 'sequenceCode',
+        key: 'sequenceCode',
+        width: 100,
+        align: 'center'
       },
       {
         title: '知识点',
-        dataIndex: 'knowNames',
-        key: 'knowNames',
+        dataIndex: 'knowName',
+        key: 'knowName',
+        ellipsis: true,
+        width: 300,
+        align: 'center'
       },
       {
         title: '难度',
         dataIndex: 'difficulty',
         key: 'difficulty',
+        width: 100,
+        align: 'center'
       },
       {
         title: '分值',
@@ -1602,7 +1656,7 @@ export default class PaperBoard extends Component {
           let stateKeyName = `topicTypeInput-${record.serialNumber}`
           return (
             record.isTopicTypeTitle
-              ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
                 每题<InputNumber min={0} max={99} step={1} style={{ margin: '0 10px', width: 100 }}
                   value={this.state[stateKeyName]}
                   placeholder='分数'
@@ -2162,7 +2216,8 @@ export default class PaperBoard extends Component {
                 dataSource={singleTopic ? singleTopic.materialQuestionList || [] : []}
                 pagination={false}
                 columns={setSingleScoreColumn}
-                rowKey={"serialNumber"}
+                // rowKey={"serialNumber"}
+                rowKey={"sequenceCode"}
               />
             </div>
           </Modal>

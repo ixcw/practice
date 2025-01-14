@@ -11,3 +11,17 @@ getSchoolTemplateDetail
 试题版题目查询接口应用到的地方众多，当前改动是否会影响到其他地方
 /auth/web/v1/groupTopic/getGroupCenterPaperBoard
 
+打开/关闭 设置分数的弹框
+toggleScoreModalState
+
+
+
+
+
+
+
+
+
+
+
+
