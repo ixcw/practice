@@ -539,6 +539,7 @@ export default class PaperBoard extends Component {
     for (let i = questionList.length -1; i >= 0; i--) {
       if (questionList[i].parentId) {
         const parent = questionMap.get(questionList[i].parentId)
+        if (existArr(parent.childrenList)) continue
         if (parent) {
           const content = parent.content
           const lastIndex = content.lastIndexOf('____')
