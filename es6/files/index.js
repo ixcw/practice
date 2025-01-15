@@ -597,17 +597,22 @@ export default class PaperBoard extends Component {
    */
   organizeQuestionListByChildrenList = (questionList) => {
     if (!existArr(questionList)) return
+    const clonedQuestionList = JSON.parse(JSON.stringify(questionList))
     const isOnlyParentNode = questionList.every(question => !question.parentId)
     questionList.forEach(question => {
+      const id = question.id
       const childrenList = question.childrenList
       const materialQuestionList = question.materialQuestionList
       if (existArr(childrenList) && isOnlyParentNode) {
-        questionList.push(...childrenList)
+        const sIndex = clonedQuestionList.findIndex(question => question.id === id)
+        clonedQuestionList.splice(sIndex + 1, 0, ...childrenList)
       }
       if (existArr(materialQuestionList)) {
         this.organizeQuestionListByChildrenList(materialQuestionList)
       }
     })
+    questionList.length = 0
+    questionList.push(...clonedQuestionList)
   }
 
    /**
@@ -638,6 +643,7 @@ export default class PaperBoard extends Component {
    */
   restoreCategoryQuestionListByTemplate = (categoryQuestionList, templateList) => {
     const categoryMap = categoryQuestionList.reduce((acc, category) => (acc[category.name] = category, acc), {})
+    debugger
     templateList.forEach(template => {
       if (template.smallItem === 1) {
         // 分割小题小项
