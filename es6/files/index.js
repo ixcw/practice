@@ -246,7 +246,7 @@ export default class PaperBoard extends Component {
 
     /** ********************************************************* 优化-试题板参数显示 end author:张江 date:2021年07月23日 *************************************************************************/
     if (topicList) {
-      this.setState(this.handleTopicsAndReturnNewStateObj(topicList))
+      this.setState(this.handleTopicsAndReturnNewStateObj(topicList, [], true))
     }
   }
 
@@ -412,7 +412,7 @@ export default class PaperBoard extends Component {
    * 处理获取到的数据，将需要统计的数据统计出来，并给每个题添加序号,并且返回新的可以用于修改状态的state
    * @param topics
    */
-  handleTopicsAndReturnNewStateObj = (topics = [], templateList = []) => {
+  handleTopicsAndReturnNewStateObj = (topics = [], templateList = [], isOrganize = false) => {
     let count = 0;
     let qcount = 0
     let score = 0
@@ -423,7 +423,7 @@ export default class PaperBoard extends Component {
     if (existArr(templateList)) {
       topics = this.restoreCategoryQuestionListByTemplate(topics, this.state.templateList)
     } else {
-      topics = this.organizeCategoryQuestionList(topics)
+      topics = this.organizeCategoryQuestionList(topics, isOrganize)
     }
     
     console.log('topics: ', topics);
@@ -573,21 +573,24 @@ export default class PaperBoard extends Component {
   /**
    * 组织分类题目列表
    * @param {*} categoryQuestionList 分类题目列表
+   * @param {*} isOrganize 是否组织
    * @returns 分类题目列表
    */
-  organizeCategoryQuestionList = (categoryQuestionList) => {
-    categoryQuestionList.forEach(categoryQuestion => {
-      const questionList = categoryQuestion.questionList
-      if (existArr(questionList)) {
-        this.organizeQuestionListByParentId(questionList)
-        questionList.forEach(question => {
-          const materialQuestionList = question.materialQuestionList
-          if (existArr(materialQuestionList)) {
-            this.organizeMaterialQuestionList(materialQuestionList)
-          }
-        })
-      }
-    })
+  organizeCategoryQuestionList = (categoryQuestionList, isOrganize) => {
+    if (isOrganize) {
+      categoryQuestionList.forEach(categoryQuestion => {
+        const questionList = categoryQuestion.questionList
+        if (existArr(questionList)) {
+          this.organizeQuestionListByParentId(questionList)
+          questionList.forEach(question => {
+            const materialQuestionList = question.materialQuestionList
+            if (existArr(materialQuestionList)) {
+              this.organizeMaterialQuestionList(materialQuestionList)
+            }
+          })
+        }
+      })
+    }
     return categoryQuestionList
   }
   
@@ -597,22 +600,23 @@ export default class PaperBoard extends Component {
    */
   organizeQuestionListByChildrenList = (questionList) => {
     if (!existArr(questionList)) return
-    const clonedQuestionList = JSON.parse(JSON.stringify(questionList))
     const isOnlyParentNode = questionList.every(question => !question.parentId)
+    const clonedQuestionList = JSON.parse(JSON.stringify(questionList))
     questionList.forEach(question => {
       const id = question.id
       const childrenList = question.childrenList
-      const materialQuestionList = question.materialQuestionList
       if (existArr(childrenList) && isOnlyParentNode) {
         const sIndex = clonedQuestionList.findIndex(question => question.id === id)
         clonedQuestionList.splice(sIndex + 1, 0, ...childrenList)
       }
-      if (existArr(materialQuestionList)) {
-        this.organizeQuestionListByChildrenList(materialQuestionList)
-      }
     })
     questionList.length = 0
     questionList.push(...clonedQuestionList)
+    questionList.forEach(question => {
+      if (existArr(question.materialQuestionList)) {
+        this.organizeQuestionListByChildrenList(question.materialQuestionList)
+      }
+    })
   }
 
    /**
@@ -643,7 +647,6 @@ export default class PaperBoard extends Component {
    */
   restoreCategoryQuestionListByTemplate = (categoryQuestionList, templateList) => {
     const categoryMap = categoryQuestionList.reduce((acc, category) => (acc[category.name] = category, acc), {})
-    debugger
     templateList.forEach(template => {
       if (template.smallItem === 1) {
         // 分割小题小项
@@ -652,7 +655,7 @@ export default class PaperBoard extends Component {
           this.organizeQuestionListByChildrenList(category.questionList)
         }
       } else {
-        // 取消分割小题小项
+        // 取消分割
         const category = categoryMap[template.categoryName]
         if (category) {
           this.cancelOrganizeQuestionListByChildrenList(category.questionList)
@@ -801,7 +804,7 @@ export default class PaperBoard extends Component {
    * @param isShow
    */
   toggleScoreModalState = (isShow, type) => {
-    const { dispatch } = this.props
+    // const { dispatch } = this.props
     this.setState({ setScoreModalIsShow: type == 2 || !type ? !!isShow : true }, () => {
       const returnData = this.handleTopicsAndReturnNewStateObj(this.state.topics) || {}
       if (isShow) {
@@ -827,9 +830,9 @@ export default class PaperBoard extends Component {
         // this.saveScoreSetting(setScoreData, false);
       }
       if (type == 2) {
-        dispatch({
-          type: namespace + '/getGroupCenterPaperBoard',
-        })
+        // dispatch({
+        //   type: namespace + '/getGroupCenterPaperBoard',
+        // })
       }
     })
   }
@@ -840,7 +843,7 @@ export default class PaperBoard extends Component {
  * @param isShow
  */
   toggleSingleScoreModalState = (isShow, type) => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     const { singleTopic = {} } = this.state
     this.setState({ isShowSingleTopic: type == 2 || !type ? !!isShow : true }, () => {
       if (isShow) {
@@ -853,9 +856,9 @@ export default class PaperBoard extends Component {
         this.saveScoreSetting(setScoreData, true);
       }
       if (type == 2) {
-        dispatch({
-          type: namespace + '/getGroupCenterPaperBoard',
-        })
+        // dispatch({
+        //   type: namespace + '/getGroupCenterPaperBoard',
+        // })
       }
     })
   }
