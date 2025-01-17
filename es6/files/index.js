@@ -202,7 +202,7 @@ export default class PaperBoard extends Component {
   }
 
   componentDidMount() {
-    const { topicList, dispatch } = this.props;
+    const { dispatch } = this.props;
     const role = JSON.parse(sessionStorage.getItem("gougou-front-userInfo"))?.v?.v?.code
     const classId = JSON.parse(sessionStorage.getItem("gougou-front-userInfo"))?.v?.v?.classId
     const schoolId = JSON.parse(sessionStorage.getItem("gougou-front-userInfo"))?.v?.v?.schoolId
@@ -244,19 +244,21 @@ export default class PaperBoard extends Component {
       this.setState({ paperNameValue: query.paperName }) // 设置试卷名称
     }
 
-    /** ********************************************************* 优化-试题板参数显示 end author:张江 date:2021年07月23日 *************************************************************************/
-    if (topicList) {
-      this.setState(this.handleTopicsAndReturnNewStateObj(topicList, [], true))
-    }
+    dispatch({
+      type: namespace + '/getGroupCenterPaperBoard',
+      callback: topicList => {
+        this.setState(this.handleTopicsAndReturnNewStateObj(topicList, [], true))
+      }
+    })
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    const newTopics = nextProps.topicList
-    //当题目列表发生变化时，将最新的封装并同步到state
-    if (JSON.stringify(this.props.topicList) !== JSON.stringify(newTopics)) {
-      this.setState(this.handleTopicsAndReturnNewStateObj(newTopics))
-    }
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+  //   const newTopics = nextProps.topicList
+  //   //当题目列表发生变化时，将最新的封装并同步到state
+  //   if (JSON.stringify(this.props.topicList) !== JSON.stringify(newTopics)) {
+  //     this.setState(this.handleTopicsAndReturnNewStateObj(newTopics))
+  //   }
+  // }
 
   /**
  * 获取四要素列表-2020年12月30日加-张江-试题板设置参数
@@ -666,6 +668,39 @@ export default class PaperBoard extends Component {
   }
 
   /**
+   * 创建合并数据源列表
+   * @param {*} dataSourceList 数据源列表
+   * @returns 合并数据源列表
+   */
+  createMergedDataSourceList = (dataSourceList) => {
+    let topEl = null
+    if (dataSourceList[0]?.isTopicTypeTitle) {
+      topEl = dataSourceList.shift()
+    }
+    const mergedDataSourceList = dataSourceList.reduce((acc, val) => {
+      const code = val.sequenceCode.split('-')[0]
+      if (acc.indexOf(code) < 0) {
+        acc.push(code)
+      }
+      return acc
+    }, []).reduce((acc, code) => {
+      const children = dataSourceList.filter(item => {
+        const iCode = item.sequenceCode.split('-')[0]
+        return iCode === code
+      })
+      acc = acc.concat(
+        children.map((item, index) => ({
+          ...item,
+          rowSpan: index === 0 ? children.length : 0
+        }))
+      )
+      return acc
+    }, [])
+    if (topEl) mergedDataSourceList.unshift(topEl)
+    return mergedDataSourceList
+  }
+
+  /**
    * 打开/关闭 换题弹窗isShow,
    * @ isShow ：显示状态
    * @topic:需要替换的题目
@@ -1020,7 +1055,7 @@ export default class PaperBoard extends Component {
    * 设置题目分数
    * @param topic 题目对象
    * @param score 需要设置的分数
-   * @param topicTypeIndex  当前小题所在的大题所在整张试卷数组的下标
+   * @param topicTypeIndex 当前小题所在的大题所在整张试卷数组的下标
    */
   setScore = (topic, score, topicTypeIndex, type) => {
     const { topics, singleTopic = {} } = this.state
@@ -1028,14 +1063,16 @@ export default class PaperBoard extends Component {
     //如果分数为xxx. 的格式，自动处理，在末尾添加0
     score = calibrationScore(score)
     myRegExp.checkScoreFormat.lastIndex = 0;
-
-    let saveDataScore = [];//需要保存的分数数据
+    //需要保存的分数数据
+    let saveDataScore = [];
     if (score === '' || myRegExp.checkScoreFormat.test(score)) {
       topics && topics.forEach((topicType, topicTypeI) => {
-        let scoreIsSame = true//定义一个变量，判断是否当前设置的分数和其他所有题的分数都一样，如果一样，在【每题（多少）分那儿也同步分数】
+        //定义一个变量，判断是否当前设置的分数和其他所有题的分数都一样，如果一样，在【每题（多少）分那儿也同步分数】
+        let scoreIsSame = true
         topicType && topicType.questionList && topicType.questionList.forEach(topicItem => {
           //遍历查找需要设置分数的题，找到以后，直接设置分数
-          if (existArr(topicItem.materialQuestionList)) {//处理材料下单题的情况
+          if (existArr(topicItem.materialQuestionList)) {
+            //处理材料下单题的情况
             let currentMaterialScroce = 0;
             topicItem.materialQuestionList.map((item) => {
               if (topic.id === item.id) {
@@ -1044,7 +1081,8 @@ export default class PaperBoard extends Component {
                 }
                 item.isEdit = false
               } else {
-                scoreIsSame = item.score === score//如果遇到不同的分数，则说明存在不同的分数
+                //如果遇到不同的分数，则说明存在不同的分数
+                scoreIsSame = item.score === score
               }
               if (topicTypeIndex === item.serialNumber) {
                 scoreIsSame
@@ -1054,7 +1092,8 @@ export default class PaperBoard extends Component {
               currentMaterialScroce += Number(item.score);
             })
             topicItem.score = currentMaterialScroce;
-            if (singleTopic && topicItem && singleTopic.id == topicItem.id) {//设置分数 设置
+            if (singleTopic && topicItem && singleTopic.id == topicItem.id) {
+              //设置分数
               this.dealMaterialQuestionScore(topicItem)
             }
           } else {
@@ -1064,7 +1103,8 @@ export default class PaperBoard extends Component {
               }
               topicItem.isEdit = false
             } else {
-              scoreIsSame = topicItem.score === score//如果遇到不同的分数，则说明存在不同的分数
+              //如果遇到不同的分数，则说明存在不同的分数
+              scoreIsSame = topicItem.score === score
             }
           }
         })
@@ -1077,17 +1117,15 @@ export default class PaperBoard extends Component {
       this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics), () => {
         scoreTemp = undefined
       })
-      if (type == 1 || type == 2) {//表格时值改变不保存数据
+      if (type == 1 || type == 2) {
+        //表格时值改变不保存数据
         return;
       }
-
-      // console.log('saveDataScore===', saveDataScore)
       if (!existArr(saveDataScore)) {
         saveDataScore = [{ id: topic.id, tempId: topic.tempId, score }];
       }
-      this.saveScoreSetting(saveDataScore, true);//设置单个分保存
-
-      // this.saveScoreSetting([{ id: topic.id, tempId: topic.tempId, score }], true);//设置单个分保存
+      //设置单个分保存
+      this.saveScoreSetting(saveDataScore, true);
     } else {
       openNotificationWithIcon('warning', '设置失败！', 'rgba(0,0,0,.85)', '您当前输入的分数不合理（小数位后只能保留一位且是0或者5）', 3)
     }
@@ -1573,6 +1611,8 @@ export default class PaperBoard extends Component {
     const isClick = (name) => {
       return window.$PowerUtils.judgeButtonAuth(authButtonList, name)
     }
+
+    // 设置全卷分数
     const setScoreColumn = [
       {
         title: '题号',
@@ -1589,14 +1629,30 @@ export default class PaperBoard extends Component {
         key: 'knowNames',
         ellipsis: true,
         width: 300,
-        align: 'center'
+        align: 'center',
+        render(_, row) {
+          return {
+            children: row.knowNames,
+            props: {
+              rowSpan: row.rowSpan
+            }
+          }
+        }
       },
       {
         title: '难度',
         dataIndex: 'difficulty',
         key: 'difficulty',
         width: 100,
-        align: 'center'
+        align: 'center',
+        render(_, row) {
+          return {
+            children: row.difficulty,
+            props: {
+              rowSpan: row.rowSpan
+            }
+          }
+        }
       },
       {
         title: '分值',
@@ -1609,21 +1665,33 @@ export default class PaperBoard extends Component {
           return (
             record.isTopicTypeTitle
               ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
-                每题<InputNumber min={0} max={99} step={1} style={{ margin: '0 10px', width: 100 }}
-                  value={this.state[stateKeyName]}
-                  placeholder='分数'
-                  onChange={(value) => {
-                    const score = value
-                    this.setState({ [stateKeyName]: score, ...this.handleEveryTopicScoreAndReturnNewStateObj(record.topicTypeIndex, score) })
-                  }} />分
-              </div>
-              : <InputNumber min={0} max={99} step={1} style={{ width: 100 }}
-                placeholder="分数"
-                value={record.score}
-                onChange={value => {
-                  this.setScore(record, value, record.topicTypeIndex, 1)
-                }}
-              />
+                  每题
+                  <InputNumber
+                    min={0}
+                    max={99}
+                    step={1}
+                    style={{ margin: '0 10px', width: 100 }}
+                    value={this.state[stateKeyName]}
+                    placeholder='分数'
+                    onChange={(value) => {
+                      const score = value
+                      this.setState({
+                        [stateKeyName]: score,
+                        ...this.handleEveryTopicScoreAndReturnNewStateObj(record.topicTypeIndex, score)
+                      })
+                    }} />
+                  分
+                </div>
+              : <InputNumber
+                  min={0} 
+                  max={99}
+                  step={1}
+                  style={{ width: 100 }}
+                  placeholder="分数"
+                  value={record.score}
+                  onChange={value => {
+                    this.setScore(record, value, record.topicTypeIndex, 1)
+                  }} />
           )
         }
       },
@@ -1646,14 +1714,30 @@ export default class PaperBoard extends Component {
         key: 'knowName',
         ellipsis: true,
         width: 300,
-        align: 'center'
+        align: 'center',
+        render(_, row) {
+          return {
+            children: row.knowName,
+            props: {
+              rowSpan: row.rowSpan
+            }
+          }
+        }
       },
       {
         title: '难度',
         dataIndex: 'difficulty',
         key: 'difficulty',
         width: 100,
-        align: 'center'
+        align: 'center',
+        render(_, row) {
+          return {
+            children: row.difficulty,
+            props: {
+              rowSpan: row.rowSpan
+            }
+          }
+        }
       },
       {
         title: '分值',
@@ -1666,21 +1750,34 @@ export default class PaperBoard extends Component {
           return (
             record.isTopicTypeTitle
               ? <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
-                每题<InputNumber min={0} max={99} step={1} style={{ margin: '0 10px', width: 100 }}
-                  value={this.state[stateKeyName]}
-                  placeholder='分数'
-                  onChange={(value) => {
-                    const score = value
-                    this.setState({ [stateKeyName]: score, ...this.handleSingleEveryTopicScoreAndReturnNewStateObj(record.serialNumber, score) })
-                  }} />分
-              </div>
-              : <InputNumber min={0} max={99} step={1} style={{ width: 100 }}
-                placeholder="分数"
-                value={record.score}
-                onChange={value => {
-                  this.setScore(record, value, record.serialNumber, 2)
-                }}
-              />
+                  每题
+                  <InputNumber
+                    min={0}
+                    max={99}
+                    step={1}
+                    style={{ margin: '0 10px', width: 100 }}
+                    value={this.state[stateKeyName]}
+                    placeholder='分数'
+                    onChange={(value) => {
+                      const score = value
+                      this.setState({
+                        [stateKeyName]: score,
+                        ...this.handleSingleEveryTopicScoreAndReturnNewStateObj(record.serialNumber, score)
+                      })
+                    }} />
+                  分
+                </div>
+              : <InputNumber
+                  min={0}
+                  max={99}
+                  step={1}
+                  style={{ width: 100 }}
+                  placeholder="分数"
+                  value={record.score}
+                  onChange={value => {
+                    this.setScore(record, value, record.serialNumber, 2)
+                  }}
+                />
           )
         }
       },
@@ -2203,9 +2300,10 @@ export default class PaperBoard extends Component {
           >
             <div>
               <Table
-                dataSource={this.state.setScoreData}
+                dataSource={this.createMergedDataSourceList(this.state.setScoreData)}
                 pagination={false}
                 columns={setScoreColumn}
+                bordered
                 rowKey={"serialNumber"}
               />
             </div>
@@ -2222,9 +2320,10 @@ export default class PaperBoard extends Component {
           >
             <div>
               <Table
-                dataSource={singleTopic ? singleTopic.materialQuestionList || [] : []}
+                dataSource={this.createMergedDataSourceList(singleTopic ? singleTopic.materialQuestionList || [] : [])}
                 pagination={false}
                 columns={setSingleScoreColumn}
+                bordered
                 // rowKey={"serialNumber"}
                 rowKey={"sequenceCode"}
               />
