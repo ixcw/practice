@@ -1058,6 +1058,7 @@ export default class PaperBoard extends Component {
    * @param topicTypeIndex 当前小题所在的大题所在整张试卷数组的下标
    */
   setScore = (topic, score, topicTypeIndex, type) => {
+    debugger
     const { topics, singleTopic = {} } = this.state
     let topicTypeKeyName = `topicTypeInput-${topicTypeIndex}`
     //如果分数为xxx. 的格式，自动处理，在末尾添加0
@@ -1091,6 +1092,7 @@ export default class PaperBoard extends Component {
               }
               currentMaterialScroce += Number(item.score);
             })
+            // TODO 分数小于小项之和时进行提醒重置分数操作
             topicItem.score = currentMaterialScroce;
             if (singleTopic && topicItem && singleTopic.id == topicItem.id) {
               //设置分数
@@ -1125,6 +1127,105 @@ export default class PaperBoard extends Component {
         saveDataScore = [{ id: topic.id, tempId: topic.tempId, score }];
       }
       //设置单个分保存
+      this.saveScoreSetting(saveDataScore, true);
+    } else {
+      openNotificationWithIcon('warning', '设置失败！', 'rgba(0,0,0,.85)', '您当前输入的分数不合理（小数位后只能保留一位且是0或者5）', 3)
+    }
+  }
+
+  /**
+   * 设置小项分数
+   */
+  setSmallScore = (topic, score, topicTypeIndex, type) => {
+    const { topics, singleTopic = {} } = this.state
+    let topicTypeKeyName = `topicTypeInput-${topicTypeIndex}`
+    score = calibrationScore(score)
+    myRegExp.checkScoreFormat.lastIndex = 0
+    let saveDataScore = [];
+    const parentId = topic.parentId
+    let parentScore = null
+    let childrenScore = null
+    const childrenList = []
+    let tempScore = ''
+    let targetItem = null
+    if (myRegExp.checkScoreFormat.test(score)) {
+      topics && topics.forEach((topicType, topicTypeI) => {
+        let scoreIsSame = true
+        topicType && topicType.questionList && topicType.questionList.forEach(topicItem => {
+          if (existArr(topicItem.materialQuestionList)) {
+            let currentMaterialScroce = 0;
+            topicItem.materialQuestionList.map((item) => {
+              if (item.id === parentId) {
+                parentScore = item.score
+              }
+              if (item.parentId === parentId) {
+                childrenList.push(item)
+              }
+              if (topic.id === item.id) {
+                tempScore = item.score
+                targetItem = item
+                if (score !== '') item.score = score
+                item.isEdit = false
+              } else {
+                scoreIsSame = item.score === score
+              }
+              if (topicTypeIndex === item.serialNumber) {
+                scoreIsSame
+                  ? this.setState({ [topicTypeKeyName]: score })
+                  : this.setState({ [topicTypeKeyName]: '' })
+              }
+              currentMaterialScroce += Number(item.score)
+            })
+            if (!parentScore) {
+              openNotificationWithIcon('warning', '设置失败！', 'rgba(0,0,0,.85)', '设置小项分数前请先设置原题分数', 3)
+              if (targetItem) {
+                targetItem.score = tempScore
+                targetItem.isEdit = true
+              }
+              return
+            }
+            childrenScore = childrenList.reduce((acc, val) => {
+              const score = Number(val.score)
+              return acc + (isNaN(score) ? 0 : score)
+            }, 0)
+            if (childrenScore > parentScore) {
+              openNotificationWithIcon('warning', '设置失败！', 'rgba(0,0,0,.85)', '小项分数之和不可超过原题分数', 3)
+              if (targetItem) {
+                targetItem.score = tempScore
+                targetItem.isEdit = true
+              }
+              return
+            }
+            topicItem.score = currentMaterialScroce
+            if (singleTopic && topicItem && singleTopic.id == topicItem.id) {
+              this.dealMaterialQuestionScore(topicItem)
+            }
+          } else {
+            if (topic.id === topicItem.id) {
+              if (score !== '' && score != 0) {
+                topicItem.score = score;
+              }
+              topicItem.isEdit = false
+            } else {
+              scoreIsSame = topicItem.score === score
+            }
+          }
+        })
+        if (topicTypeIndex === topicTypeI) {
+          scoreIsSame
+            ? this.setState({ [topicTypeKeyName]: score })
+            : this.setState({ [topicTypeKeyName]: '' })
+        }
+      })
+      this.setState(this.handleTopicsAndReturnNewStateObj(this.state.topics), () => {
+        scoreTemp = undefined
+      })
+      if (type == 1 || type == 2) {
+        return;
+      }
+      if (!existArr(saveDataScore)) {
+        saveDataScore = [{ id: topic.id, tempId: topic.tempId, score }];
+      }
       this.saveScoreSetting(saveDataScore, true);
     } else {
       openNotificationWithIcon('warning', '设置失败！', 'rgba(0,0,0,.85)', '您当前输入的分数不合理（小数位后只能保留一位且是0或者5）', 3)
@@ -1767,7 +1868,19 @@ export default class PaperBoard extends Component {
                     }} />
                   分
                 </div>
-              : <InputNumber
+              : record.sequenceCode.includes('-') ?
+                <InputNumber
+                  min={0}
+                  max={99}
+                  step={1}
+                  style={{ width: 100 }}
+                  placeholder="分数"
+                  value={record.score}
+                  onChange={value => {
+                    this.setSmallScore(record, value, record.serialNumber, 2)
+                  }}
+                /> : 
+                <InputNumber
                   min={0}
                   max={99}
                   step={1}
