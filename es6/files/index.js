@@ -430,6 +430,8 @@ export default class PaperBoard extends Component {
     
     console.log('topics: ', topics);
 
+    // debugger
+
     topics.forEach((topicType, topicTypeIndex) => {
       let topicTypeTotalScore = 0//定义变量统计当前体型的分数
 
@@ -454,6 +456,7 @@ export default class PaperBoard extends Component {
             //將題目添加到记录表格中
             records.push({
               id: item.id,
+              parentId: item.parentId,
               tempId: item.tempId,
               serialNumber: item.serialNumber,
               sequenceCode: item.sequenceCode,
@@ -469,6 +472,7 @@ export default class PaperBoard extends Component {
           //將題目添加到记录表格中
           records.push({
             id: topic.id,
+            parentId: topic.parentId,
             tempId: topic.tempId,
             serialNumber: topic.serialNumber,
             sequenceCode: topic.sequenceCode,
@@ -492,6 +496,8 @@ export default class PaperBoard extends Component {
       })
       topicTypeTotalScores.push(topicTypeTotalScore)//将统计好的当前题型的总分添加到存放的数组中
     })
+    debugger
+    records = this.createMergedDataSourceList(records)
     return { setScoreData: records, topicsCount: qcount, totalScore: score, topicTypeTotalScores, topics }
   }
 
@@ -673,30 +679,44 @@ export default class PaperBoard extends Component {
    * @returns 合并数据源列表
    */
   createMergedDataSourceList = (dataSourceList) => {
-    let topEl = null
-    if (dataSourceList[0]?.isTopicTypeTitle) {
-      topEl = dataSourceList.shift()
-    }
-    const mergedDataSourceList = dataSourceList.reduce((acc, val) => {
-      const code = val.sequenceCode.split('-')[0]
-      if (acc.indexOf(code) < 0) {
-        acc.push(code)
+    debugger
+    const topicTypeList = []
+    const mergedDataSourceList = []
+    for (let i = dataSourceList.length - 1; i >=0; i--) {
+      if (dataSourceList[i]?.isTopicTypeTitle) {
+        topicTypeList.push({k: i, v: dataSourceList.splice(i, 1)})
       }
-      return acc
-    }, []).reduce((acc, code) => {
-      const children = dataSourceList.filter(item => {
-        const iCode = item.sequenceCode.split('-')[0]
-        return iCode === code
-      })
-      acc = acc.concat(
-        children.map((item, index) => ({
-          ...item,
-          rowSpan: index === 0 ? children.length : 0
-        }))
-      )
+    }
+    const topicGroupList = dataSourceList.reduce((acc, val) => {
+      if (!acc[val.topicTypeIndex]) acc[val.topicTypeIndex] = []
+      acc[val.topicTypeIndex].push(val)
       return acc
     }, [])
-    if (topEl) mergedDataSourceList.unshift(topEl)
+    topicGroupList.forEach(topicGroup => {
+      const mergedTopicGroupList = topicGroup.filter(item => {
+        return (!item.sequenceCode.includes('-') && !item.parentId)
+      }).reduce((acc, val) => {
+        const children = [val]
+        topicGroup.forEach(item => {
+          if (val.id === item.parentId) children.push(item)
+        })
+        acc = acc.concat(
+          children.map((item, index) => ({
+            ...item,
+            rowSpan: index === 0 ? children.length : 0
+          }))
+        )
+        return acc
+      }, [])
+      mergedDataSourceList.push(...mergedTopicGroupList)
+    })
+    mergedDataSourceList.sort((a, b) => a.serialNumber - b.serialNumber)
+    if (topicTypeList.length > 0) {
+      for (let i = topicTypeList.length - 1; i >= 0; i--) {
+        mergedDataSourceList.splice(topicTypeList[i].k, 0, topicTypeList[i].v)
+      }
+    }
+    this.setState({  })
     return mergedDataSourceList
   }
 
@@ -883,6 +903,7 @@ export default class PaperBoard extends Component {
     this.setState({ isShowSingleTopic: type == 2 || !type ? !!isShow : true }, () => {
       if (isShow) {
       } else if (type == 1) {
+        singleTopic.materialQuestionList = this.createMergedDataSourceList(singleTopic.materialQuestionList)
         let setScoreData = singleTopic.materialQuestionList && singleTopic.materialQuestionList.filter((item) => item.id);
         setScoreData = setScoreData && setScoreData.map((item) => {
           let itemJson = { ...item, id: item.id, tempId: item.tempId };
@@ -1058,7 +1079,7 @@ export default class PaperBoard extends Component {
    * @param topicTypeIndex 当前小题所在的大题所在整张试卷数组的下标
    */
   setScore = (topic, score, topicTypeIndex, type) => {
-    debugger
+    // debugger
     const { topics, singleTopic = {} } = this.state
     let topicTypeKeyName = `topicTypeInput-${topicTypeIndex}`
     //如果分数为xxx. 的格式，自动处理，在末尾添加0
@@ -2413,7 +2434,7 @@ export default class PaperBoard extends Component {
           >
             <div>
               <Table
-                dataSource={this.createMergedDataSourceList(this.state.setScoreData)}
+                dataSource={this.state.setScoreData}
                 pagination={false}
                 columns={setScoreColumn}
                 bordered
@@ -2433,7 +2454,7 @@ export default class PaperBoard extends Component {
           >
             <div>
               <Table
-                dataSource={this.createMergedDataSourceList(singleTopic ? singleTopic.materialQuestionList || [] : [])}
+                dataSource={singleTopic ? singleTopic.materialQuestionList || [] : []}
                 pagination={false}
                 columns={setSingleScoreColumn}
                 bordered
