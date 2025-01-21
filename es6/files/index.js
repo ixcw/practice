@@ -252,13 +252,13 @@ export default class PaperBoard extends Component {
     })
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-  //   const newTopics = nextProps.topicList
-  //   //当题目列表发生变化时，将最新的封装并同步到state
-  //   if (JSON.stringify(this.props.topicList) !== JSON.stringify(newTopics)) {
-  //     this.setState(this.handleTopicsAndReturnNewStateObj(newTopics))
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    const { topicList: prevTopicList } = prevProps
+    const { topicList: newTopicList } = this.props
+    if (JSON.stringify(prevTopicList) !== JSON.stringify(newTopicList)) {
+      this.setState(this.handleTopicsAndReturnNewStateObj(newTopicList))
+    }
+  }
 
   /**
  * 获取四要素列表-2020年12月30日加-张江-试题板设置参数
@@ -421,14 +421,14 @@ export default class PaperBoard extends Component {
     let topicTypeTotalScores = []
     let records = []//用于封装数据的，设置分数的弹框的所有题目记录
 
-    // 根据模板规则，分割小题或回收小题
+    // 根据模板规则，恢复小题或分割小题
     if (existArr(templateList)) {
       topics = this.restoreCategoryQuestionListByTemplate(topics, this.state.templateList)
     } else {
       topics = this.organizeCategoryQuestionList(topics, isOrganize)
     }
     
-    console.log('topics: ', topics);
+    console.log('topics: ', topics)
 
     // debugger
 
@@ -439,6 +439,7 @@ export default class PaperBoard extends Component {
       if (topicType.questionList && topicType.questionList.length > 0) {
         records.push({
           serialNumber: topicType.name,
+          sequenceCode: topicType.name,
           isTopicTypeTitle: true,
           topicTypeIndex,
         })
@@ -496,8 +497,6 @@ export default class PaperBoard extends Component {
       })
       topicTypeTotalScores.push(topicTypeTotalScore)//将统计好的当前题型的总分添加到存放的数组中
     })
-    debugger
-    records = this.createMergedDataSourceList(records)
     return { setScoreData: records, topicsCount: qcount, totalScore: score, topicTypeTotalScores, topics }
   }
 
@@ -538,6 +537,7 @@ export default class PaperBoard extends Component {
    * @param {*} questionList 题目列表
    */
   organizeQuestionListByParentId = (questionList) => {
+    // debugger
     const questionMap = new Map()
     questionList.forEach((question, index) => {
       question.childrenList = []
@@ -585,6 +585,7 @@ export default class PaperBoard extends Component {
    * @returns 分类题目列表
    */
   organizeCategoryQuestionList = (categoryQuestionList, isOrganize) => {
+    debugger
     if (isOrganize) {
       categoryQuestionList.forEach(categoryQuestion => {
         const questionList = categoryQuestion.questionList
@@ -679,10 +680,10 @@ export default class PaperBoard extends Component {
    * @returns 合并数据源列表
    */
   createMergedDataSourceList = (dataSourceList) => {
-    debugger
+    // debugger
     const topicTypeList = []
     const mergedDataSourceList = []
-    for (let i = dataSourceList.length - 1; i >=0; i--) {
+    for (let i = dataSourceList.length - 1; i >= 0; i--) {
       if (dataSourceList[i]?.isTopicTypeTitle) {
         topicTypeList.push({k: i, v: dataSourceList.splice(i, 1)})
       }
@@ -716,7 +717,6 @@ export default class PaperBoard extends Component {
         mergedDataSourceList.splice(topicTypeList[i].k, 0, topicTypeList[i].v)
       }
     }
-    this.setState({  })
     return mergedDataSourceList
   }
 
@@ -859,39 +859,28 @@ export default class PaperBoard extends Component {
    * @param isShow
    */
   toggleScoreModalState = (isShow, type) => {
-    // const { dispatch } = this.props
     this.setState({ setScoreModalIsShow: type == 2 || !type ? !!isShow : true }, () => {
+      // debugger
       const returnData = this.handleTopicsAndReturnNewStateObj(this.state.topics) || {}
-      if (isShow) {
-      } else if (type == 1) {
-        let setScoreData = returnData.setScoreData && returnData.setScoreData.filter((item) => item.id);
-
-        // console.log('setScoreData===', setScoreData)
+      if (type == 1) {
+        let setScoreData = returnData.setScoreData && returnData.setScoreData.filter((item) => item.id)
         let tempSetScoreData = []
         setScoreData && setScoreData.map((topic) => {
-          if (existArr(topic.materialQuestionList)) {//获取材料下子题的id 并处理分数
-            const tempScore = save2NumAfterPoint(Number(topic.score) / topic.materialQuestionList.length, 1);
+          //获取材料下子题的id 并处理分数
+          if (existArr(topic.materialQuestionList)) {
+            const tempScore = save2NumAfterPoint(Number(topic.score) / topic.materialQuestionList.length, 1)
             topic.materialQuestionList.map((item) => {
-              let itemJson = { ...item, id: item.id, tempId: item.tempId, score: tempScore };
+              let itemJson = { ...item, id: item.id, tempId: item.tempId, score: tempScore }
               tempSetScoreData.push(itemJson)
             })
           } else {
             tempSetScoreData.push(topic)
           }
         })
-        // console.log('tempSetScoreData===', tempSetScoreData)
         this.saveScoreSetting(tempSetScoreData, false);
-
-        // this.saveScoreSetting(setScoreData, false);
-      }
-      if (type == 2) {
-        // dispatch({
-        //   type: namespace + '/getGroupCenterPaperBoard',
-        // })
       }
     })
   }
-
 
   /**
  * 打开/关闭   设置材料下单个题的分数的弹框
@@ -1335,9 +1324,9 @@ export default class PaperBoard extends Component {
   }
 
   /**
- * 处理材料下题目的分数
- * @param question ：题目信息
- */
+   * 处理材料下题目的分数
+   * @param question ：题目信息
+   */
   dealMaterialQuestionScore = (question) => {
     if (existArr(question.materialQuestionList)) {
       const categoryName = question.materialQuestionList[0].categoryName || '材料题'
@@ -1432,12 +1421,14 @@ export default class PaperBoard extends Component {
 		// 	this.refs.paperNameInput.state.value = undefined
 		// }, 0)
 
-    let noScoreTopics = []//定义数组，存放所有没有设置分数的题目序号
+    //定义数组，存放所有没有设置分数的题目序号
+    let noScoreTopics = []
     //遍历数据，封装参数
     let topicList = []
     topics && topics.forEach(topicType => {
       topicType.questionList && topicType.questionList.forEach(topic => {
-        if (existArr(topic.materialQuestionList)) {//获取材料下子题的id 并处理分数
+        if (existArr(topic.materialQuestionList)) {
+          //获取材料下子题的id 并处理分数
           topic.materialQuestionList.map((item) => {
             if (item.id !== null && item.id !== undefined && item.id !== '' && item.score !== null && item.score !== undefined && item.score !== '' && item.score != 0) {
               topicList.push({
@@ -1612,10 +1603,10 @@ export default class PaperBoard extends Component {
   // }
 
   /**
- * 保存分数设置
- *@scoreData :已设置保存分数的对象
- *@isSingle :是否单个设置，true，单个，false：多个
- */
+   * 保存分数设置
+   * @scoreData :已设置保存分数的对象
+   * @isSingle :是否单个设置，true，单个，false：多个
+   */
   saveScoreSetting = (scoreData = [], isSingle) => {
     const { dispatch } = this.props;
     let isHaveScore = false;
@@ -1925,6 +1916,7 @@ export default class PaperBoard extends Component {
     return (
       <Page header={header} loading={!!loading}>
         <div className={classString}>
+          {/*主内容*/}
           <div className={styles.main}>
             {/* <div className={styles.mainTop}>
               <div className={styles.filterTopicType}>
@@ -1947,31 +1939,38 @@ export default class PaperBoard extends Component {
             </div> */}
             <ul className={styles.content}>
               {
-                topics.length > 0
-                  ? topics.map((topicType, topicTypeIndex) => (
+                topics.length > 0 ?
+                  topics.map((topicType, topicTypeIndex) => (
                     <li key={topicTypeIndex}>
                       <div className={styles.mainContenTtitle}>
-                        <div className={styles.topicTypeTitle}> {
-                          topicType.name
-                            ? `${uppercaseNum(topicTypeIndex + 1)}、${topicType.name}`
-                            : "未知题型"}
+                        <div className={styles.topicTypeTitle}>
+                          { topicType.name ? `${uppercaseNum(topicTypeIndex + 1)}、${topicType.name}` : "未知题型" }
                           （共{calQuestionNum(topicType.questionList)}题；共{topicTypeTotalScores[topicTypeIndex]}分）
-                        </div >
-                        <div className={styles.questionTypeSort}> {isClick('上移') ?
-                          <span onClick={_ => this.moveTopicType(topicType, -1)}><IconFont type="icon-moveUp" />上移
-                          </span> : null}
-                          {isClick('下移') ?
-                            <span onClick={_ => this.moveTopicType(topicType, 1)}><IconFont type="icon-moveDown" />下移
-                            </span> : null}</div>
+                        </div>
+                        <div className={styles.questionTypeSort}>
+                          {
+                            isClick('上移') ?
+                              <span onClick={_ => this.moveTopicType(topicType, -1)}>
+                                <IconFont type="icon-moveUp" />上移
+                              </span> : null
+                          }
+                          {
+                            isClick('下移') ?
+                              <span onClick={_ => this.moveTopicType(topicType, 1)}>
+                                <IconFont type="icon-moveDown" />下移
+                              </span> : null
+                          }
+                        </div>
                       </div>
                       <ul className={styles.topics}>
                         {
-                          topicType.questionList && topicType.questionList.length > 0
-                            ? topicType.questionList.map((topic, index) => {
+                          topicType.questionList && topicType.questionList.length > 0 ?
+                            topicType.questionList.map((topic, index) => {
                               topic.category = topicType.category;
                               topic.categoryName = topicType.name;
                               return (
-                                <li className={`${styles.topicItem} ${topic.isSelected ? styles.selected : ''}`}
+                                <li 
+                                  className={`${styles.topicItem} ${topic.isSelected ? styles.selected : ''}`}
                                   key={index}
                                   id={`question${topic.id}`}
                                 >
@@ -1979,19 +1978,21 @@ export default class PaperBoard extends Component {
                                     <div className={styles.topicContent}>
                                       {
                                         RenderMaterialAndQuestion(topic, false, (RAQItem) => {
-                                          return (<TopicContent topicContent={RAQItem}
-                                            optionsFiledName='optionList'
-                                            optionIdFiledName="code"
-                                            contentFiledName='content'
-                                            childrenFiledName='child'
-                                            currentPage={1}
-                                            pageSize={topicsCount}
-                                            currentTopicIndex={(RAQItem.serialNumber || RAQItem.serialCode || Number(RAQItem.questionNum)) - 1}
-                                          />)
-                                        },
-                                          (RAQItem) => {
+                                            return (
+                                              <TopicContent
+                                                topicContent={RAQItem}
+                                                optionsFiledName='optionList'
+                                                optionIdFiledName="code"
+                                                contentFiledName='content'
+                                                childrenFiledName='child'
+                                                currentPage={1}
+                                                pageSize={topicsCount}
+                                                currentTopicIndex={(RAQItem.serialNumber || RAQItem.serialCode || Number(RAQItem.questionNum)) - 1}
+                                              />
+                                            )
+                                          }, (RAQItem) => {
                                             return <ParametersArea QContent={RAQItem} comePage={''} />;
-                                          },
+                                          }
                                         )
                                       }
                                       {/* 材料部分 */}
@@ -2014,7 +2015,9 @@ export default class PaperBoard extends Component {
                                     {/*信息列表*/}
                                     <ul className={styles.info} style={{ paddingLeft: '0px' }}>
                                       {/* <li>难度： <span>{topic.difficulty || '暂无'}</span></li> */}
-                                      <li>使用次数： <span>{topic.useNumber || 0}</span></li>
+                                      <li>
+                                        使用次数：<span>{topic.useNumber || 0}</span>
+                                      </li>
                                     </ul>
                                     {/*交互列表*/}
                                     <ul className={styles.interactive}>
@@ -2022,38 +2025,44 @@ export default class PaperBoard extends Component {
                                       isClick('设置参数') && !topic.abilityIds ? <li onClick={_ => {
                                         this.handleSetParameterModal(true, topic)
                                       }}><IconFont type="icon-bianji" />设置参数</li> : null} */}
-
-                                      {//-2021年03月10日加-张江-试题板添加测评目标
-                                        isClick('测评目标') ? <li onClick={() => { this.evalTargetRef.handleOnOrOff(true, topic) }}>
-                                          <IconFont type="icon-cepingmubiao" /> 测评目标</li>
-                                          : null}
-
-                                      {//-2021年02月04日加-张江-试题板添加上传微课
+                                      {
+                                        //-2021年03月10日加-张江-试题板添加测评目标
+                                        isClick('测评目标') ?
+                                          <li onClick={() => { this.evalTargetRef.handleOnOrOff(true, topic) }}>
+                                            <IconFont type="icon-cepingmubiao" /> 测评目标
+                                          </li> : null
+                                      }
+                                      {
+                                        //-2021年02月04日加-张江-试题板添加上传微课
                                         isClick('上传微课') ? <li onClick={_ => {
                                           pushNewPage({ questionId: topic.id, dataId: topic.dataId, }, '/question-detail', dispatch)
-                                        }}><IconFont type="icon-shangchuanweike" />上传微课</li>
-                                          : null}
-
-                                      {//2021年05月07日加-张江-试题板纠错
+                                        }}><IconFont type="icon-shangchuanweike" /> 上传微课</li> : null
+                                      }
+                                      {
+                                        //2021年05月07日加-张江-试题板纠错
                                         isClick('纠错') ?
                                           <li onClick={() => this.openErrorCorrection(topic.id)}>
-                                            <IconFont type={'icon-jiucuo'} />
-                                            纠错
-                                          </li>
-                                          :
-                                          null
+                                            <IconFont type={'icon-jiucuo'} /> 纠错
+                                          </li> : null
                                       }
-                                      {//-2021年02月01日加-张江-试题板相似题匹配
-                                        isClick('相似题匹配') ? <li onClick={_ => {
-                                          this.handleWrongQuestionMatchModal(true, topic)
-                                        }}><IconFont type="icon-icon_hailiangmingdanpipei" /> 相似题匹配</li>
-                                          : null}
-
                                       {
-                                        topic.isEdit
-                                          ?
+                                        //-2021年02月01日加-张江-试题板相似题匹配
+                                        isClick('相似题匹配') ? 
+                                          <li onClick={_ => {this.handleWrongQuestionMatchModal(true, topic)}}>
+                                            <IconFont type="icon-icon_hailiangmingdanpipei" /> 相似题匹配
+                                          </li> : null
+                                      }
+                                      {
+                                        topic.isEdit ?
                                           <li className={styles.isEdit}>
-                                            <InputNumber defaultValue={topic.score} min={0} max={99} step={1} style={{ width: 160 }} autoFocus={true} placeholder={"输入此题分数"}
+                                            <InputNumber
+                                              defaultValue={topic.score}
+                                              min={0}
+                                              max={99}
+                                              step={1}
+                                              style={{ width: 160 }}
+                                              autoFocus={true}
+                                              placeholder={"输入此题分数"}
                                               onFocus={(e) => {
                                                 let { topics } = this.state
                                                 //当当前文本框获取焦点时，在数据中找到当前的分数，设置到scoreTemp变量中
@@ -2080,63 +2089,84 @@ export default class PaperBoard extends Component {
                                               }}
                                               onBlur={e => {
                                                 this.setScore(topic, e.target.value, topicTypeIndex)
-                                              }} />
-                                          </li>
-                                          : topic.score
-                                            ? <li onClick={_ => {
-                                              this.toggleEditState(topic)
-                                            }}><IconFont type="icon-setScore" />分数: <span
-                                              style={{ fontWeight: 'bold' }}>{topic.score}</span>
-                                            </li>
-                                            :
-                                            (isClick('设置分数') ? <li onClick={_ => {
-                                              this.toggleEditState(topic)
-                                            }}><IconFont type="icon-setScore" />设置分数</li> : null)
+                                              }}
+                                            />
+                                          </li> :
+                                            topic.score ?
+                                              <li onClick={_ => {this.toggleEditState(topic)}}>
+                                                <IconFont type="icon-setScore" /> 分数: 
+                                                <span style={{ fontWeight: 'bold' }}>{topic.score}</span>
+                                              </li> :
+                                              (
+                                                isClick('设置分数') ?
+                                                  <li onClick={_ => {this.toggleEditState(topic)}}>
+                                                    <IconFont type="icon-setScore" />设置分数
+                                                  </li> : null
+                                              )
                                       }
-                                      {isClick('换一题') ? <li onClick={_ => {
-                                        this.toggleTopicModalState(true, topic)
-                                      }}><IconFont type="icon-switch" />换一题</li> : null}
-                                      {isClick('收藏') ? <li
-                                        onClick={_ => {
-                                          let { collectedTopics } = this.state
-                                          topic.collect || collectedTopics.indexOf(topic.id) !== -1
-                                            ?
-                                            this.collectTopic(topic.id, false)
-                                            :
-                                            this.collectTopic(topic.id, true)
-                                        }}>
-                                        {
-                                          topic.collect || this.state.collectedTopics.indexOf(topic.id) !== -1 ?
-                                            <HeartFilled style={{ color: "rgba(230,30,30,0.73)" }} /> :
-                                            <HeartOutlined />
-                                        }
-                                        收藏
-                                      </li> : null}
-                                      {isClick('上移') ?
-                                        <li onClick={_ => this.moveTopic(topic, -1)}><IconFont type="icon-moveUp" />上移
-                                        </li> : null}
-                                      {isClick('下移') ?
-                                        <li onClick={_ => this.moveTopic(topic, 1)}><IconFont type="icon-moveDown" />下移
-                                        </li> : null}
-                                      {isClick('移除') ? <li onClick={_ => {
-                                        // this.removeTopic(topic.id, topic.category)
-                                        this.removeTopic(topic.id, topic.tempId, topic.category)
-                                      }}><IconFont type="icon-remove" />移除</li> : null}
+                                      {
+                                        isClick('换一题') ? 
+                                          <li onClick={_ => {this.toggleTopicModalState(true, topic)}}>
+                                            <IconFont type="icon-switch" />换一题
+                                          </li> : null
+                                      }
+                                      {
+                                        isClick('收藏') ?
+                                          <li
+                                            onClick={_ => {
+                                              let { collectedTopics } = this.state
+                                              topic.collect || collectedTopics.indexOf(topic.id) !== -1 ?
+                                                this.collectTopic(topic.id, false) :
+                                                this.collectTopic(topic.id, true)
+                                            }}
+                                          >
+                                            {
+                                              topic.collect || this.state.collectedTopics.indexOf(topic.id) !== -1 ?
+                                                <HeartFilled style={{ color: "rgba(230,30,30,0.73)" }} /> :
+                                                <HeartOutlined />
+                                            }
+                                            收藏
+                                          </li> : null
+                                      }
+                                      {
+                                        isClick('上移') ?
+                                          <li onClick={_ => this.moveTopic(topic, -1)}>
+                                            <IconFont type="icon-moveUp" />上移
+                                          </li> : null
+                                      }
+                                      {
+                                        isClick('下移') ?
+                                          <li onClick={_ => this.moveTopic(topic, 1)}>
+                                            <IconFont type="icon-moveDown" />下移
+                                          </li> : null
+                                      }
+                                      {
+                                        isClick('移除') ?
+                                          <li onClick={_ => {this.removeTopic(topic.id, topic.tempId, topic.category)}}>
+                                            <IconFont type="icon-remove" />移除
+                                          </li> : null
+                                      }
                                     </ul>
                                   </div>
                                 </li>
                               )
-                            })
-                            : <Empty description={topicType.name ? `还未添加任何【${topicType.name}】类型的题` : "还未添加任何相关题目"} />
+                            }) :
+                            <Empty 
+                              description={
+                                topicType.name ? 
+                                  `还未添加任何【${topicType.name}】类型的题` : 
+                                  "还未添加任何相关题目"
+                              } 
+                            />
                         }
                       </ul>
                     </li>
-                  ))
-                  : <Empty description={'您还未添加任何题目'} />
+                  )) : <Empty description={'您还未添加任何题目'} />
               }
             </ul>
           </div>
 
+          {/*试题板操作*/}
           <div className={styles.right}>
             <div className={styles.title}>试题板操作</div>
             <div className={styles.mainTop}>
@@ -2209,9 +2239,6 @@ export default class PaperBoard extends Component {
                     <div>总题数 <span>{topicsCount}</span> 题</div>
                     <div>总分数 <span>{totalScore}</span> 分</div>
                   </div>
-                  {/* <div className={styles.optAreaBottomRight}
-                    onClick={() => this.toggleScoreModalState(true)}>设置全卷分数
-                  </div> */}
                 </div>
               </div>
               <div className={styles.topicNavWrap}>
@@ -2220,36 +2247,54 @@ export default class PaperBoard extends Component {
                     ? topics.map((topicType, topicTypeIndex) => (
                       <div className={styles.topicNav} key={topicTypeIndex}>
                         <div className={styles.topicTypeTitle}>
-                          <span>  {
-                            topicType.name
-                              ? `${uppercaseNum(topicTypeIndex + 1)}、${topicType.name}`
-                              : "未知题型"}</span>
-                          {isClick('上移') ?
-                            <span onClick={_ => this.moveTopicType(topicType, -1)}><IconFont type="icon-moveUp" />上移
-                            </span> : null}
-                          {isClick('下移') ?
-                            <span onClick={_ => this.moveTopicType(topicType, 1)}><IconFont type="icon-moveDown" />下移
-                            </span> : null}
+                          <span>
+                            {
+                              topicType.name ?
+                                `${uppercaseNum(topicTypeIndex + 1)}、${topicType.name}` : "未知题型"
+                            }
+                          </span>
+                          {
+                            isClick('上移') ?
+                              <span onClick={_ => this.moveTopicType(topicType, -1)}>
+                                <IconFont type="icon-moveUp" />上移
+                              </span> : null
+                          }
+                          {
+                            isClick('下移') ?
+                              <span onClick={_ => this.moveTopicType(topicType, 1)}>
+                                <IconFont type="icon-moveDown" />下移
+                              </span> : null
+                          }
                         </div>
                         <ul>
                           {
-                            topicType.questionList && topicType.questionList.length > 0
-                              ? topicType.questionList.map((topic, index) => {
-                                if (existArr(topic.materialQuestionList)) {//获取材料下子题的id 并处理分数
+                            topicType.questionList && topicType.questionList.length > 0 ?
+                              topicType.questionList.map((topic, index) => {
+                                //获取材料下子题的id 并处理分数
+                                if (existArr(topic.materialQuestionList)) {
                                   return topic.materialQuestionList.map((item) => {
                                     return (
-                                      <li key={item.id} className={topic.isSelected ? styles.selected : ''}
-                                        onClick={() => this.selectTopic(topic.id, `question${topic.id}`)}>{item.serialNumber}</li>
+                                      <li
+                                        key={item.id}
+                                        className={topic.isSelected ? styles.selected : ''}
+                                        onClick={() => this.selectTopic(topic.id, `question${topic.id}`)}
+                                      >
+                                        {item.serialNumber}
+                                      </li>
                                     )
                                   })
                                 } else {
                                   return (
-                                    <li key={topic.id} className={topic.isSelected ? styles.selected : ''}
-                                      onClick={() => this.selectTopic(topic.id, `question${topic.id}`)}>{topic.serialNumber}</li>
+                                    <li
+                                      key={topic.id}
+                                      className={topic.isSelected ? styles.selected : ''}
+                                      onClick={() => this.selectTopic(topic.id, `question${topic.id}`)}
+                                    >
+                                      {topic.serialNumber}
+                                    </li>
                                   )
                                 }
-                              })
-                              : <Empty style={{ padding: "10px" }} description={'您还未添加任何题目'} />
+                              }) : <Empty style={{ padding: "10px" }} description={'您还未添加任何题目'} />
                           }
                         </ul>
                       </div>
@@ -2259,8 +2304,7 @@ export default class PaperBoard extends Component {
               </div>
             </div>
           </div>
-
-          {/*  换一题弹框*/}
+          {/*换一题弹框*/}
           <Modal
             className="toggleTopicModal"
             width={"80%"}
@@ -2366,7 +2410,7 @@ export default class PaperBoard extends Component {
               </div>
             </Spin>
           </Modal>
-          {/*  组题分析弹框*/}
+          {/*组题分析弹框*/}
           {
             combinationAnalysisModalIsShow ?
               <TopicGroupAnalysis
@@ -2423,7 +2467,7 @@ export default class PaperBoard extends Component {
               </div>
             </Spin>
           </Modal> */}
-          {/*  设置分数弹框*/}
+          {/*设置全卷分数弹框*/}
           <Modal
             className='setScoreModal'
             width='60%'
@@ -2442,8 +2486,7 @@ export default class PaperBoard extends Component {
               />
             </div>
           </Modal>
-
-          {/*  设置材料下单个分数弹框*/}
+          {/*设置材料下单个分数弹框*/}
           <Modal
             className='setScoreModal'
             width='60%'
