@@ -1,0 +1,88 @@
+{
+  "paperId": 10687,
+  "stuName": 1,
+  "stuClass": 1,
+  "stuNum": 1,
+  "stuNameId": 1,
+  "stuClassId": 2,
+  "stuNumId": 3,
+  "font": "仿宋",
+  "wordSize": "16号",
+  "composeType": "竖排",
+  "alignment": "居中",
+  "sealLine": "虚线显示",
+  "questionInfoList": [
+    {
+      "id": 7521470,
+      "paperDetailId": null,
+      "questionId": 7521470,
+      "reviewType": "1",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1"
+    },
+    {
+      "id": 7521471,
+      "paperDetailId": null,
+      "questionId": 7521471,
+      "reviewType": "1",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1"
+    },
+    {
+      "id": 7521472,
+      "paperDetailId": null,
+      "questionId": 7521472,
+      "reviewType": "1",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1"
+    },
+    {
+      "id": 7521473,
+      "paperDetailId": null,
+      "questionId": 7521473,
+      "reviewType": "1",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1"
+    },
+    {
+      "id": 7521474,
+      "paperDetailId": null,
+      "questionId": 7521474,
+      "reviewType": "2",
+      "height": "199",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "4"
+    },
+    {
+      "id": 7521476,
+      "paperDetailId": null,
+      "questionId": 7521476,
+      "reviewType": "2",
+      "height": "199",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "4"
+    }
+  ],
+  "templatePageSets": [
+    { "id": 244, "paperTempId": null, "seqNo": 1, "pageSetId": "1", "pageSetName": "跨页时，答题区域自动分页至下一页", "updateTime": null },
+    { "id": 245, "paperTempId": null, "seqNo": 2, "pageSetId": "2", "pageSetName": "跨页时，答题区域自动分割在两页", "updateTime": null },
+    {
+      "id": 246,
+      "paperTempId": null,
+      "seqNo": 3,
+      "pageSetId": "3",
+      "pageSetName": "跨页时，题目、批阅区域、答题区域自动分页至下一页",
+      "updateTime": null
+    }
+  ]
+}

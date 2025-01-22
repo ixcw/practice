@@ -423,7 +423,7 @@ export default class PaperBoard extends Component {
 
     // 根据模板规则，恢复小题或分割小题
     if (existArr(templateList)) {
-      topics = this.restoreCategoryQuestionListByTemplate(topics, this.state.templateList)
+      topics = this.restoreCategoryQuestionListByTemplate(topics, templateList)
     } else {
       topics = this.organizeCategoryQuestionList(topics, isOrganize)
     }
@@ -497,6 +497,7 @@ export default class PaperBoard extends Component {
       })
       topicTypeTotalScores.push(topicTypeTotalScore)//将统计好的当前题型的总分添加到存放的数组中
     })
+    records = this.createMergedDataSourceList(records)
     return { setScoreData: records, topicsCount: qcount, totalScore: score, topicTypeTotalScores, topics }
   }
 
@@ -535,14 +536,30 @@ export default class PaperBoard extends Component {
   /**
    * 通过 parentId 组织题目列表
    * @param {*} questionList 题目列表
+   * @param {*} qCount 题目计数
    */
-  organizeQuestionListByParentId = (questionList) => {
+  organizeQuestionListByParentId = (questionList, qCount) => {
     // debugger
     const questionMap = new Map()
-    questionList.forEach((question, index) => {
-      question.childrenList = []
-      question.sequenceCode = `${index + 1}`
+    function organizeMaterialQuestionList(materialQuestionList, qCount) {
+      if (existArr(materialQuestionList)) {
+        this.organizeQuestionListByParentId(materialQuestionList, qCount)
+        materialQuestionList.forEach(materialQuestion => {
+          if (existArr(materialQuestion.materialQuestionList)) {
+            qCount = organizeMaterialQuestionList(materialQuestion.materialQuestionList, qCount)
+          }
+        })
+      }
+      return qCount
+    }
+    questionList.forEach(question => {
       questionMap.set(question.id, question)
+      question.childrenList = []
+      if (existArr(question.materialQuestionList)) {
+        qCount = organizeMaterialQuestionList(question.materialQuestionList, qCount)
+      } else {
+        if (!question.parentId) question.sequenceCode = `${++qCount}`
+      }
     })
     for (let i = questionList.length -1; i >= 0; i--) {
       if (questionList[i].parentId) {
@@ -564,21 +581,6 @@ export default class PaperBoard extends Component {
   }
   
   /**
-   * 组织材料题目列表
-   * @param {*} materialQuestionList 材料题目列表
-   */
-  organizeMaterialQuestionList = (materialQuestionList) => {
-    if (existArr(materialQuestionList)) {
-      this.organizeQuestionListByParentId(materialQuestionList)
-      materialQuestionList.forEach(materialQuestion => {
-        if (existArr(materialQuestion.materialQuestionList)) {
-          this.organizeMaterialQuestionList(materialQuestion.materialQuestionList)
-        }
-      })
-    }
-  }
-  
-  /**
    * 组织分类题目列表
    * @param {*} categoryQuestionList 分类题目列表
    * @param {*} isOrganize 是否组织
@@ -587,16 +589,11 @@ export default class PaperBoard extends Component {
   organizeCategoryQuestionList = (categoryQuestionList, isOrganize) => {
     debugger
     if (isOrganize) {
+      const qCount = 0
       categoryQuestionList.forEach(categoryQuestion => {
         const questionList = categoryQuestion.questionList
         if (existArr(questionList)) {
-          this.organizeQuestionListByParentId(questionList)
-          questionList.forEach(question => {
-            const materialQuestionList = question.materialQuestionList
-            if (existArr(materialQuestionList)) {
-              this.organizeMaterialQuestionList(materialQuestionList)
-            }
-          })
+          this.organizeQuestionListByParentId(questionList, qCount)
         }
       })
     }
@@ -681,6 +678,8 @@ export default class PaperBoard extends Component {
    */
   createMergedDataSourceList = (dataSourceList) => {
     // debugger
+    const hasSequenceCode = dataSourceList.every(el => el.sequenceCode)
+    if (!hasSequenceCode) return dataSourceList
     const topicTypeList = []
     const mergedDataSourceList = []
     for (let i = dataSourceList.length - 1; i >= 0; i--) {
