@@ -1,5 +1,5 @@
 {
-  "paperId": 5186,
+  "paperId": 5187,
   "stuName": 1,
   "stuClass": 1,
   "stuNum": 1,
@@ -14,7 +14,7 @@
   "questionInfoList": [
     {
       "id": 61,
-      "paperDetailId": 84547,
+      "paperDetailId": 84573,
       "questionId": 7465297,
       "reviewType": "1",
       "height": "110.0",
@@ -24,7 +24,7 @@
     },
     {
       "id": 61,
-      "paperDetailId": 84548,
+      "paperDetailId": 84574,
       "questionId": 7465298,
       "reviewType": "1",
       "height": "110.0",
@@ -34,7 +34,7 @@
     },
     {
       "id": 61,
-      "paperDetailId": 84549,
+      "paperDetailId": 84575,
       "questionId": 7465303,
       "reviewType": "1",
       "height": "110.0",
@@ -44,7 +44,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84550,
+      "paperDetailId": 84576,
       "questionId": 7465291,
       "reviewType": "3",
       "height": "110.0",
@@ -54,7 +54,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84551,
+      "paperDetailId": 84577,
       "questionId": 7465317,
       "reviewType": "3",
       "height": "110.0",
@@ -64,7 +64,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84552,
+      "paperDetailId": 84578,
       "questionId": 7465318,
       "reviewType": "3",
       "height": "110.0",
@@ -74,7 +74,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84553,
+      "paperDetailId": 84579,
       "questionId": 7465319,
       "reviewType": "3",
       "height": "110.0",
@@ -84,7 +84,17 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84554,
+      "paperDetailId": 84580,
+      "questionId": 7465292,
+      "reviewType": "3",
+      "height": "110.0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1"
+    },
+    {
+      "id": 62,
+      "paperDetailId": 84581,
       "questionId": 7465365,
       "reviewType": "3",
       "height": "110.0",
@@ -94,7 +104,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84555,
+      "paperDetailId": 84582,
       "questionId": 7465368,
       "reviewType": "3",
       "height": "110.0",
@@ -104,7 +114,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84556,
+      "paperDetailId": 84583,
       "questionId": 7465369,
       "reviewType": "3",
       "height": "110.0",
@@ -114,7 +124,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84557,
+      "paperDetailId": 84584,
       "questionId": 7465366,
       "reviewType": "3",
       "height": "110.0",
@@ -124,7 +134,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84558,
+      "paperDetailId": 84585,
       "questionId": 7465370,
       "reviewType": "3",
       "height": "110.0",
@@ -134,7 +144,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84559,
+      "paperDetailId": 84586,
       "questionId": 7465371,
       "reviewType": "3",
       "height": "110.0",
@@ -144,7 +154,7 @@
     },
     {
       "id": 62,
-      "paperDetailId": 84560,
+      "paperDetailId": 84587,
       "questionId": 7465367,
       "reviewType": "3",
       "height": "110.0",
@@ -154,7 +164,17 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84561,
+      "paperDetailId": 84588,
+      "questionId": 4318786,
+      "reviewType": "3",
+      "height": "110.0",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "1"
+    },
+    {
+      "id": 65,
+      "paperDetailId": 84589,
       "questionId": 7465307,
       "reviewType": "3",
       "height": "110.0",
@@ -164,7 +184,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84562,
+      "paperDetailId": 84590,
       "questionId": 7465308,
       "reviewType": "3",
       "height": "110.0",
@@ -174,7 +194,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84563,
+      "paperDetailId": 84591,
       "questionId": 7465320,
       "reviewType": "3",
       "height": "110.0",
@@ -184,7 +204,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84564,
+      "paperDetailId": 84592,
       "questionId": 7465321,
       "reviewType": "3",
       "height": "110.0",
@@ -194,7 +214,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84565,
+      "paperDetailId": 84593,
       "questionId": 7465322,
       "reviewType": "3",
       "height": "110.0",
@@ -204,7 +224,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84566,
+      "paperDetailId": 84594,
       "questionId": 7465323,
       "reviewType": "3",
       "height": "110.0",
@@ -214,7 +234,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84567,
+      "paperDetailId": 84595,
       "questionId": 7465309,
       "reviewType": "3",
       "height": "110.0",
@@ -224,7 +244,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84568,
+      "paperDetailId": 84596,
       "questionId": 7465324,
       "reviewType": "3",
       "height": "110.0",
@@ -234,7 +254,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84569,
+      "paperDetailId": 84597,
       "questionId": 7465325,
       "reviewType": "3",
       "height": "110.0",
@@ -244,7 +264,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84570,
+      "paperDetailId": 84598,
       "questionId": 7465326,
       "reviewType": "3",
       "height": "110.0",
@@ -254,7 +274,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84571,
+      "paperDetailId": 84599,
       "questionId": 7465310,
       "reviewType": "3",
       "height": "110.0",
@@ -264,7 +284,7 @@
     },
     {
       "id": 65,
-      "paperDetailId": 84572,
+      "paperDetailId": 84600,
       "questionId": 7465311,
       "reviewType": "3",
       "height": "110.0",
