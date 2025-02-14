@@ -1,0 +1,44 @@
+<%# 题目详情 %>
+<% if (question.questionData) { %>
+    <p><%- question.no %> <%- question.questionData.content %></p>
+    <% if(question.questionList && question.questionList.length > 0){ %>
+        <% question.questionList.forEach(function(q){ %>
+            <% q.isChild = true %>
+                <div id="<% -q.id %>" type="1" data-op-type="mix-box">
+                    <%- include('question', {question: q}); %>
+                </div>
+        <% }); %>
+    <% } %>
+<% } else { %>
+    <div id="<%- question.id %>", type="0" data-op-type="mix-box">
+    <% if (undefined != question.isChild && question.isChild){ %>
+        <div style="margin-left: 2rem" data-op-type="mix-box">
+    <% } else { %>
+        <div>
+    <% } %>
+      <span data-op-type="text" class="text-line" style="text-align: center">
+        <%# 题目详情 %>
+        <%- question.content ? question.content : '' %>
+      </span>
+    </div>
+    <%# 题目选项 %>
+    <% if (question.optionList && question.optionList.length > 0){ %>
+        <% if (undefined != question.isChild && question.isChild){ %>
+          <div data-op-type="mix-box" style="margin-left: 2rem">
+        <% } else { %>
+          <div data-op-type="mix-box" class="<%- 'option-list-box' %>">
+         <% } %>
+        <% question.optionList.forEach(function(option) {  %>
+          <div data-op-type="text-box" class="text-line text-line-nowrap text-box-img">
+            &nbsp;&nbsp;<%- option.code %><%- option.content %>
+          </div>
+        <% }); %>
+          </div>
+        <% } %>
+        <br/>
+    </div>
+<% } %>
+
+
+
+
