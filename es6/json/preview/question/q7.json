@@ -1079,7 +1079,7 @@
           {
             "id": 7465365,
             "questionId": null,
-            "content": "写出图中各区域水资源的供需状况。\n①____带;②____带。\n",
+            "content": "写出图中各区域水资源的供需状况。\n①____<@>带;②____<@>带。\n",
             "contentPng": null,
             "answer": "丰水 多水\n",
             "answerPng": null,
@@ -1119,7 +1119,7 @@
           {
             "id": 7465366,
             "questionId": null,
-            "content": "由图分析可知，我国水资源的地区分布的特点是____。为解决\n地区分布不均的问题，可以通过________来解决。\n",
+            "content": "由图分析可知，我国水资源的地区分布的特点是____<@>。为解决\n地区分布不均的问题，可以通过________<@>来解决。\n",
             "contentPng": null,
             "answer": "夏秋多、冬春少和年际变化大\n",
             "answerPng": null,
@@ -1319,7 +1319,7 @@
           {
             "id": 7465371,
             "questionId": null,
-            "content": "。为解决\n地区分布不均的问题，可以通过________",
+            "content": "。为解决地区分布不均的问题，可以通过________",
             "contentPng": null,
             "answer": null,
             "answerPng": null,
