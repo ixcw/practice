@@ -1,0 +1,116 @@
+{
+  "paperId": 5374,
+  "stuName": 1,
+  "stuClass": 1,
+  "stuNum": 1,
+  "stuNameId": 1,
+  "stuClassId": 2,
+  "stuNumId": 3,
+  "font": "仿宋",
+  "wordSize": "16号",
+  "composeType": "竖排",
+  "alignment": "居中",
+  "sealLine": "虚线显示",
+  "questionInfoList": [
+    {
+      "id": 1119,
+      "paperDetailId": 86103,
+      "questionId": 7464140,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86104,
+      "questionId": 7464142,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86105,
+      "questionId": 7464143,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86106,
+      "questionId": 7464141,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86107,
+      "questionId": 7464181,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86108,
+      "questionId": 7464183,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86109,
+      "questionId": 7464184,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 1119,
+      "paperDetailId": 86110,
+      "questionId": 7464182,
+      "reviewType": "2",
+      "height": "110.0",
+      "scoreSet": "3",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    }
+  ],
+  "templatePageSets": [
+    { "id": 577, "paperTempId": 109, "seqNo": 1, "pageSetId": "1", "pageSetName": "跨页时，答题区域自动分页至下一页", "updateTime": 1740570056000 },
+    { "id": 578, "paperTempId": 109, "seqNo": 2, "pageSetId": "2", "pageSetName": "跨页时，答题区域自动分割在两页", "updateTime": 1740570056000 },
+    {
+      "id": 579,
+      "paperTempId": 109,
+      "seqNo": 3,
+      "pageSetId": "3",
+      "pageSetName": "跨页时，题目、批阅区域、答题区域自动分页至下一页",
+      "updateTime": 1740570056000
+    }
+  ]
+}

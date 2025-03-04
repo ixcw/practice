@@ -3,11 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 const groupList = JSON.parse(fs.readFileSync(
-  path.join(__dirname, 'es6/json/preview/question/q7.json'),
+  path.join(__dirname, 'es6/json/preview/question/q10.json'),
   'utf-8'
 ));
 const paperPreview = JSON.parse(fs.readFileSync(
-  path.join(__dirname, 'es6/json/preview/template/t7.json'),
+  path.join(__dirname, 'es6/json/preview/template/t10.json'),
   'utf-8'
 ));
 const mergedDb = {
