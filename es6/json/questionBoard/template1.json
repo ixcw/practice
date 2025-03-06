@@ -1,0 +1,114 @@
+{
+  "success": true,
+  "data": {
+      "title": "根节点",
+      "value": "0",
+      "children": [
+          {
+              "title": "学校模板",
+              "value": "0129d8123f5f",
+              "children": [
+                  {
+                      "title": "数学",
+                      "value": "36f49544ab0a",
+                      "children": [
+                          {
+                              "title": "7年级-数学-试卷1",
+                              "value": "01366400a29179",
+                              "children": []
+                          },
+                          {
+                              "title": "9年级-数学-试卷1",
+                              "value": "0138c6a21d7d0a",
+                              "children": []
+                          },
+                          {
+                              "title": "73班-数学作业1",
+                              "value": "0141578ae3b084",
+                              "children": []
+                          },
+                          {
+                              "title": "学校测试模版",
+                              "value": "014514cd4efa67",
+                              "children": []
+                          }
+                      ]
+                  },
+                  {
+                      "title": "语文",
+                      "value": "354c8c57d9bd",
+                      "children": [
+                          {
+                              "title": "7年级-语文-测验1",
+                              "value": "0135340c7c38d3",
+                              "children": []
+                          },
+                          {
+                              "title": "9年级-语文-测验1",
+                              "value": "01371c514e9655",
+                              "children": []
+                          },
+                          {
+                              "title": "73班-语文作业1",
+                              "value": "0142ae4992205b",
+                              "children": []
+                          }
+                      ]
+                  },
+                  {
+                      "title": "英语",
+                      "value": "3429edc76680",
+                      "children": [
+                          {
+                              "title": "九年级-英语-作业1",
+                              "value": "013478d6affb0f",
+                              "children": []
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "title": "我的模板",
+              "value": "02a2cd88d415",
+              "children": [
+                  {
+                      "title": "历史",
+                      "value": "119f1e877610b",
+                      "children": [
+                          {
+                              "title": "历史",
+                              "value": "0211978edb8ed02",
+                              "children": []
+                          }
+                      ]
+                  },
+                  {
+                      "title": "地理",
+                      "value": "986de7195cd4",
+                      "children": [
+                          {
+                              "title": "地理模板测试",
+                              "value": "02981984bfdb10",
+                              "children": []
+                          },
+                          {
+                              "title": "低测试模板一",
+                              "value": "02103a3674e21ac",
+                              "children": []
+                          },
+                          {
+                              "title": "测试bug",
+                              "value": "021165e0ede886f",
+                              "children": []
+                          }
+                      ]
+                  }
+              ]
+          }
+      ]
+  },
+  "message": "successful",
+  "errCode": 0,
+  "errDetail": null
+}
