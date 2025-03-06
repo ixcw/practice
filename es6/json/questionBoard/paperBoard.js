@@ -445,7 +445,7 @@ export default class PaperBoard extends Component {
                 }
               }
             })
-            _self.setState(_self.handleTopicsAndReturnNewStateObj(topics), _ => {
+            _self.setState(_self.handleTopicsAndReturnNewStateObj(topics, [], false, true), _ => {
               _self.getTestQuestionEdition();
               Message.success("移除成功!")
             })
@@ -477,6 +477,9 @@ export default class PaperBoard extends Component {
       topics = this.restoreCategoryQuestionListByTemplate(topics, templateList)
     } else {
       topics = this.organizeCategoryQuestionList(topics, isOrganize)
+    }
+    if (reSequence) {
+      topics = this.reSequenceCodeCategoryQuestionList(topics)
     }
     topics.forEach((topicType, topicTypeIndex) => {
       //定义变量统计当前体型的分数
@@ -552,7 +555,6 @@ export default class PaperBoard extends Component {
       topicTypeTotalScores.push(topicTypeTotalScore)//将统计好的当前题型的总分添加到存放的数组中
     })
     records = this.createMergedDataSourceList(records)
-    console.log('topics: ', topics)
     return { setScoreData: records, topicsCount: qcount, totalScore: score, topicTypeTotalScores, topics }
   }
 
@@ -642,9 +644,39 @@ export default class PaperBoard extends Component {
   reSequenceCodeCategoryQuestionList = (categoryQuestionList) => {
     const qCount = { count: 0 }
     const reSequenceCodeQuestionList = (questionList, qCount) => {
-
+      const organizeMaterialQuestionList = (materialQuestionList, qCount) => {
+        if (existArr(materialQuestionList)) {
+          reSequenceCodeQuestionList(materialQuestionList, qCount)
+          materialQuestionList.forEach(materialQuestion => {
+            if (existArr(materialQuestion.materialQuestionList)) {
+              qCount = reSequenceCodeQuestionList(materialQuestion.materialQuestionList, qCount)
+            }
+          })
+        }
+        return qCount
+      }
+      questionList.forEach(question => {
+        if (existArr(question.materialQuestionList)) {
+          qCount = organizeMaterialQuestionList(question.materialQuestionList, qCount)
+        } else {
+          if (!question.parentId) {
+            question.sequenceCode = `${++qCount.count}`
+            if (existArr(question.childrenList)) {
+              question.childrenList.forEach((q, i) => {
+                q.sequenceCode = `${question.sequenceCode}-${i + 1}`
+              })
+            }
+            let childCode = 0
+            questionList.forEach(q => {
+              if (q.parentId === question.id) {
+                childCode++
+                q.sequenceCode = `${question.sequenceCode}-${childCode}`
+              }
+            })
+          }
+        }
+      })
     }
-
     categoryQuestionList.forEach(categoryQuestion => {
       const questionList = categoryQuestion.questionList
       if (existArr(questionList)) {
@@ -1058,7 +1090,7 @@ export default class PaperBoard extends Component {
                 callback: _ => {
                   Message.success("替换成功!")
                   //替换成功后，将本地数据修改，更新页面
-                  this.setState(this.handleTopicsAndReturnNewStateObj(topics), () => {
+                  this.setState(this.handleTopicsAndReturnNewStateObj(topics, [], false, true), () => {
                     //关闭弹窗
                     this.toggleTopicModalState(false)
                   })
@@ -1722,17 +1754,21 @@ export default class PaperBoard extends Component {
    * @moveLength : 移动位数
    */
   moveTopic = (topic, moveLength) => {
-    debugger
     const { topics } = this.state
     let newTopics = []
     topics && topics.forEach((topicType, index) => {
       //只能在当前题型内移动
       if (topicType.category === topic.category) {
         topicType.questionList && topicType.questionList.forEach((topicItem, i) => {
-          // 普通题
           if (topicItem.id === topic.id) {
-            newTopics = topicType.questionList.filter(item => item.id !== topicItem.id)
-            if (i + moveLength < 0) {
+            newTopics = topicType.questionList.filter(item => !item.parentId)
+            newTopics.forEach(newTopic => {
+              newTopic.isSplit = topicType.questionList.some(item => item.parentId === newTopic.id)
+            })
+            const newTopicItemIndex = newTopics.findIndex(item => item.id === topicItem.id)
+            const newTopicsLength = newTopics.length
+            const moveTopics = newTopics.splice(newTopicItemIndex, 1)
+            if (newTopicItemIndex + moveLength < 0) {
               openNotificationWithIcon(
                 'warning',
                 '顶不上去啦！',
@@ -1741,7 +1777,7 @@ export default class PaperBoard extends Component {
                 3,
                 <FrownOutlined style={{ color: "#ffe58f" }} />
               )
-            } else if (i + moveLength >= topicType.questionList.length) {
+            } else if (newTopicItemIndex + moveLength >= newTopicsLength) {
               openNotificationWithIcon(
                 'warning',
                 '到底咯！',
@@ -1751,37 +1787,29 @@ export default class PaperBoard extends Component {
                 <FrownOutlined style={{ color: "#ffe58f" }} />
               )
             } else {
-              if (moveLength !== 0 && index !== undefined && i !== undefined && topics && topics[index]) {
-                newTopics.splice(i + moveLength, 0, topic)
-                // 拆分题不允许移动，只能跟随父题一起移动
-                // 移动父题，查找有无子题，若有，一起移动，更新父题与子题 sequenceCode
-                if (newTopics[i + moveLength].sequenceCode) {
-
-                }
-                if (moveLength < 0) {
-
-                } else {
-
-                }
+              if (
+                moveLength !== 0 && 
+                index !== undefined && 
+                i !== undefined && 
+                newTopicItemIndex !== undefined && 
+                topics && 
+                topics[index]
+              ) {
+                newTopics.splice(newTopicItemIndex + moveLength, 0, ...moveTopics)
+                newTopics = newTopics.reduce((a, v) => {
+                    if (v.isSplit) {
+                      delete v.isSplit
+                      a.push([v, ...v.childrenList])
+                    } else {
+                      delete v.isSplit
+                      a.push([v])
+                    }
+                    return a
+                  }, []).flat()
                 topics[index].questionList = newTopics
-                this.setState(this.handleTopicsAndReturnNewStateObj(topics))
+                this.setState(this.handleTopicsAndReturnNewStateObj(topics, [], false, true))
               }
             }
-          } else if (topicItem.materialQuestionList && topicItem.materialQuestionList.length > 0) {
-            // 材料题 判断是否为拆分题 更新 sequenceCode
-            topicItem.materialQuestionList.forEach((materialItem, j) => {
-              if (materialItem.id === topic.id) {
-                newTopics = topicType.questionList.filter(item => item.id !== topicItem.id)
-                if (i + moveLength < 0) {
-                  openNotificationWithIcon(
-                    'warning',
-                    '顶不上去啦！',
-                    'rgba(0,0,0,.85)',
-                    '当前题目已经在所属题型的第一位了',
-                  )
-                }
-              }
-            })
           }
         })
       }
@@ -1789,10 +1817,10 @@ export default class PaperBoard extends Component {
   }
 
   /**
- * 上下移操作
- * @topicType：题型对象
- * @moveLength : 移动位数
- */
+   * 上下移操作
+   * @topicType：题型对象
+   * @moveLength : 移动位数
+   */
   moveTopicType = (sTopicType, moveLength) => {
     const { topics } = this.state
     let newTopicTypes = []
@@ -1821,7 +1849,7 @@ export default class PaperBoard extends Component {
         } else {
           if (moveLength !== 0 && index !== undefined && index !== undefined && topics && topics[index]) {
             newTopicTypes.splice(index + moveLength, 0, sTopicType)
-            this.setState(this.handleTopicsAndReturnNewStateObj(newTopicTypes))
+            this.setState(this.handleTopicsAndReturnNewStateObj(newTopicTypes, [], false, true))
           }
         }
       }
