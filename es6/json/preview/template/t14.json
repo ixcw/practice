@@ -1,0 +1,215 @@
+{
+  "paperId": 11559,
+  "stuName": 1,
+  "stuClass": 1,
+  "stuNum": 1,
+  "stuNameId": 1,
+  "stuClassId": 2,
+  "stuNumId": 3,
+  "font": "仿宋",
+  "wordSize": "16号",
+  "composeType": "竖排",
+  "alignment": "居中",
+  "sealLine": "虚线显示",
+  "questionInfoList": [
+    {
+      "id": 7539906,
+      "paperDetailId": null,
+      "questionId": 7539906,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539907,
+      "paperDetailId": null,
+      "questionId": 7539907,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539908,
+      "paperDetailId": null,
+      "questionId": 7539908,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539909,
+      "paperDetailId": null,
+      "questionId": 7539909,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539910,
+      "paperDetailId": null,
+      "questionId": 7539910,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539912,
+      "paperDetailId": null,
+      "questionId": 7539912,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539913,
+      "paperDetailId": null,
+      "questionId": 7539913,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539914,
+      "paperDetailId": null,
+      "questionId": 7539914,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539915,
+      "paperDetailId": null,
+      "questionId": 7539915,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7539911,
+      "paperDetailId": null,
+      "questionId": 7539911,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 1
+    },
+    {
+      "id": 7539916,
+      "paperDetailId": null,
+      "questionId": 7539916,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 1
+    },
+    {
+      "id": 7539917,
+      "paperDetailId": null,
+      "questionId": 7539917,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 1
+    },
+    {
+      "id": 7539918,
+      "paperDetailId": null,
+      "questionId": 7539918,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 1
+    },
+    {
+      "id": 7539922,
+      "paperDetailId": null,
+      "questionId": 7539922,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 1
+    },
+    {
+      "id": 7539919,
+      "paperDetailId": null,
+      "questionId": 7539919,
+      "reviewType": "2",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 7539920,
+      "paperDetailId": null,
+      "questionId": 7539920,
+      "reviewType": "2",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    },
+    {
+      "id": 7539921,
+      "paperDetailId": null,
+      "questionId": 7539921,
+      "reviewType": "2",
+      "height": "110",
+      "scoreSet": "2",
+      "isArea": "1",
+      "arrayType": "4",
+      "smallItem": 1
+    }
+  ],
+  "templatePageSets": [
+    { "id": 706, "paperTempId": null, "seqNo": 1, "pageSetId": "1", "pageSetName": "跨页时，答题区域自动分页至下一页", "updateTime": null },
+    { "id": 707, "paperTempId": null, "seqNo": 2, "pageSetId": "2", "pageSetName": "跨页时，答题区域自动分割在两页", "updateTime": null },
+    {
+      "id": 708,
+      "paperTempId": null,
+      "seqNo": 3,
+      "pageSetId": "3",
+      "pageSetName": "跨页时，题目、批阅区域、答题区域自动分页至下一页",
+      "updateTime": null
+    }
+  ]
+}
