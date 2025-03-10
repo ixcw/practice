@@ -69,7 +69,6 @@ import EvalTargetModal from "../components/EvalTargetModal/index";//添加测评
 import TopicGroupAnalysis from "../components/TopicGroupAnalysis";//题组分析弹窗
 import ErrorCorrectionModal from "@/components/QuestionBank/ErrorCorrectionModal";
 import paperBoardInfoCache from "@/caches/generalCacheByKey";//优化-试题版参数缓存-2021年07月23日-张江
-import school from './../../School/School';
 
 const IconFont = getIcon();
 const { confirm } = Modal;
