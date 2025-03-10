@@ -45,7 +45,8 @@ import {
   Auth,
   QuestionBank,
   MyQuestionTemplate,
-  SchoolQuestionTemplate
+  SchoolQuestionTemplate,
+  Public
 } from '@/utils/namespace'
 import {
   getPageQuery,
@@ -6288,6 +6289,16 @@ export default class PaperBoard extends Component {
       type: namespace + '/getGroupCenterPaperBoard',
       callback: topicList => {
         this.setState(this.handleTopicsAndReturnNewStateObj(topicList, [], true))
+      }
+    })
+
+    dispatch({
+      type: Public + '/getAreaInfoList',
+      payload: {},
+      callback: (result) => {
+        if (result && result.length > 0) {
+          this.setState({ areaList: result })
+        }
       }
     })
   }
