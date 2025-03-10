@@ -463,32 +463,46 @@
   justify-content: space-between;
   height: 750px;
 
-  .school-tree-title {
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  .school-tree-two-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 700;
-  }
-
   .school-tree-box {
-    padding: 10px;
-    height: 100%;
-    overflow-y: auto;
+    position: relative;
     width: 645px;
+    height: 100%;
+    padding: 10px;
     border-radius: 3px;
     border: 1px solid #cdcdcd;
     transition: .3s;
 
     &:hover {
       box-shadow: 0 5px 10px 3px #cdcdcd;
+    }
+
+    .school-tree-two-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .school-tree-tree {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+  
+      .school-tree-area {
+        height: 95%;
+        overflow-y: auto;
+        scrollbar-width: none;
+      }
+  
+      .school-tree-area::-webkit-scrollbar {
+        display: none;
+      }
+
+      .school-tree-school {
+        height: 100%;
+      }
     }
   
     :global {
