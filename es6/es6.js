@@ -23,18 +23,9 @@
 
 // console.log(transformText(text));
 
-const text = "阅读材料，回答问题。\n材料一 中共十一届三中全会以前，农村存在经营管理过于集中和分配中的平均主义等弊端。$\\underline{“创新不是完成一篇小论文，它需要经过实践的检验，这个过程需要反复，成功取决于我们能坚持不懈地为之努力。”}$1978年，全国还有2.5亿农村人口没有解决温饱问题。他们的故事[strong]鲜为人知[strong]，安徽一些地方的基层干部和农民突破旧体制的限制，开始包干到组、包产到户……1980年，邓小平肯定了农民的改革创举，在党中央支持下，家庭联产承包责任制迅速推广。许多地方一年见成效，地方粮食产量明显提高，几年就变了样。如图,在$R$$t$△$A$$B$$C$中,$\\angle C={{90}^{\\circ }},\\angle B={{30}^{\\circ }},AB=2\\sqrt{3},$$A$$D$是$ABC$的角平分线.\n--摘编自《中国共产党简史》\n材料二\n[myImgCur]\n";
-const regex = /([^\n$[]+)|(\n)|(\$\\underline\{[^}]+\}\$)|(\[strong\][^[]*\[strong\])|(\[myImgCur\])/g;
-const result = [];
-let match;
+const text = "<span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><munder accentunder=\"true\"><mtext>“创新不是完成一篇小论文，它需要经过实践的检验，这个过程需要反复，成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。”</mtext><mo stretchy=\"true\">‾</mo></munder></mrow><annotation encoding=\"application/x-tex\">\\underline{“创新不是完成一篇小论文，它需要经过实践的检验，这个过程需要反复，成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。”}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height:0.8944em;vertical-align:-0.2em;\"></span><span class=\"mord underline\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height:0.6944em;\"><span style=\"top:-2.84em;\"><span class=\"pstrut\" style=\"height:3em;\"></span><span class=\"underline-line\" style=\"border-bottom-width:0.04em;\"></span></span><span style=\"top:-3em;\"><span class=\"pstrut\" style=\"height:3em;\"></span><span class=\"mord\"><span class=\"mord\">“</span><span class=\"mord cjk_fallback\">创新不是完成一篇小论文，它需要经过实践的检验，这个过程需要反复，成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。成功取决于我们能坚持不懈地为之努力。</span><span class=\"mord\">”</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height:0.2em;\"><span></span></span></span></span></span></span></span></span>";
 
-while ((match = regex.exec(text)) !== null) {
-  // 按顺序匹配，先遇到什么就匹配什么
-  if (match[1]) result.push(match[1]);      // 普通文本
-  else if (match[2]) result.push(match[2]); // 换行符
-  else if (match[3]) result.push(match[3]); // LaTeX公式
-  else if (match[4]) result.push(match[4]); // [strong]内容[strong]
-  else if (match[5]) result.push(match[5]); // [myImgCur]
-}
+const match = text.match(/\\underline\{([^}]+)\}/)
+const result = match ? match[1] : '未匹配到内容'
+console.log(result)
 
-console.log(result);
