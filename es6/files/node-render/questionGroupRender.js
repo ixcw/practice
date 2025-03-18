@@ -91,14 +91,15 @@ router.get("/questions2pdfOut", async function (req, res, next) {
     let groupList = []
     let paperPreview = {}
     const paperId = req.query.paperId
-    // if (token && paperId) {
-    //   groupList = await api.findQuetionInfoByPaperId(token, paperId).catch(next)
-    //   paperPreview = await api.getInstructionPaperPreview(newAccessToken, paperId).catch(next)
-    // }
-    const got = require('got');
-    const local = await got.get('http://localhost:6666/local').json()
-    groupList = local.groupList
-    paperPreview = local.paperPreview
+    if (token && paperId) {
+      groupList = await api.findQuetionInfoByPaperId(token, paperId).catch(next)
+      paperPreview = await api.getInstructionPaperPreview(newAccessToken, paperId).catch(next)
+    }
+    // 本地数据测试（勿删）
+    // const got = require('got')
+    // const local = await got.get('http://localhost:6666/local').json()
+    // groupList = local.groupList
+    // paperPreview = local.paperPreview
     // 题组合并模板数据
     groupList = Utils.mergeQuestionAndTemplate(
       Utils.organizeCategoryQuestionList(groupList),
@@ -145,8 +146,9 @@ router.get("/questions2pdfOut", async function (req, res, next) {
     if (groupList && groupList.length > 0) {
       let fileKey = stringRandom(32)
       // 进一步处理题组中的文本材料
-      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesbackdaily.gg66.cn/'
+      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesback.gg66.cn/'
       groupList = md2htmlUtils.dealQuestionGroupList(groupList, baseUrl)
+      groupList = Utils.handleDataContentWithCheerio(groupList)
       paramsData.groupList = groupList
       // 处理 pdf 文件名
       let fileName = paramsData.fileName || paramsData.title || ""
@@ -184,13 +186,11 @@ router.get("/questions2pdfOut", async function (req, res, next) {
  */
 router.post("/questions2pdfUrl", async function (req, res, next) {
   let paramsData = Utils.parsePdfQueryParams(req)
-  console.log('铺码渲染参数paramsData:', paramsData)
+  console.log('paramsData: ', paramsData)
   // 旧 token
   const oldNodeToken = req.query.oldNodeToken
-  console.log('oldNodeToken:', oldNodeToken)
   // ** 铺码时，这个才是新 token **
-  const token = req.query.token
-  console.log('token:', token)
+  const token = decodeURIComponent(req.query.token).replace('+', ' ')
   let today = date.format(new Date(), 'YYYY-MM-DD')
   getQuestionCssAndJsList(paramsData)
   req.rawBody = ''
@@ -211,11 +211,14 @@ router.post("/questions2pdfUrl", async function (req, res, next) {
         groupList = await api.findQuetionInfoByPaperId(oldNodeToken, paperId).catch(next)
       }
     }
-    console.log('groupList:', groupList)
     paperPreview = await api.getInstructionPaperPreview(token, paperId).catch(next)
-    console.log('paperPreview:', paperPreview)
+    console.log('paperPreview: ', paperPreview)
     // 题组合并模板数据
-    groupList = Utils.mergeQuestionAndTemplate(groupList, paperPreview.questionInfoList)
+    groupList = Utils.mergeQuestionAndTemplate(
+      Utils.organizeCategoryQuestionList(groupList),
+      paperPreview.questionInfoList
+    )
+    console.log('groupList: ', groupList)
     for (const item of groupList) {
       Utils.dealWithQuestionLatex(item.questionList)
     }
@@ -252,13 +255,12 @@ router.post("/questions2pdfUrl", async function (req, res, next) {
       .sort((item1, item2) => item1.key - item2.key)
       .map(item => item.value)
     groupList[0].checkListValue = checkListValue
-    console.log('铺码合并模板数据:', JSON.stringify(groupList))
     let retData = {status: 1, code: 0, msg: 'pdf generating'}
     if (groupList && groupList.length > 0) {
       // 进一步处理题组中的文本材料
-      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesbackdaily.gg66.cn/'
+      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesback.gg66.cn/'
       groupList = md2htmlUtils.dealQuestionGroupList(groupList, baseUrl)
-      console.log('处理后的题组数据:', JSON.stringify(groupList))
+      groupList = Utils.handleDataContentWithCheerio(groupList)
       paramsData.groupList = groupList
       // 处理 pdf 文件名
       // let questionProcessedLength = groupList.length

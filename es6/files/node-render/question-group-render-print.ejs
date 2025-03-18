@@ -54,11 +54,11 @@
       <div class='oper-box' style="visibility: hidden;">
         <div>
           作答完成
-          <div class='oper-select' data-id="-1" data-type="3"></div>
+          <div class='oper-select' data-id="-1" data-pid="" data-type="3"></div>
         </div>
         <div>
           批改完成
-          <div class='oper-select' data-id="-2" data-type="3"></div>
+          <div class='oper-select' data-id="-2" data-pid="" data-type="3"></div>
         </div>
         <p class="check-area">
           <span class='oper-star'></span>
@@ -127,20 +127,6 @@
       }
       return uppercasedNum
     }
-
-    /**
-     * 生成分数格子
-     */
-    function createScoreTd(question, score, codeType) {
-      let scoreGrid = ''
-      for (let i = 1; i <= score && i < 10; i++) {
-        scoreGrid += 
-        `<td style="text-align:center;" data-type="4" data-id="${question.id}" data-code="${i}" data-code-type="${codeType}">${i}</td>`
-      }
-      scoreGrid +=
-      `<td style="text-align:center;" data-type="4" data-id="${question.id}" data-code="0" data-code-type="${codeType}">0</td>`
-      return scoreGrid
-    }
     %>
     <%# 渲染题目列表 %>
     <% groupList.forEach(function(groupItem, tIndex) { %>
@@ -190,203 +176,49 @@
         <%# 渲染试卷模板 %>
         <% if (pdfType == 1) { %>
           <% groupItem.questionList.forEach(function(question) { %>
-            <%
-              const tenNum = Math.floor(question.score / 10) % 10 // 十位
-              const isOverTen = question.score >= 10 // 分数是否超 10
-              const unitNum = isOverTen ? 9 : question.score % 10 // 个位
-            %>
             <%# 材料题目列表 %>
             <% if (existArr(question.materialQuestionList)) { %>
-              <div data-op-type="mix-box" class="material-stem">
-                <span data-op-type="text" class="text-line text-line-img" dataId="<%- question.dataId %>">
-                  <%- question.dataContent %>
-                </span>
-              </div>
+              <% question.dataContentList.forEach(function(dItem) { %>
+                <% if (dItem.type == 'text') { %>
+                  <span data-op-type="text" class="material-stem text-line text-line-img">
+                    <%- dItem.content %>
+                  </span>
+                <% } %>
+                <% if (dItem.type == 'tag') { %>
+                  <span data-op-type="mix-box" class="material-stem text-line text-line-img">
+                    <%- dItem.content %>
+                  </span>
+                <% } %>
+              <% }) %>
               <% question.materialQuestionList.forEach(function(materialQuestion) {
                 let subjectiveClass = materialQuestion.content ? 'subjective' : 'subjective material-question-list'
-                const tenNumMaterial = Math.floor(materialQuestion.score / 10) % 10 // 十位
-                const isOverTenMaterial = materialQuestion.score >= 10 // 分数是否超 10
-                const unitNumMaterial = isOverTenMaterial ? 9 : materialQuestion.score % 10 // 个位
                 const isSplitMaterialQuestion =  // 是否拆分材料题
-                  !materialQuestion.parentId
+                  materialQuestion.smallItem === 1
+                  && !materialQuestion.parentId
                   && materialQuestion.childrenList
                   && Array.isArray(materialQuestion.childrenList)
                   && materialQuestion.childrenList.length > 0
-                %>
+              %>
                 <% if(isSplitMaterialQuestion) { %>
                   <div class="split-question-box">
                     <% materialQuestion.childrenList.forEach(function(childMaterialQuestion, index) { %>
-                      <div
-                        class="question-content-box text-line-img"
-                        data-op-type="mix-box"
-                        questionId="<%- childMaterialQuestion.id %>"
-                      >
-                        <%- include('question', {question: childMaterialQuestion}) %>
-                        <%# 对错判断 %>
-                        <% if(childMaterialQuestion.reviewType == 1) { %>
-                          <div class="judge-area" data-op-type="mix-box">
-                            <div class="<%= childMaterialQuestion.arrayType == 1 ? 'horizontal' : 'vertical' %>">
-                              <div data-id="<%= childMaterialQuestion.id %>" data-type="2" data-code-type="2" class="right">对</div>
-                              <div data-id="<%= childMaterialQuestion.id %>" data-type="2" data-code-type="1" class="wrong">错</div>
-                            </div>
-                          </div>
-                        <% } %>
-                        <%# 半对判断 %>
-                        <% if(childMaterialQuestion.reviewType == 3) { %>
-                          <div class="judge-area" data-op-type="mix-box">
-                            <div class="<%= childMaterialQuestion.arrayType == 1 ? 'horizontal' : 'vertical' %>">
-                              <div data-id="<%= childMaterialQuestion.id %>" data-type="2" data-code-type="2" class="right">对</div>
-                              <div data-id="<%= childMaterialQuestion.id %>" data-type="2" data-code-type="1" class="wrong">错</div>
-                              <div data-id="<%= childMaterialQuestion.id %>" data-type="2" data-code-type="1" class="wrong">半对</div>
-                            </div>
-                          </div>
-                        <% } %>
-                        <% if (index === materialQuestion.childrenList.length - 1) { %>
-                          <span><%- childMaterialQuestion.lastContent %></span>
-                        <% } %>
-                      </div>
+                      <% if (index === 0) { %>
+                        <%- materialQuestion.sequenceCode + '、' + childMaterialQuestion.content %>
+                      <% } else { %>
+                        <%- childMaterialQuestion.content %>
+                      <% } %>
+                      <%- include('judge-area', {
+                        question: childMaterialQuestion, 
+                        size: {
+                          width: 96,
+                          height: 32
+                        }
+                      }) %>
+                      <% if (index === materialQuestion.childrenList.length - 1) { %>
+                        <%- childMaterialQuestion.lastContent %>
+                      <% } %>
                     <% }) %>
                   </div>
-                <% } else { %>
-                  <%# 得分格子 %>
-                  <% if(materialQuestion.reviewType == 2 && materialQuestion.arrayType == 3) { %>
-                    <div style="width:100%;padding-left:12px;">
-                      <table class='table-score'>
-                        <tr>
-                          <td rowspan="3" class='back-gray' style="text-align:center;">
-                            <div><%- materialQuestion.score %>分</div>
-                          </td>
-                          <% if(isOverTenMaterial) { %>
-                            <td style="text-align:center;">十位</td>
-                            <%- createScoreTd(materialQuestion, tenNumMaterial, 1) %>
-                          <% } %>
-                        </tr>
-                        <tr>
-                          <td style="text-align:center;">个位</td>
-                          <%- createScoreTd(materialQuestion, unitNumMaterial, 2) %>
-                        </tr>
-                        <tr>
-                          <% if(materialQuestion.scoreSet == 3) { %>
-                            <td style="text-align:center;">小数位</td>
-                            <%- createScoreTd(materialQuestion, 9, 3) %>
-                          <% } %>
-                        </tr>
-                      </table>
-                    </div>
-                  <% } %>
-                  <div
-                    class="question-content-box text-line-img"
-                    data-op-type="mix-box"
-                    questionId="<%- materialQuestion.id %>"
-                  >
-                    <%- include('question', {question: materialQuestion}) %>
-                    <%# 对错判断 %>
-                    <% if(materialQuestion.reviewType == 1) { %>
-                      <div class="judge-area" data-op-type="mix-box">
-                        <div class="<%= materialQuestion.arrayType == 1 ? 'horizontal' : 'vertical' %>">
-                          <div data-id="<%= materialQuestion.id %>" data-type="2" data-code-type="2" class="right">对</div>
-                          <div data-id="<%= materialQuestion.id %>" data-type="2" data-code-type="1" class="wrong">错</div>
-                        </div>
-                      </div>
-                    <% } %>
-                  </div>
-                  <%# 分数格子 %>
-                  <% if(materialQuestion.reviewType == 2 && materialQuestion.arrayType == 4) { %>
-                    <div style="width:100%;padding-left:12px;">
-                      <table class='table-score'>
-                        <tr>
-                          <td rowspan="3" class='back-gray' style="text-align:center;">
-                            <div><%- materialQuestion.score %>分</div>
-                          </td>
-                          <% if(isOverTenMaterial) { %>
-                            <td style="text-align:center;">十位</td>
-                            <%- createScoreTd(materialQuestion, tenNumMaterial, 1) %>
-                          <% } %>
-                        </tr>
-                        <tr>
-                          <td style="text-align:center;">个位</td>
-                          <%- createScoreTd(materialQuestion, unitNumMaterial, 2) %>
-                        </tr>
-                        <tr>
-                          <% if(materialQuestion.scoreSet == 3) { %>
-                            <td style="text-align:center;">小数位</td>
-                            <%- createScoreTd(materialQuestion, 9, 3) %>
-                          <% } %>
-                        </tr>
-                      </table>
-                    </div>
-                  <% } %>
-                  <%# 答题区域 %>
-                  <% if(materialQuestion.isArea == 1) { %>
-                    <div style="width:100%;padding-left:12px;">
-                      <textarea
-                        style="<%- `height:${materialQuestion.height}px;line-height:${materialQuestion.height - 10}px` %>"
-                        data-id="<%= materialQuestion.id %>"
-                        data-type="1"
-                        class='answer-area'
-                        placeholder='答 题 区 域'
-                        disabled
-                      ></textarea>
-                    </div>
-                  <% } %>
-                <% } %>
-              <% }) %>
-            <% } else { %>
-              <%# 普通题目列表（常见） %>
-              <%# 得分格子 %>
-              <% if(question.reviewType == 2 && question.arrayType == 3) { %>
-                <div style="width:100%;padding-left:12px;">
-                  <table class='table-score'>
-                    <tr>
-                      <td rowspan="3" class='back-gray' style="text-align:center;">
-                        <div><%- question.score %>分</div>
-                      </td>
-                      <% if(isOverTen) { %>
-                        <td style="text-align:center;">十位</td>
-                        <%- createScoreTd(question, tenNum, 1) %>
-                      <% } %>
-                    </tr>
-                    <tr>
-                      <td style="text-align:center;">个位</td>
-                      <%- createScoreTd(question, unitNum, 2) %>
-                    </tr>
-                    <tr>
-                      <% if(question.scoreSet == 3) { %>
-                        <td style="text-align:center;">小数位</td>
-                        <%- createScoreTd(question, 9, 3) %>
-                      <% } %>
-                    </tr>
-                  </table>
-                </div>
-              <% } %>
-              <div 
-                class="question-content-box text-line-img"
-                data-op-type="mix-box"
-                questionId="<%- question.questionId || question.id %>"
-              > 
-                <%# 题目详情 %>
-                <% if (question.questionData) { %>
-                  <p><%- question.no %> <%- question.questionData.content %></p>
-                  <% if(question.questionList && question.questionList.length > 0) { %>
-                    <% question.questionList.forEach(function(q) { %>
-                      <% q.isChild = true %>
-                        <div id="<% -q.id %>" type="1" data-op-type="mix-box">
-                          <%- include('question', {question: q}) %>
-                        </div>
-                      <% }) %>
-                  <% } %>
-                <% } else { %>
-                  <div id="<%- question.id %>", type="0" data-op-type="mix-box">
-                    <% if (undefined != question.isChild && question.isChild) { %>
-                        <div style="margin-left: 2rem" data-op-type="mix-box">
-                    <% } else { %>
-                        <div>
-                    <% } %>
-                      <span data-op-type="text" class="text-line" style="text-align: center">
-                        <%# 题目详情 %>
-                        <%- question.sequenceCode + '、' %><%- question.content ?  question.content : '' %>
-                      </span>
-                    </div>
                   <%# 题目选项 %>
                   <% if (question.optionList && question.optionList.length > 0) { %>
                     <% if (undefined != question.isChild && question.isChild) { %>
@@ -394,64 +226,123 @@
                     <% } else { %>
                       <div data-op-type="mix-box" class="<%- 'option-list-box' %>">
                     <% } %>
-                      <% question.optionList.forEach(function(option) { %>
+                      <% question.optionList.forEach(function(option) {  %>
                         <div data-op-type="text-box" class="text-line text-line-nowrap text-box-img">
                           <%- option.code %> <%- option.content %>
                         </div>
-                      <% }) %>
-                      </div>
-                  <% } %>
-                    <br/>
-                  </div>
-                <% } %>
-                <%# 对错判断 %>
-                <% if(question.reviewType == 1) { %>
-                  <div class="judge-area" data-op-type="mix-box">
-                    <div class="<%= question.arrayType == 1 ? 'horizontal' : 'vertical' %>">
-                      <div data-id="<%= question.id %>" data-type="2" data-code-type="2" class="right">对</div>
-                      <div data-id="<%= question.id %>" data-type="2" data-code-type="1" class="wrong">错</div>
+                      <% }); %>
                     </div>
+                  <% } %>
+                  <br/>
+                <% } else { %>
+                  <%# 得分格子 %>
+                  <% if(materialQuestion.reviewType == 2 && materialQuestion.arrayType == 3) { %>
+                    <%- include('score-area', {question: materialQuestion}) %>
+                  <% } %>
+                  <div
+                    class="question-content-box text-line-img"
+                    data-op-type="mix-box"
+                    questionId="<%- materialQuestion.id %>"
+                  >
+                    <%# 材料题 %>
+                    <%- include('question', {question: materialQuestion}) %>
+                    <%# 对错判断 %>
+                    <% if(materialQuestion.reviewType == 1 || materialQuestion.reviewType == 3) { %>
+                      <%- include('judge-area', {
+                        question: materialQuestion,
+                        size: {
+                          width: 117,
+                          height: 39
+                        }
+                      }) %>
+                    <% } %>
+                  </div>
+                  <%# 分数格子 %>
+                  <% if(materialQuestion.reviewType == 2 && materialQuestion.arrayType == 4) { %>
+                    <%- include('score-area', {question: materialQuestion}) %>
+                  <% } %>
+                  <%# 答题区域 %>
+                  <% if(materialQuestion.isArea == 1) { %>
+                    <%- include('answer-area', {question: materialQuestion}) %>
+                  <% } %>
+                <% } %>
+              <% }) %>
+            <% } else { %>
+              <%# 普通题目列表（常见） %>
+              <% 
+                const isSplitQuestion =  // 是否拆分普通题
+                  question.smallItem === 1
+                  && !question.parentId
+                  && question.childrenList
+                  && Array.isArray(question.childrenList)
+                  && question.childrenList.length > 0
+              %>
+              <% if(isSplitQuestion) { %>
+                <div class="split-question-box">
+                  <% question.childrenList.forEach(function(childQuestion, index) { %>
+                    <% if (index === 0) { %>
+                      <%- question.sequenceCode + '、' + childQuestion.content %>
+                    <% } else { %>
+                      <%- childQuestion.content %>
+                    <% } %>
+                    <%- include('judge-area', {
+                      question: childQuestion, 
+                      size: {
+                        width: 96,
+                        height: 32
+                      }
+                    }) %>
+                    <% if (index === question.childrenList.length - 1) { %>
+                      <%- childQuestion.lastContent %>
+                    <% } %>
+                  <% }) %>
+                </div>
+                <%# 题目选项 %>
+                <% if (question.optionList && question.optionList.length > 0) { %>
+                  <% if (undefined != question.isChild && question.isChild) { %>
+                    <div data-op-type="mix-box" style="margin-left: 2rem">
+                  <% } else { %>
+                    <div data-op-type="mix-box" class="<%- 'option-list-box' %>">
+                  <% } %>
+                    <% question.optionList.forEach(function(option) {  %>
+                      <div data-op-type="text-box" class="text-line text-line-nowrap text-box-img">
+                        <%- option.code %> <%- option.content %>
+                      </div>
+                    <% }); %>
                   </div>
                 <% } %>
-              </div>
-              <%# 分数格子 %>
-              <% if(question.reviewType == 2 && question.arrayType == 4) { %>
-                <div style="width:100%;padding-left:12px;">
-                  <table class='table-score'>
-                    <tr>
-                      <td rowspan="3" class='back-gray' style="text-align:center;">
-                        <div><%- question.score %>分</div>
-                      </td>
-                      <% if(isOverTen) { %>
-                        <td style="text-align:center;">十位</td>
-                        <%- createScoreTd(question, tenNum, 1) %>
-                      <% } %>
-                    </tr>
-                    <tr>
-                      <td style="text-align:center;">个位</td>
-                      <%- createScoreTd(question, unitNum, 2) %>
-                    </tr>
-                    <tr>
-                      <% if(question.scoreSet == 3) { %>
-                        <td style="text-align:center;">小数位</td>
-                        <%- createScoreTd(question, 9, 3) %>
-                      <% } %>
-                    </tr>
-                  </table>
+                <br/>
+              <% } else { %>
+                <%# 得分格子 %>
+                <% if(question.reviewType == 2 && question.arrayType == 3) { %>
+                  <%- include('score-area', {question}) %>
+                <% } %>
+                <div 
+                  class="question-content-box text-line-img"
+                  data-op-type="mix-box"
+                  questionId="<%- question.questionId || question.id %>"
+                > 
+                  <%# 普通题 %>
+                  <%- include('question', {question}) %>
+                  <%# 对错判断 %>
+                  <% if(question.reviewType == 1 || question.reviewType == 3) { %>
+                    <%- include('judge-area', {
+                      question,
+                      size: {
+                        width: 117,
+                        height: 39
+                      }
+                    }) %>
+                  <% } %>
                 </div>
-              <% } %>
-              <%# 答题区域 %>
-              <% if(question.isArea == 1) { %>
-                <div style="width:100%;padding-left:12px;">
-                  <textarea
-                    style="<%- `height:${question.height}px;line-height:${question.height - 10}px` %>"
-                    data-id="<%= question.id %>"
-                    data-type="1"
-                    class='answer-area'
-                    placeholder='答 题 区 域'
-                    disabled
-                  ></textarea>
-                </div>
+                <%# 分数格子 %>
+                <% if(question.reviewType == 2 && question.arrayType == 4) { %>
+                  <%- include('score-area', {question}) %>
+                <% } %>
+                <%# 答题区域 %>
+                <% if(question.isArea == 1) { %>
+                  <%- include('answer-area', {question}) %>
+                <% } %>
               <% } %>
             <% } %>
           <% }) %>
