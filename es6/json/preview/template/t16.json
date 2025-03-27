@@ -1,0 +1,193 @@
+{
+  "paperId": 12560,
+  "stuName": 1,
+  "stuClass": 1,
+  "stuNum": 1,
+  "stuNameId": 1,
+  "stuClassId": 2,
+  "stuNumId": 3,
+  "font": "仿宋",
+  "wordSize": "16号",
+  "composeType": "竖排",
+  "alignment": "居中",
+  "sealLine": "虚线显示",
+  "questionInfoList": [
+    {
+      "id": 7550582,
+      "paperDetailId": null,
+      "questionId": 7550582,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550583,
+      "paperDetailId": null,
+      "questionId": 7550583,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550584,
+      "paperDetailId": null,
+      "questionId": 7550584,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550585,
+      "paperDetailId": null,
+      "questionId": 7550585,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550586,
+      "paperDetailId": null,
+      "questionId": 7550586,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550587,
+      "paperDetailId": null,
+      "questionId": 7550587,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550588,
+      "paperDetailId": null,
+      "questionId": 7550588,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550589,
+      "paperDetailId": null,
+      "questionId": 7550589,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550590,
+      "paperDetailId": null,
+      "questionId": 7550590,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550591,
+      "paperDetailId": null,
+      "questionId": 7550591,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550577,
+      "paperDetailId": null,
+      "questionId": 7550577,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550578,
+      "paperDetailId": null,
+      "questionId": 7550578,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550579,
+      "paperDetailId": null,
+      "questionId": 7550579,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550580,
+      "paperDetailId": null,
+      "questionId": 7550580,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    },
+    {
+      "id": 7550581,
+      "paperDetailId": null,
+      "questionId": 7550581,
+      "reviewType": "1",
+      "height": "0",
+      "scoreSet": "2",
+      "isArea": "0",
+      "arrayType": "1",
+      "smallItem": 0
+    }
+  ],
+  "templatePageSets": [
+    { "id": 811, "paperTempId": null, "seqNo": 1, "pageSetId": "1", "pageSetName": "跨页时，答题区域自动分页至下一页", "updateTime": null },
+    { "id": 812, "paperTempId": null, "seqNo": 2, "pageSetId": "2", "pageSetName": "跨页时，答题区域自动分割在两页", "updateTime": null },
+    {
+      "id": 813,
+      "paperTempId": null,
+      "seqNo": 3,
+      "pageSetId": "3",
+      "pageSetName": "跨页时，题目、批阅区域、答题区域自动分页至下一页",
+      "updateTime": null
+    }
+  ]
+}
