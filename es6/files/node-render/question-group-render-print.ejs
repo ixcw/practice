@@ -39,7 +39,7 @@
     <div data-op-type="pendants">
       <%# 非公开时打印节点信息 %>
       <% if (latticeType && !isCommon) { %>
-        <span class='pendant-title'>
+        <span class='pendant-title' style="visibility: hidden;">
           <%= latticeType == 1 ? "勾勾南方节点" : "勾勾北方节点" %>
         </span>
       <% } %>
@@ -127,55 +127,98 @@
       }
       return uppercasedNum
     }
+
+    /**
+     * 获取个人信息和样式及总题目列表
+     */
+    const checkListValue = groupList[0] && groupList[0].checkListValue ? groupList[0].checkListValue : []
+    const sealQuestionBoxClass = (checkListValue.length > 0 ? 'seal-question-box' : 'seal-question-box-normal') + (column ? ' column-layout-' + column : '')
+    let fillBlankClass = 'student-info-fill-blank'
+    let sealLineClass = 'seal-line'
+    if (pageSize.format == 'A4' && pageSize.orientation == 'landscape') {
+      fillBlankClass += ' blank-short'
+      sealLineClass += ' seal-line-short'
+    } else if (pageSize.format == 'A3' && pageSize.orientation == 'portrait') {
+      fillBlankClass += ' blank-long'
+      sealLineClass += ' seal-line-long'
+    } else {
+      fillBlankClass += ' blank-middle'
+      sealLineClass += ' seal-line-middle'
+    }
+    const allQuestionList = []
+    groupList.forEach(function(groupItem, tIndex) {
+      const groupIndex = uppercaseNum(tIndex + 1)
+      const groupNum = calQuestionNum(groupItem.questionList)
+      const totalScore = calScore(groupItem.questionList)
+      const singleScore = groupItem.questionList[0] && existArr(groupItem.questionList[0].materialQuestionList) ? groupItem.questionList[0].materialQuestionList[0].score : groupItem.questionList[0].score
+      const groupInfo = {
+        category: groupItem.category,
+        rule: groupItem.rule,
+        categoryName: groupItem.categoryName,
+        paperName: groupItem.paperName,
+        groupIndex,
+        groupNum,
+        totalScore,
+        singleScore,
+      }
+      allQuestionList.push(groupInfo)
+      groupItem.questionList.forEach(function(question) {
+        allQuestionList.push(question)
+      })
+    })
+    for (let i = 0; i < 36; i++) {
+      allQuestionList.push({ blank: true })
+    }
     %>
-    <%# 渲染题目列表 %>
-    <% groupList.forEach(function(groupItem, tIndex) { %>
-      <% if (groupList[0].checkListValue.length > 0 && tIndex == 0) { %>
-        <div class="student-info">
-          <div class="student-info-fill-blank">
-            <% groupList[0].checkListValue.forEach(element => { %>
-              <div style="margin-right: 40px;"><%- element %> _______________</div>
-            <% }) %>
-          </div>
-          <div class="seal-line">
-            <div class="seal-line-line"></div>
-            <div style="margin: 8px;">密</div>
-            <div class="seal-line-line"></div>
-            <div style="margin: 8px;">封</div>
-            <div class="seal-line-line"></div>
-            <div style="margin: 8px;">线</div>
-            <div class="seal-line-line"></div>
-          </div>
+    <%# 个人信息 %>
+    <% if (checkListValue.length > 0) { %>
+      <div class="student-info">
+        <div class="<%= fillBlankClass %>">
+          <% checkListValue.forEach(element => { %>
+            <div style="margin-right: 40px;"><%- element %> _______________</div>
+          <% }) %>
         </div>
-      <% } %>
-      <div data-op-type="mix-box" class="<%= groupList[0].checkListValue.length > 0 ? 'seal-question-box' : 'seal-question-box-normal' %>">
-        <%# 处理题型标题 %>
-        <div class='big-topic-info' style="line-height: 1.5;">
-           <%# 解答题，解答题的总分计算方式不同 %>
-          <% if (groupItem.rule == 4) { %>
-            <div class='question-type' data-op-type="mix-box">
-              <%# 题型标题 %>
-              <%- groupItem.categoryName ? `${uppercaseNum(tIndex + 1)}、${groupItem.categoryName}` : "未知题型" %>
-              <%# 非答案解析，显示标题详情 %>
-              <% if (pdfType != 3) { %>
-                （本大题共<%- calQuestionNum(groupItem.questionList) %>小题, 共<%- calScore(groupItem.questionList) %>分）请把答案填在指定区域, 否则视为无效
+        <div class="<%= sealLineClass %>">
+          <div class="seal-line-line"></div>
+          <div style="margin: 8px;">密</div>
+          <div class="seal-line-line"></div>
+          <div style="margin: 8px;">封</div>
+          <div class="seal-line-line"></div>
+          <div style="margin: 8px;">线</div>
+          <div class="seal-line-line"></div>
+        </div>
+      </div>
+    <% } %>
+    <%# 渲染题目列表 %>
+    <div data-op-type="mix-box" class="<%= sealQuestionBoxClass %>">
+      <%# 渲染试卷模板 %>
+      <% if (pdfType == 1) { %>
+        <% allQuestionList.forEach(function(question) { %>
+          <%# 处理题型标题 %>
+          <% if (question.groupIndex) { %>
+            <div class='big-topic-info' style="line-height: 1.5;">
+              <%# 解答题，解答题的总分计算方式不同 %>
+              <% if (question.rule == 4) { %>
+                <div class='question-type'>
+                  <%# 题型标题 %>
+                  <%- question.categoryName ? `${question.groupIndex}、${question.categoryName}` : "未知题型" %>
+                  <%# 非答案解析，显示标题详情 %>
+                  <% if (pdfType != 3) { %>
+                    (本大题共<%- question.groupNum %>小题，共<%- question.totalScore %>分)请把答案填在指定区域，否则视为无效
+                  <% } %>
+                </div>
+              <% } else { %>
+                <div class='question-type'>
+                  <%- question.categoryName ? `${question.groupIndex}、${question.categoryName}` : "未知题型" %>
+                  <% if (pdfType != 3) { %>
+                    (本大题共<%- question.groupNum %>小题，每题<%- question.singleScore %>分，共<%- question.totalScore %>分)请把答案填在指定区域，否则视为无效
+                  <% } %>
+                </div>
               <% } %>
             </div>
+          <% } else if (question.blank) { %>
+            <div class="blank-box"></div>
           <% } else { %>
-            <div class='question-type'>
-              <%- groupItem.categoryName ? `${uppercaseNum(tIndex + 1)}、${groupItem.categoryName}` : "未知题型" %>
-              <% if (pdfType != 3) { %>
-                （本大题共<%- calQuestionNum(groupItem.questionList) %>小题, 每题
-                <%- groupItem.questionList[0] && existArr(groupItem.questionList[0].materialQuestionList) ?
-                    groupItem.questionList[0].materialQuestionList[0].score : 
-                    groupItem.questionList[0].score %>分, 共<%- calScore(groupItem.questionList) %>分）请把答案填在指定区域, 否则视为无效
-                <% } %>
-            </div>
-          <% } %>
-        </div>
-        <%# 渲染试卷模板 %>
-        <% if (pdfType == 1) { %>
-          <% groupItem.questionList.forEach(function(question) { %>
             <%# 材料题目列表 %>
             <% if (existArr(question.materialQuestionList)) { %>
               <% question.dataContentList.forEach(function(dItem) { %>
@@ -210,8 +253,8 @@
                       <%- include('judge-area', {
                         question: childMaterialQuestion, 
                         size: {
-                          width: 96,
-                          height: 32
+                          width: 84,
+                          height: 28
                         }
                       }) %>
                       <% if (index === materialQuestion.childrenList.length - 1) { %>
@@ -246,16 +289,6 @@
                   >
                     <%# 材料题 %>
                     <%- include('question', {question: materialQuestion}) %>
-                    <%# 对错判断 %>
-                    <% if(materialQuestion.reviewType == 1 || materialQuestion.reviewType == 3) { %>
-                      <%- include('judge-area', {
-                        question: materialQuestion,
-                        size: {
-                          width: 117,
-                          height: 39
-                        }
-                      }) %>
-                    <% } %>
                   </div>
                   <%# 分数格子 %>
                   <% if(materialQuestion.reviewType == 2 && materialQuestion.arrayType == 4) { %>
@@ -288,8 +321,8 @@
                     <%- include('judge-area', {
                       question: childQuestion, 
                       size: {
-                        width: 96,
-                        height: 32
+                        width: 84,
+                        height: 28
                       }
                     }) %>
                     <% if (index === question.childrenList.length - 1) { %>
@@ -324,16 +357,6 @@
                 > 
                   <%# 普通题 %>
                   <%- include('question', {question}) %>
-                  <%# 对错判断 %>
-                  <% if(question.reviewType == 1 || question.reviewType == 3) { %>
-                    <%- include('judge-area', {
-                      question,
-                      size: {
-                        width: 117,
-                        height: 39
-                      }
-                    }) %>
-                  <% } %>
                 </div>
                 <%# 分数格子 %>
                 <% if(question.reviewType == 2 && question.arrayType == 4) { %>
@@ -345,8 +368,10 @@
                 <% } %>
               <% } %>
             <% } %>
-          <% }) %>
-        <% } else if (pdfType == 2) { %>
+          <% } %>
+        <% }) %>
+      <% } else if (pdfType == 2) { %>
+        <% groupList.forEach(function(groupItem, tIndex) { %>
           <%# 渲染答题卡模板 %>
           <% if(groupItem.rule == 1) { %>
             <%# 选择题 %>
@@ -435,9 +460,11 @@
           <% if(groupItem.rule == 1) { %>
             </div>
           <% } %>
-        <% } else { %>
-          <%# 渲染答案解析模板 %>
-          <% groupItem.questionList.forEach(function(question) { %>
+        <% }) %>
+      <% } else { %>
+        <%# 渲染答案解析模板 %>
+        <% allQuestionList.forEach(function(question) { %>
+          <% if (!question.groupIndex) { %>
             <%# 材料列表 %>
             <% if (existArr(question.materialQuestionList)){ %>
               <% question.materialQuestionList.forEach(function(materialQuestion) { %>
@@ -456,10 +483,10 @@
                 <%- include('answer', {question: question}) %>
               </div>
             <% } %>
-          <% }) %>
-        <% } %>
-      </div>
-    <% }) %>
+          <% } %>
+        <% }) %>
+      <% } %>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
@@ -488,12 +515,13 @@
     pageSize: '<%= pageSize.format %>',
     // orientation : 'portrait',// landscape
     orientation: '<%= pageSize.orientation %>',
-    padding: "16mm 10mm 20mm 10mm",
+    padding: "16mm 10mm 8mm 10mm",
     // showCatalog : false,
+    textNoBreakChars: [')', '）', '（', '('],
     // textNoBreakChars : ['，','。','：','”','！','？','、','；','》','】','…','.',',','!',']','}','｝'],
     // 简易页码插件，可选（默认未开启），所列选项为开启时的默认值
     simplePageNum: '<%= showPageNum %>' ? {
-      pendant: '<div class="page-num-simple"><span style="">第${PAGE}页 / 共${TOTAL_PAGE}页 </span></div>',
+      pendant: '<div class="page-num-simple"><span style="">第${PAGE}页 / 共${TOTAL_PAGE - 1}页 </span></div>',
     } : false,
     toolBar: {
       serverPrint: false,
