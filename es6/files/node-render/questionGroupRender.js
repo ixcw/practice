@@ -13,6 +13,8 @@ const puppeteerService = require('../service/PuppeteerService');
 const calculateService = require('../service/CalculateService');
 const Utils = require('../utils/utils');
 const api = require('../utils/api');
+const setting = require("../setting");
+const { ossBaseUrl } = setting.get();
 
 const json = require("../groupTest")
 
@@ -91,15 +93,15 @@ router.get("/questions2pdfOut", async function (req, res, next) {
     let groupList = []
     let paperPreview = {}
     const paperId = req.query.paperId
-    if (token && paperId) {
-      groupList = await api.findQuetionInfoByPaperId(token, paperId).catch(next)
-      paperPreview = await api.getInstructionPaperPreview(newAccessToken, paperId).catch(next)
-    }
+    // if (token && paperId) {
+    //   groupList = await api.findQuetionInfoByPaperId(token, paperId).catch(next)
+    //   paperPreview = await api.getInstructionPaperPreview(newAccessToken, paperId).catch(next)
+    // }
     // 本地数据测试（勿删）
-    // const got = require('got')
-    // const local = await got.get('http://localhost:6666/local').json()
-    // groupList = local.groupList
-    // paperPreview = local.paperPreview
+    const got = require('got')
+    const local = await got.get('http://localhost:6666/local').json()
+    groupList = local.groupList
+    paperPreview = local.paperPreview
     // 题组合并模板数据
     groupList = Utils.mergeQuestionAndTemplate(
       Utils.organizeCategoryQuestionList(groupList),
@@ -146,7 +148,7 @@ router.get("/questions2pdfOut", async function (req, res, next) {
     if (groupList && groupList.length > 0) {
       let fileKey = stringRandom(32)
       // 进一步处理题组中的文本材料
-      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesback.gg66.cn/'
+      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : ossBaseUrl
       groupList = md2htmlUtils.dealQuestionGroupList(groupList, baseUrl)
       groupList = Utils.handleDataContentWithCheerio(groupList)
       paramsData.groupList = groupList
@@ -166,6 +168,7 @@ router.get("/questions2pdfOut", async function (req, res, next) {
       // console.log('fileKey:', fileKey)
       // console.log('paramsData:', paramsData, paramsData.format)
       puppeteerService.html2Pdf(fileKey, html, {format: paramsData.format}, renderOption).then(ret => {
+        console.log('打印渲染返回ret:', ret)
         res.set({
           'Content-Type': 'application/pdf',
           'Content-Length': ret.pdf.length,
@@ -203,17 +206,21 @@ router.post("/questions2pdfUrl", async function (req, res, next) {
     const paperId = req.query.paperId
     // ** 铺码和打印不同，题目信息是直接传送过来的 **
     let content = req.rawBody.toString()
-    if (!(content && content.length > 0)) {
-      groupList = JSON.parse(content)
-    } else {
-      // 无 content 则发请求获取
-      if (oldNodeToken && paperId) {
-        groupList = await api.findQuetionInfoByPaperId(oldNodeToken, paperId).catch(next)
-      }
-    }
-    paperPreview = await api.getInstructionPaperPreview(token, paperId).catch(next)
-    console.log('paperPreview: ', paperPreview)
+    // if (!(content && content.length > 0)) {
+    //   groupList = JSON.parse(content)
+    // } else {
+    //   // 无 content 则发请求获取
+    //   if (oldNodeToken && paperId) {
+    //     groupList = await api.findQuetionInfoByPaperId(oldNodeToken, paperId).catch(next)
+    //   }
+    // }
+    // paperPreview = await api.getInstructionPaperPreview(token, paperId).catch(next)
+    // console.log('paperPreview: ', paperPreview)
     // 题组合并模板数据
+    const got = require('got')
+    const local = await got.get('http://localhost:6666/local').json()
+    groupList = local.groupList
+    paperPreview = local.paperPreview
     groupList = Utils.mergeQuestionAndTemplate(
       Utils.organizeCategoryQuestionList(groupList),
       paperPreview.questionInfoList
@@ -258,7 +265,7 @@ router.post("/questions2pdfUrl", async function (req, res, next) {
     let retData = {status: 1, code: 0, msg: 'pdf generating'}
     if (groupList && groupList.length > 0) {
       // 进一步处理题组中的文本材料
-      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : 'https://ossquesback.gg66.cn/'
+      const baseUrl = paramsData.baseUrl ? paramsData.baseUrl : ossBaseUrl
       groupList = md2htmlUtils.dealQuestionGroupList(groupList, baseUrl)
       groupList = Utils.handleDataContentWithCheerio(groupList)
       paramsData.groupList = groupList
